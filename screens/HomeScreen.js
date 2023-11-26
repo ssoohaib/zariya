@@ -1,9 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
     return (
       <View style={styles.container}> 
-        <Text>HomeScreen</Text>
+        <Button title='Med' onPress={()=>navigation.navigate('MedicineDonation')} />
+        <Button title='Food' onPress={()=>navigation.navigate('FoodDonation')} />
+        <Button title='Clo' onPress={()=>navigation.navigate('ClothesDonation')} />
+        <Button title='Rat' onPress={()=>navigation.navigate('RationDonation')} />
       </View>
     );
 }
@@ -11,6 +14,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection:'row',
         alignItems: 'center',
         justifyContent: 'center',
     },
