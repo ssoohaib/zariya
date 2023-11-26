@@ -7,6 +7,7 @@ import ClothesDonationScreen from './screens/ClothesDonationScreen';
 import RationDonationScreen from './screens/RationDonationScreen';
 import MedicineDonationScreen from './screens/MedicineDonationScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import SearchScreen from './screens/SearchScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,6 +20,8 @@ function MyStack() {
       <Stack.Screen name="Ration" component={RationDonationScreen} />
       <Stack.Screen name="Clothes" component={ClothesDonationScreen} />
       <Stack.Screen name="Medicine" component={MedicineDonationScreen} />
+
+      <Stack.Screen name="Search" component={SearchScreen} />
     </Stack.Navigator>
   );
 }

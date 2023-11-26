@@ -23,6 +23,7 @@ export default function HomeScreen({navigation}) {
               iconColor={''}
               style={{marginRight:4}}
               onPress={switchScreenHandler}
+              screen={'Food'}
             />
             <IconButton 
               title={'Clothes'} 
@@ -31,6 +32,7 @@ export default function HomeScreen({navigation}) {
               iconColor={''} 
               style={{marginHorizontal:4}}  
               onPress={switchScreenHandler}
+              screen={'Clothes'}
             />
             <IconButton 
               title={'Medicine'} 
@@ -39,6 +41,7 @@ export default function HomeScreen({navigation}) {
               iconColor={''} 
               style={{marginHorizontal:4}}  
               onPress={switchScreenHandler}
+              screen={'Medicine'}
             />
             <IconButton 
               title={'Ration'} 
@@ -47,7 +50,29 @@ export default function HomeScreen({navigation}) {
               iconColor={''} 
               style={{marginLeft:4}}
               onPress={switchScreenHandler}
+              screen={'Ration'}
             />
+          </View>
+        </View>
+        <View style={styles.ngoContainer}>
+          <View style={styles.ngoSearchContainer}>
+            <Text style={styles.subtitle}>Donate</Text>
+            <IconButton 
+              // title={'Ration'} 
+              icon={'magnify'} 
+              bgColor={''} 
+              iconColor={''} 
+              style={{flex:0}}
+              onPress={switchScreenHandler}
+              screen={'Search'}
+            />
+          </View>
+          <View>
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
           </View>
         </View>
       </View>
@@ -77,6 +102,8 @@ const styles = StyleSheet.create({
     },
     categoryContainer:{
 
+      borderWidth:1,
+      borderColor:'red',
     },
     subtitle:{
       fontSize:18,
@@ -85,6 +112,22 @@ const styles = StyleSheet.create({
 
     },
     buttonsContainer:{
-      flexDirection:'row'
+      flexDirection:'row',
+
+      borderWidth:1,
+      borderColor:'red',
+    },
+    ngoContainer:{
+      // marginTop:8,
+
+    },
+    ngoSearchContainer:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems:'center',
+      marginVertical:8,
+
+      borderWidth:1,
+      borderColor:'red',
     }
 });
