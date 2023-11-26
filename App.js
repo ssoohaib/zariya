@@ -14,11 +14,11 @@ const Tab = createBottomTabNavigator();
 function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="FoodDonation" component={FoodDonationScreen} />
-      <Stack.Screen name="RationDonation" component={RationDonationScreen} />
-      <Stack.Screen name="ClothesDonation" component={ClothesDonationScreen} />
-      <Stack.Screen name="MedicineDonation" component={MedicineDonationScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}} />
+      <Stack.Screen name="Food" component={FoodDonationScreen} />
+      <Stack.Screen name="Ration" component={RationDonationScreen} />
+      <Stack.Screen name="Clothes" component={ClothesDonationScreen} />
+      <Stack.Screen name="Medicine" component={MedicineDonationScreen} />
     </Stack.Navigator>
   );
 }
@@ -27,7 +27,7 @@ function MyStack() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator screenOptions={{headerShown:false}}>
         <Tab.Screen name="Home" component={MyStack} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
