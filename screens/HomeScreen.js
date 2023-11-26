@@ -1,5 +1,7 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import IconButton from '../components/IconButton';
+import NgoCard from '../components/NgoCard';
+import colorPallete from '../constants/ColorPallete'
 
 export default function HomeScreen({navigation}) {
 
@@ -7,11 +9,17 @@ export default function HomeScreen({navigation}) {
     navigation.navigate(screen)
   }
 
+  const ngoScreenHandler = (title)=>{
+    navigation.navigate('NgoDetails',{
+      title:title
+    })
+  }
+
 
     return (
-      <View style={styles.container}> 
+      <ScrollView style={styles.container}> 
         <View style={styles.logContainer}>
-          <Image style={styles.logo} source={require('../assets/images/logo.png')} />
+          <Image style={styles.logo} source={require('../assets/images/logo-black.png')} />
         </View>
         <View style={styles.categoryContainer}>
           <Text style={styles.subtitle}>Category</Text>
@@ -19,8 +27,8 @@ export default function HomeScreen({navigation}) {
             <IconButton 
               title={'Food'} 
               icon={'food-fork-drink'} 
-              bgColor={''} 
-              iconColor={''}
+              bgColor={colorPallete.lightBlue} 
+              iconColor={colorPallete.darkBlue}
               style={{marginRight:4}}
               onPress={switchScreenHandler}
               screen={'Food'}
@@ -28,8 +36,8 @@ export default function HomeScreen({navigation}) {
             <IconButton 
               title={'Clothes'} 
               icon={'tshirt-crew'} 
-              bgColor={''} 
-              iconColor={''} 
+              bgColor={colorPallete.lightBlue} 
+              iconColor={colorPallete.darkBlue}
               style={{marginHorizontal:4}}  
               onPress={switchScreenHandler}
               screen={'Clothes'}
@@ -37,8 +45,8 @@ export default function HomeScreen({navigation}) {
             <IconButton 
               title={'Medicine'} 
               icon={'medical-bag'} 
-              bgColor={''} 
-              iconColor={''} 
+              bgColor={colorPallete.lightBlue} 
+              iconColor={colorPallete.darkBlue}
               style={{marginHorizontal:4}}  
               onPress={switchScreenHandler}
               screen={'Medicine'}
@@ -46,8 +54,8 @@ export default function HomeScreen({navigation}) {
             <IconButton 
               title={'Ration'} 
               icon={'food-variant'} 
-              bgColor={''} 
-              iconColor={''} 
+              bgColor={colorPallete.lightBlue} 
+              iconColor={colorPallete.darkBlue}
               style={{marginLeft:4}}
               onPress={switchScreenHandler}
               screen={'Ration'}
@@ -60,22 +68,35 @@ export default function HomeScreen({navigation}) {
             <IconButton 
               // title={'Ration'} 
               icon={'magnify'} 
-              bgColor={''} 
-              iconColor={''} 
+              bgColor={colorPallete.lightBlue} 
+              iconColor={colorPallete.darkBlue} 
               style={{flex:0}}
               onPress={switchScreenHandler}
               screen={'Search'}
             />
           </View>
-          <View>
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
+          <View style={styles.ngoListContainer}>
+            <NgoCard 
+              title={'Alkhidmat Foundation'}
+              onPress={ngoScreenHandler}
+              desc={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ducimus ipsum at, voluptatibus eum repellendus voluptatum, est iure eveniet esse! Unde dicta dolorum adipisci quasi quis odit temporibus. Amet!'}
+              imageUrl={'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
+            />
+            <NgoCard 
+              title={'Alkhidmat Foundationn'}
+              onPress={ngoScreenHandler}
+              desc={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ducimus ipsum at, voluptatibus eum repellendus voluptatum, est iure eveniet esse! Unde dicta dolorum adipisci quasi quis odit temporibus. Amet!'}
+              imageUrl={'https://images.unsplash.com/photo-1530490125459-847a6d437825?q=80&w=1785&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
+            />
+            <NgoCard 
+              title={'Alkhidmat Foundation'}
+              onPress={ngoScreenHandler}
+              desc={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ducimus ipsum at, voluptatibus eum repellendus voluptatum, est iure eveniet esse! Unde dicta dolorum adipisci quasi quis odit temporibus. Amet!'}
+              imageUrl={'https://images.unsplash.com/photo-1636202339022-7d67f7447e3a?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
+            />
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
 }
 
@@ -84,42 +105,34 @@ const styles = StyleSheet.create({
       paddingTop:48,
       paddingHorizontal:16,
       
-      borderWidth:1,
-      borderColor:'red',
+      // borderWidth:1,
+      // borderColor:'red',
     },
     logContainer:{
       alignItems:'center',
 
-      borderWidth:1,
-      borderColor:'red',
     },
     logo:{
       width:100,
-      height:50,
+      height:55,
 
-      borderWidth:1,
-      borderColor:'red',
     },
     categoryContainer:{
 
-      borderWidth:1,
-      borderColor:'red',
     },
     subtitle:{
       fontSize:18,
       fontWeight:'bold',
-      marginVertical:8,
+      marginTop:8,
+      marginBottom:16,
 
     },
     buttonsContainer:{
       flexDirection:'row',
 
-      borderWidth:1,
-      borderColor:'red',
     },
     ngoContainer:{
-      // marginTop:8,
-
+      
     },
     ngoSearchContainer:{
       flexDirection:'row',
@@ -127,7 +140,8 @@ const styles = StyleSheet.create({
       alignItems:'center',
       marginVertical:8,
 
-      borderWidth:1,
-      borderColor:'red',
+    },
+    ngoListContainer:{
+
     }
 });
