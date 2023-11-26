@@ -11,12 +11,15 @@ import ProfileScreen from './screens/ProfileScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+function MyStack() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-    </Tab.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="FoodDonation" component={FoodDonationScreen} />
+      <Stack.Screen name="RationDonation" component={RationDonationScreen} />
+      <Stack.Screen name="ClothesDonation" component={ClothesDonationScreen} />
+      <Stack.Screen name="MedicineDonation" component={MedicineDonationScreen} />
+    </Stack.Navigator>
   );
 }
 
@@ -24,13 +27,10 @@ function MyTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="MyTabs" component={MyTabs} />
-        <Stack.Screen name="FoodDonation" component={FoodDonationScreen} />
-        <Stack.Screen name="RationDonation" component={RationDonationScreen} />
-        <Stack.Screen name="ClothesDonation" component={ClothesDonationScreen} />
-        <Stack.Screen name="MedicineDonation" component={MedicineDonationScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={MyStack} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
