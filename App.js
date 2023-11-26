@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import HomeScreen from './screens/HomeScreen';
 import FoodDonationScreen from './screens//FoodDonationScreen';
 import ClothesDonationScreen from './screens/ClothesDonationScreen';
@@ -14,6 +15,7 @@ import { StatusBar } from 'expo-status-bar';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+// const Tab = AnimatedTabBarNavigator();
 
 function MyStack() {
   return (
@@ -38,13 +40,11 @@ export default function App() {
       <Tab.Navigator 
       screenOptions={{
         headerShown:false,
-        tabBarStyle:{
-          // backgroundColor:'black',
-        }
       }}
       // sceneContainerStyle={{
       //   backgroundColor:colorPallete.screenBg
       // }}
+      
       >
         <Tab.Screen name="Home" component={MyStack} />
         <Tab.Screen name="Profile" component={ProfileScreen} />

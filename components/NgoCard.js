@@ -16,7 +16,7 @@ export default function NgoCard(props) {
                         <IconButton 
                             icon={'star'} 
                             bgColor={ColorPallete.lightBlue} 
-                            iconColor={ColorPallete.screenBg}
+                            iconColor={'black'}
                             style={{flex:0,marginRight:8,}}
                         />
                         <IconButton 

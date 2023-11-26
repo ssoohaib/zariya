@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import ColorPallete from "../constants/ColorPallete";
 
 export default function IconButton(props) {
 
@@ -10,7 +11,7 @@ export default function IconButton(props) {
 
   return (
     <View style={[styles.container, props.style, {backgroundColor:props.bgColor}]}>
-        <Pressable onPress={pressHandler}>
+        <Pressable onPress={pressHandler} android_ripple={{color:ColorPallete.darkBlue}}>
             <View style={styles.innerContainer}>
                 {
                     props.icon &&
@@ -37,6 +38,7 @@ const styles=StyleSheet.create({
     container:{
         borderRadius:8,
         flex:1,
+        overflow:'hidden'
     },
     innerContainer:{
         padding:8,
