@@ -23,7 +23,12 @@ const Tab = createBottomTabNavigator();
 
 function MyStack() {
   return (
-    <Stack.Navigator >
+    <Stack.Navigator screenOptions={{
+      headerTintColor:colorPallete.screenBg,
+      headerStyle:{
+        backgroundColor:colorPallete.mediumBlue
+      }
+    }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
       <Stack.Screen name="Food" component={FoodDonationScreen} />
       <Stack.Screen name="Ration" component={RationDonationScreen} />

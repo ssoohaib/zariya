@@ -58,7 +58,7 @@ const styles=StyleSheet.create({
     },
     input:{
         flex:1,
-        padding:12,
+        padding:16,
         borderWidth:1,
         borderRightWidth:0,
         // borderEndEndRadius:16,

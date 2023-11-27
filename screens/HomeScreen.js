@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
       width:40,
       borderRadius:20,
       borderWidth:4,
-      borderColor:colorPallete.darkBlue,
+      borderColor:colorPallete.lightBlue,
 
     },
     lowerHeader:{
