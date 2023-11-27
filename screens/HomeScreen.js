@@ -2,6 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import IconButton from '../components/IconButton';
 import NgoCard from '../components/NgoCard';
 import colorPallete from '../constants/ColorPallete'
+import ImageButton from '../components/ImageButton';
 
 export default function HomeScreen({navigation}) {
 
@@ -18,8 +19,21 @@ export default function HomeScreen({navigation}) {
 
     return (
       <ScrollView style={styles.container}> 
-        <View style={styles.logContainer}>
-          <Image style={styles.logo} source={require('../assets/images/logo-black.png')} />
+        <View style={styles.headerContainer}>
+          <View style={styles.headerUpper}>
+            <Image style={styles.logo} source={require('../assets/images/logo-white.png')} />
+            <View style={styles.userContainer}>
+              <View style={styles.userTextContainer}>
+                <Text style={styles.userGreet}>Hi,</Text>
+                <Text style={styles.userName}>Ligma</Text>
+              </View>
+              <ImageButton
+                style={styles.userImage}
+                onPress={switchScreenHandler}
+                screen={'Profile'}
+              />
+            </View>
+          </View>
         </View>
         <View style={styles.categoryContainer}>
           <Text style={styles.subtitle}>Category</Text>
@@ -66,7 +80,6 @@ export default function HomeScreen({navigation}) {
           <View style={styles.ngoSearchContainer}>
             <Text style={styles.subtitle}>Donate</Text>
             <IconButton 
-              // title={'Ration'} 
               icon={'magnify'} 
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue} 
@@ -102,36 +115,101 @@ export default function HomeScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-      paddingTop:48,
-      paddingHorizontal:16,
+      // paddingTop:48,
+      // paddingHorizontal:16,
       
       // borderWidth:1,
       // borderColor:'red',
     },
-    logContainer:{
+    headerContainer:{
+      paddingVertical:48,
+      paddingHorizontal:16,
+
+      // flexDirection:'row',
+      // justifyContent:'space-between',
+      // alignItems:'center',
+      backgroundColor:colorPallete.mediumBlue,
+      borderBottomStartRadius:16,
+      borderBottomEndRadius:16,
+
+      // borderWidth:1,
+      // borderColor:'red',
+    },
+    headerUpper:{
+      flexDirection:'row',
+      width:'100%',
+      justifyContent:'space-between',
       alignItems:'center',
 
+      // borderWidth:1,
+      // borderColor:'red',
     },
     logo:{
       width:100,
       height:55,
 
+      // borderWidth:1,
+      // borderColor:'red',
+
+    },
+    userContainer:{
+      flexDirection:"row",
+
+      // borderWidth:1,
+      // borderColor:'red',
+
+    },
+    userTextContainer:{
+      marginRight:8,
+      justifyContent:'center',
+
+      // borderWidth:1,
+      // borderColor:'red',
+    },
+    userGreet:{
+      color:colorPallete.screenBg,
+      textAlign:'right',
+      // width:'100%',
+
+      // borderWidth:1,
+      // borderColor:'red',
+
+    },
+    userName:{
+      fontSize:16,
+      fontWeight:'bold',
+      color:colorPallete.screenBg,
+
+      // borderWidth:1,
+      // borderColor:'red',
+
+    },
+    userImage:{
+      height:40,
+      width:40,
+      borderRadius:20,
+      borderWidth:4,
+      borderColor:colorPallete.darkBlue,
+
     },
     categoryContainer:{
+      paddingHorizontal:16,
+
 
     },
     subtitle:{
       fontSize:18,
       fontWeight:'bold',
-      marginTop:8,
-      marginBottom:16,
-
+      // marginTop:8,
+      // marginBottom:16,
+      marginVertical:16,
     },
     buttonsContainer:{
       flexDirection:'row',
 
     },
     ngoContainer:{
+      paddingHorizontal:16,
       
     },
     ngoSearchContainer:{

@@ -36,7 +36,7 @@ function MyStack() {
 export default function App() {
   return (
     <NavigationContainer>
-      <StatusBar style='dark' />
+      <StatusBar style='light' />
       <Tab.Navigator 
       screenOptions={{
         headerShown:false,
