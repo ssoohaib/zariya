@@ -15,13 +15,14 @@ export default function NgoCard(props) {
                     <View style={styles.btnContainer}>
                         <IconButton 
                             icon={'star'} 
-                            bgColor={ColorPallete.lightBlue} 
-                            iconColor={'black'}
-                            style={{flex:0,marginRight:8,}}
+                            // bgColor={ColorPallete.lightBlue} 
+                            iconColor={ColorPallete.mediumBlue}
+                            style={{flex:0,marginRight:8,borderWidth:1,borderColor:ColorPallete.mediumBlue}}
                         />
                         <IconButton 
                             title={'Donate'} 
-                            bgColor={ColorPallete.lightBlue} 
+                            bgColor={ColorPallete.mediumBlue} 
+                            iconColor={ColorPallete.screenBg}
                             style={{flex:1,height:'100%'}}
                             textStyle={{fontSize:18}}
                         />
