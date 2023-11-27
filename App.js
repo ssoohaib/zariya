@@ -15,6 +15,7 @@ import HistoryScreen from './screens/HistoryScreen';
 import colorPallete from './constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from './screens/NgosListScreem';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,16 +45,37 @@ export default function App() {
       <Tab.Navigator 
       screenOptions={{
         headerShown:false,
+        tabBarActiveTintColor:colorPallete.mediumBlue,
+        // tabBarActiveBackgroundColor:colorPallete.lightBlue,
+        
+        tabBarStyle:{
+          // backgroundColor:'red'
+          // borderWidth:1,
+          // borderRadius:8,
+          borderTopLeftRadius:8,
+          borderTopRightRadius:8,
+          overflow:'hidden',
+          // paddingVertical:8
+
+        }
       }}
       sceneContainerStyle={{
         backgroundColor:'white'
       }}
       
       >
-        <Tab.Screen name="Home" component={MyStack} />
-        <Tab.Screen name="History" component={HistoryScreen} />
-        <Tab.Screen name="Notifications" component={NotificationScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Home" component={MyStack} options={{
+          tabBarIcon:({color, size})=><MaterialIcons name="home" color={color} size={size} />
+        }} />
+        <Tab.Screen name="History" component={HistoryScreen}  options={{
+          tabBarIcon:({color, size})=><MaterialIcons name="history" color={color} size={size} />
+        }} />
+        <Tab.Screen name="Notifications" component={NotificationScreen}  options={{
+          tabBarIcon:({color, size})=><MaterialIcons name="watch-later" color={color} size={size} />
+        }} />
+        <Tab.Screen name="Profile" component={ProfileScreen}  options={{
+          tabBarIcon:({color, size})=><MaterialIcons name="person" color={color} size={size} />
+        }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
