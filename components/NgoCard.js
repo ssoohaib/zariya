@@ -11,7 +11,7 @@ export default function NgoCard(props) {
                 <Image style={styles.image} source={{uri:props.imageUrl}}/>
                 <View style={styles.infoContainer}>
                     <Text style={styles.title}>{props.title}</Text>
-                    <Text style={styles.desc}>{props.desc.slice(0,131)}...</Text>
+                    <Text style={styles.desc}>{props.desc.slice(0,68)}...</Text>
                     <View style={styles.btnContainer}>
                         <IconButton 
                             icon={'star'} 
@@ -36,10 +36,13 @@ export default function NgoCard(props) {
 
 const styles=StyleSheet.create({
     container:{
-        backgroundColor:'white',
+        // backgroundColor:'white',
         borderRadius:8,
         overflow:'hidden',
         marginBottom:16,     
+
+        // borderColor:'#8b8888',
+        // borderWidth:1,
            
         
     },
@@ -49,11 +52,11 @@ const styles=StyleSheet.create({
     image:{
         width:'100%',
         height:200,
-        borderRadius:8
+        borderRadius:16
     },
     infoContainer:{
-        paddingHorizontal:16,
-        paddingBottom:16,
+        paddingHorizontal:8,
+        paddingBottom:20,
 
         // borderWidth:1,
         // borderColor:'red',
@@ -61,19 +64,19 @@ const styles=StyleSheet.create({
     title:{
         fontSize:18,
         fontWeight:'bold',
-        marginTop:16,
+        marginTop:12,
 
     },
     desc:{
         lineHeight:18,
-        marginTop:16,
+        marginTop:12,
         
     },
     btnContainer:{
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        marginTop:16,
+        marginTop:12,
 
     }
 })

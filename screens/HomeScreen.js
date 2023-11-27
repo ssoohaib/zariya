@@ -3,6 +3,7 @@ import IconButton from '../components/IconButton';
 import NgoCard from '../components/NgoCard';
 import colorPallete from '../constants/ColorPallete'
 import ImageButton from '../components/ImageButton';
+import InputBar from '../components/InputBar';
 
 export default function HomeScreen({navigation}) {
 
@@ -34,9 +35,18 @@ export default function HomeScreen({navigation}) {
               />
             </View>
           </View>
+          <View style={styles.lowerHeader}>
+            <InputBar 
+              placeHolder={'Search NGOs, Causes'}
+              bgColor={colorPallete.mediumBlue}
+              icon={'magnify'}
+              iconColor={'white'}
+
+            />
+          </View>
         </View>
         <View style={styles.categoryContainer}>
-          <Text style={styles.subtitle}>Category</Text>
+          <Text style={styles.subtitle}>Donate</Text>
           <View style={styles.buttonsContainer}>
             <IconButton 
               title={'Food'} 
@@ -78,14 +88,15 @@ export default function HomeScreen({navigation}) {
         </View>
         <View style={styles.ngoContainer}>
           <View style={styles.ngoSearchContainer}>
-            <Text style={styles.subtitle}>Donate</Text>
+            <Text style={styles.subtitle}>Browse</Text>
             <IconButton 
-              icon={'magnify'} 
-              bgColor={colorPallete.lightBlue} 
-              iconColor={colorPallete.darkBlue} 
+              // icon={'magnify'} 
+              title={'See All'}
+              // bgColor={colorPallete.screenBgTwo} 
+              iconColor={'#8b8888'} 
               style={{flex:0}}
               onPress={switchScreenHandler}
-              screen={'Search'}
+              screen={'NgosList'}
             />
           </View>
           <View style={styles.ngoListContainer}>
@@ -117,12 +128,15 @@ const styles = StyleSheet.create({
     container: {
       // paddingTop:48,
       // paddingHorizontal:16,
+      backgroundColor:'white'
       
       // borderWidth:1,
       // borderColor:'red',
     },
     headerContainer:{
-      paddingVertical:48,
+      // paddingVertical:48,
+      paddingTop:48,
+      paddingBottom:32,
       paddingHorizontal:16,
 
       // flexDirection:'row',
@@ -145,8 +159,8 @@ const styles = StyleSheet.create({
       // borderColor:'red',
     },
     logo:{
-      width:100,
-      height:55,
+      width:70,
+      height:'100%',
 
       // borderWidth:1,
       // borderColor:'red',
@@ -192,6 +206,13 @@ const styles = StyleSheet.create({
       borderColor:colorPallete.darkBlue,
 
     },
+    lowerHeader:{
+      marginTop:16,
+
+      // borderWidth:1,
+      // borderColor:'red',
+
+    },
     categoryContainer:{
       paddingHorizontal:16,
 
@@ -216,7 +237,7 @@ const styles = StyleSheet.create({
       flexDirection:'row',
       justifyContent:'space-between',
       alignItems:'center',
-      marginVertical:8,
+      // marginVertical:8,
 
     },
     ngoListContainer:{

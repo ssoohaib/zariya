@@ -10,8 +10,11 @@ import MedicineDonationScreen from './screens/MedicineDonationScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SearchScreen from './screens/SearchScreen';
 import NgoDetailsScreen from './screens/NgoDetailsScreen';
+import NotificationScreen from './screens/NotificationScreen';
+import HistoryScreen from './screens/HistoryScreen';
 import colorPallete from './constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
+import NgosListScreen from './screens/NgosListScreem';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,6 +30,7 @@ function MyStack() {
       <Stack.Screen name="Medicine" component={MedicineDonationScreen} />
 
       <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen name="NgosList" component={NgosListScreen} options={{title:'All'}} />
       <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} />
     </Stack.Navigator>
   );
@@ -41,12 +45,14 @@ export default function App() {
       screenOptions={{
         headerShown:false,
       }}
-      // sceneContainerStyle={{
-      //   backgroundColor:colorPallete.screenBg
-      // }}
+      sceneContainerStyle={{
+        backgroundColor:'white'
+      }}
       
       >
         <Tab.Screen name="Home" component={MyStack} />
+        <Tab.Screen name="History" component={HistoryScreen} />
+        <Tab.Screen name="Notifications" component={NotificationScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
