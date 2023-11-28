@@ -39,4 +39,4 @@ export default colorPallete = {
 //     navbarText: '#737373',
 // };
 
-// test
+// test-2
