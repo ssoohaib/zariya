@@ -18,16 +18,16 @@
 //     navbarIcons: '#B5B4B4',
 //     navbarText: '#737373',
 // };
-export default colorPallete = {
-    lightBlue: '#FFDEE7',
-    mediumBlue: '#E02955',
-    darkBlue: '#f0353f',
-    inputText: '#737373',
-    screenBg: '#FFFFFF',
-    screenBgTwo: '#cfe2e2',
-    navbarIcons: '#B5B4B4',
-    navbarText: '#737373',
-};
+// export default colorPallete = {
+//     lightBlue: '#FFDEE7',
+//     mediumBlue: '#E02955',
+//     darkBlue: '#f0353f',
+//     inputText: '#737373',
+//     screenBg: '#FFFFFF',
+//     screenBgTwo: '#cfe2e2',
+//     navbarIcons: '#B5B4B4',
+//     navbarText: '#737373',
+// };
 // export default colorPallete = {
 //     lightBlue: '#F3CBA5',
 //     mediumBlue: '#453953',
@@ -38,5 +38,15 @@ export default colorPallete = {
 //     navbarIcons: '#B5B4B4',
 //     navbarText: '#737373',
 // };
+export default colorPallete = {
+    lightBlue: '#ebdbd0',
+    mediumBlue: '#20150e',
+    darkBlue: '#65412a',
+    inputText: '#737373',
+    screenBg: '#FFFFFF',
+    screenBgTwo: '#cfe2e2',
+    navbarIcons: '#B5B4B4',
+    navbarText: '#737373',
+};
 
 // test-3
