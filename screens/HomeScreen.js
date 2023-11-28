@@ -1,9 +1,10 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import IconButton from '../components/IconButton';
 import NgoCard from '../components/NgoCard';
 import colorPallete from '../constants/ColorPallete'
 import ImageButton from '../components/ImageButton';
 import InputBar from '../components/InputBar';
+import { NGOS } from '../dummy_data/dummy_data';
 
 export default function HomeScreen({navigation}) {
 
@@ -17,6 +18,17 @@ export default function HomeScreen({navigation}) {
     })
   }
 
+  const renderFlatList = (itemData) =>{
+    return(
+      <NgoCard 
+        id={itemData.item.id}
+        title={itemData.item.title}
+        onPress={ngoScreenHandler}
+        desc={itemData.item.desc}
+        imageUrl={itemData.item.images[0]}
+      />
+    )
+  }
 
     return (
       <ScrollView style={styles.container}> 
@@ -100,23 +112,10 @@ export default function HomeScreen({navigation}) {
             />
           </View>
           <View style={styles.ngoListContainer}>
-            <NgoCard 
-              title={'Alkhidmat Foundation'}
-              onPress={ngoScreenHandler}
-              desc={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ducimus ipsum at, voluptatibus eum repellendus voluptatum, est iure eveniet esse! Unde dicta dolorum adipisci quasi quis odit temporibus. Amet!'}
-              imageUrl={'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
-            />
-            <NgoCard 
-              title={'Alkhidmat Foundationn'}
-              onPress={ngoScreenHandler}
-              desc={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ducimus ipsum at, voluptatibus eum repellendus voluptatum, est iure eveniet esse! Unde dicta dolorum adipisci quasi quis odit temporibus. Amet!'}
-              imageUrl={'https://images.unsplash.com/photo-1530490125459-847a6d437825?q=80&w=1785&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
-            />
-            <NgoCard 
-              title={'Alkhidmat Foundation'}
-              onPress={ngoScreenHandler}
-              desc={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ducimus ipsum at, voluptatibus eum repellendus voluptatum, est iure eveniet esse! Unde dicta dolorum adipisci quasi quis odit temporibus. Amet!'}
-              imageUrl={'https://images.unsplash.com/photo-1636202339022-7d67f7447e3a?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
+            <FlatList
+              data={NGOS}
+              keyExtractor={(item)=>item.id}
+              renderItem={renderFlatList}
             />
           </View>
         </View>
