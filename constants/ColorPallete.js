@@ -38,3 +38,5 @@ export default colorPallete = {
 //     navbarIcons: '#B5B4B4',
 //     navbarText: '#737373',
 // };
+
+// test
