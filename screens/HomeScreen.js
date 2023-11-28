@@ -12,9 +12,9 @@ export default function HomeScreen({navigation}) {
     navigation.navigate(screen)
   }
 
-  const ngoScreenHandler = (title)=>{
+  const ngoScreenHandler = (id)=>{
     navigation.navigate('NgoDetails',{
-      title:title
+      id:id
     })
   }
 
@@ -105,7 +105,7 @@ export default function HomeScreen({navigation}) {
               // icon={'magnify'} 
               title={'See All'}
               // bgColor={colorPallete.screenBgTwo} 
-              iconColor={'#8b8888'} 
+              iconColor={colorPallete.lightTextColor} 
               style={{flex:0}}
               onPress={switchScreenHandler}
               screen={'NgosList'}
