@@ -47,6 +47,7 @@ export default colorPallete = {
     screenBgTwo: '#cfe2e2',
     navbarIcons: '#B5B4B4',
     navbarText: '#737373',
+    lightTextColor:'#8b8888',
 };
 
 // test-3

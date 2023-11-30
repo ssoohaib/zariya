@@ -15,7 +15,9 @@ import HistoryScreen from './screens/HistoryScreen';
 import colorPallete from './constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from './screens/NgosListScreem';
+import PaymentScreen from './screens/PaymentScreen';
 import { MaterialIcons } from '@expo/vector-icons';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,7 +39,15 @@ function MyStack() {
 
       <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name="NgosList" component={NgosListScreen} options={{title:'All'}} />
-      <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} />
+      <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Payment'}} />
+      <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} options={{
+        headerTitle:"",
+        headerTintColor:colorPallete.screenBg,
+        headerTransparent:true,
+        headerStyle:{
+          // bac
+        }
+      }} />
     </Stack.Navigator>
   );
 }

@@ -6,7 +6,7 @@ export default function NgoCard(props) {
 
   return (
     <View style={styles.container}>
-        <Pressable onPress={()=>props.onPress(props.title)}>
+        <Pressable onPress={()=>props.onPress(props.id)}>
             <View style={styles.innerContainer}>
                 <Image style={styles.image} source={{uri:props.imageUrl}}/>
                 <View style={styles.infoContainer}>
