@@ -1,3 +1,4 @@
+import  { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -17,6 +18,9 @@ import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from './screens/NgosListScreem';
 import PaymentScreen from './screens/PaymentScreen';
 import { MaterialIcons } from '@expo/vector-icons';
+import SplashScreen1 from './screens/SplashScreen1';
+import SplashScreen2 from './screens/SplashScreen2';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -31,12 +35,7 @@ function MyStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
-      <Stack.Screen name="SplashScreen1" component={SplashScreen1} options={{
-        headerTitle:"",
-        headerTintColor:colorPallete.screenBg,
-        headerTransparent:true,
-        headerStyle:{}
-        }} />
+      <Stack.Screen name="SplashScreen2" component={SplashScreen2} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
       <Stack.Screen name="Food" component={FoodDonationScreen} />
       <Stack.Screen name="Ration" component={RationDonationScreen} />
@@ -60,42 +59,63 @@ function MyStack() {
 
 
 export default function App() {
+  const [isSplashScreenVisible, setSplashScreenVisible] = useState(true);
+  const [isButtonPressed, setButtonPressed] = useState(false);
+
+  useEffect(() => {
+    if (isButtonPressed) {
+      setTimeout(() => {
+        setSplashScreenVisible(false);
+      }, 2000);
+    }
+  }, [isButtonPressed]);
+
+  const handleButtonPress = () => {
+    setButtonPressed(true);
+  };
+
+  if (isSplashScreenVisible) {
+    return (
+      <SplashScreen1 onButtonPress={handleButtonPress} />
+    );
+  }
+  
   return (
     <NavigationContainer>
       <StatusBar style='light' />
-      <Tab.Navigator 
-      screenOptions={{
-        headerShown:false,
-        tabBarActiveTintColor:colorPallete.mediumBlue,
-        // tabBarActiveBackgroundColor:colorPallete.lightBlue,
-        
-        tabBarStyle:{
-          // backgroundColor:'red'
-          // borderWidth:1,
-          // borderRadius:8,
-          borderTopLeftRadius:8,
-          borderTopRightRadius:8,
-          overflow:'hidden',
-          // paddingVertical:8
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: colorPallete.mediumBlue,
+          // tabBarActiveBackgroundColor:colorPallete.lightBlue,
 
-        }
-      }}
-      sceneContainerStyle={{
-        backgroundColor:'white'
-      }}
-      
+          tabBarStyle: {
+            // backgroundColor:'red'
+            // borderWidth:1,
+            // borderRadius:8,
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+            overflow: 'hidden',
+            // paddingVertical:8
+
+          }
+        }}
+        sceneContainerStyle={{
+          backgroundColor: 'white'
+        }}
+
       >
         <Tab.Screen name="Home" component={MyStack} options={{
-          tabBarIcon:({color, size})=><MaterialIcons name="home" color={color} size={size} />
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
         }} />
-        <Tab.Screen name="History" component={HistoryScreen}  options={{
-          tabBarIcon:({color, size})=><MaterialIcons name="history" color={color} size={size} />
+        <Tab.Screen name="History" component={HistoryScreen} options={{
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
         }} />
-        <Tab.Screen name="Notifications" component={NotificationScreen}  options={{
-          tabBarIcon:({color, size})=><MaterialIcons name="watch-later" color={color} size={size} />
+        <Tab.Screen name="Notifications" component={NotificationScreen} options={{
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
         }} />
-        <Tab.Screen name="Profile" component={ProfileScreen}  options={{
-          tabBarIcon:({color, size})=><MaterialIcons name="person" color={color} size={size} />
+        <Tab.Screen name="Profile" component={ProfileScreen} options={{
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
         }} />
       </Tab.Navigator>
     </NavigationContainer>
