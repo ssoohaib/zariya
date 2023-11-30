@@ -29,6 +29,12 @@ function MyStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
+      <Stack.Screen name="SplashScreen1" component={SplashScreen1} options={{
+        headerTitle:"",
+        headerTintColor:colorPallete.screenBg,
+        headerTransparent:true,
+        headerStyle:{}
+        }} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
       <Stack.Screen name="Food" component={FoodDonationScreen} />
       <Stack.Screen name="Ration" component={RationDonationScreen} />
