@@ -36,8 +36,8 @@ export default function NgoCard(props) {
 
 const styles=StyleSheet.create({
     container:{
-        // backgroundColor:'white',
-        borderRadius:8,
+       // backgroundColor:ColorPallete.screenBgTwo,
+        borderRadius:16,
         overflow:'hidden',
         marginBottom:16,     
 

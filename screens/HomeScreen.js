@@ -5,6 +5,7 @@ import colorPallete from '../constants/ColorPallete'
 import ImageButton from '../components/ImageButton';
 import InputBar from '../components/InputBar';
 import { NGOS } from '../dummy_data/dummy_data';
+import ColorPallete from '../constants/ColorPallete';
 
 export default function HomeScreen({navigation}) {
 
@@ -153,6 +154,7 @@ const styles = StyleSheet.create({
       width:'100%',
       justifyContent:'space-between',
       alignItems:'center',
+      marginBottom: 8,
 
       // borderWidth:1,
       // borderColor:'red',
@@ -229,7 +231,13 @@ const styles = StyleSheet.create({
 
     },
     ngoContainer:{
+      //marginTop:16,
       paddingHorizontal:16,
+      // borderTopLeftRadius:16,
+      // borderTopRightRadius:16,
+
+      //backgroundColor: ColorPallete.screenBgTwo,
+
       
     },
     ngoSearchContainer:{
