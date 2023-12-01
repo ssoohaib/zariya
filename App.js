@@ -46,7 +46,7 @@ function MyStack() {
 
       <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name="NgosList" component={NgosListScreen} options={{title:'All'}} />
-      <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Payment'}} />
+      <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Donation'}} />
       <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} options={{
         headerTitle:"",
         headerTintColor:colorPallete.screenBg,

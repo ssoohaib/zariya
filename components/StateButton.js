@@ -21,23 +21,23 @@ export default function StateButton(props) {
 
 const styles=StyleSheet.create({
     container:{
-        flex:1,
+        // flex:1,
     },
     innerContainer:{
-        height:100,
+        // height:100,
         alignItems:'center',
         justifyContent:'center',
         borderWidth:1,
         borderRadius:8,
         overflow:'hidden',
 
-        borderColor:ColorPallete.mediumBlue,
+        borderColor:ColorPallete.darkBlue,
 
     },
     text:{
-        fontWeight:'bold',
-        color:ColorPallete.mediumBlue,
-        fontSize:16,
+        // fontWeight:'bold',
+        color:ColorPallete.darkBlue,
+        // fontSize:16,
 
     }
 })

@@ -30,6 +30,7 @@
 // lightTextColor:'#8b8888',
 // };
 export default colorPallete = {
+    veryLightBlue: '#e2dde7',
     lightBlue: '#fddcbc',
     mediumBlue: '#453953',
     darkBlue: '#453953',
