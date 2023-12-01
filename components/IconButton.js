@@ -12,7 +12,7 @@ export default function IconButton(props) {
   return (
     <View style={[styles.container, props.style, {backgroundColor:props.bgColor}]}>
         <Pressable onPress={pressHandler} android_ripple={{color:ColorPallete.darkBlue}}>
-            <View style={styles.innerContainer}>
+            <View style={[styles.innerContainer,props.styleInner]}>
                 {
                     props.icon &&
                     <MaterialCommunityIcons name={props.icon} size={24} 
@@ -44,6 +44,7 @@ const styles=StyleSheet.create({
         padding:8,
         alignItems:'center',
         justifyContent:'center',
+        // flexDirection:'row-reverse',
         
     },
     text:{

@@ -12,6 +12,7 @@ import SearchScreen from './screens/SearchScreen';
 import NgoDetailsScreen from './screens/NgoDetailsScreen';
 import NotificationScreen from './screens/NotificationScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import SplashScreen1 from './screens/SplashScreen1';
 import colorPallete from './constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from './screens/NgosListScreem';
@@ -31,12 +32,12 @@ function MyStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
-      <Stack.Screen name="SplashScreen1" component={SplashScreen1} options={{
+      {/* <Stack.Screen name="SplashScreen1" component={SplashScreen1} options={{
         headerTitle:"",
         headerTintColor:colorPallete.screenBg,
         headerTransparent:true,
         headerStyle:{}
-        }} />
+        }} /> */}
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
       <Stack.Screen name="Food" component={FoodDonationScreen} />
       <Stack.Screen name="Ration" component={RationDonationScreen} />
