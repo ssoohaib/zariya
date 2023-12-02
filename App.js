@@ -12,11 +12,14 @@ import SearchScreen from './screens/SearchScreen';
 import NgoDetailsScreen from './screens/NgoDetailsScreen';
 import NotificationScreen from './screens/NotificationScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import SplashScreen1 from './screens/SplashScreen1';
 import colorPallete from './constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from './screens/NgosListScreem';
 import PaymentScreen from './screens/PaymentScreen';
+import PaymentDetailsScreen from './screens/PaymentDetailsScreen';
 import { MaterialIcons } from '@expo/vector-icons';
+import { ToastProvider } from 'react-native-toast-notifications';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,12 +34,12 @@ function MyStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
-      <Stack.Screen name="SplashScreen1" component={SplashScreen1} options={{
+      {/* <Stack.Screen name="SplashScreen1" component={SplashScreen1} options={{
         headerTitle:"",
         headerTintColor:colorPallete.screenBg,
         headerTransparent:true,
         headerStyle:{}
-        }} />
+        }} /> */}
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
       <Stack.Screen name="Food" component={FoodDonationScreen} />
       <Stack.Screen name="Ration" component={RationDonationScreen} />
@@ -45,7 +48,8 @@ function MyStack() {
 
       <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name="NgosList" component={NgosListScreen} options={{title:'All'}} />
-      <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Payment'}} />
+      <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Donation'}} />
+      <Stack.Screen name="PaymentDetails" component={PaymentDetailsScreen} options={{title:'Details'}} />
       <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} options={{
         headerTitle:"",
         headerTintColor:colorPallete.screenBg,
@@ -61,6 +65,12 @@ function MyStack() {
 
 export default function App() {
   return (
+    <ToastProvider
+      duration={4000}
+      animationType='zoom-in'
+      offsetBottom={100}
+      warningColor={colorPallete.darkBlue}
+    >
     <NavigationContainer>
       <StatusBar style='light' />
       <Tab.Navigator 
@@ -99,6 +109,7 @@ export default function App() {
         }} />
       </Tab.Navigator>
     </NavigationContainer>
+    </ToastProvider>
   );
 }
 
