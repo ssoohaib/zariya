@@ -29,7 +29,7 @@
 //     navbarText: '#737373',
 // };
 export default colorPallete = {
-    lightBlue: '#F3CBA5',
+    lightBlue: '#FCE6D0',
     mediumBlue: '#453953',
     darkBlue: '#453953',
     inputText: '#737373',

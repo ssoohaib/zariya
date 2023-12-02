@@ -2,11 +2,12 @@ import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import ColorPallete from '../constants/ColorPallete';
 
-function SplashScreen1({ onButtonPress }) {
+function SplashScreen1({ navigation }) {
   return (
     <View style={styles.rootContainer}>
         <Image style={styles.image} source={require('../assets/images/logo-white.png')} />
-      <TouchableOpacity style={styles.iconContainer} onPress={onButtonPress}>
+      <TouchableOpacity style={styles.iconContainer} 
+      onPress={() => navigation.navigate('SplashScreen2')}>
         <Ionicons name='arrow-forward-circle' size={50} color='#F3CBA5' />
       </TouchableOpacity>
        

@@ -1,0 +1,54 @@
+import { Text, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+import ColorPallete from '../constants/ColorPallete';
+
+function SplashScreen3({ onButtonPress, navigation }) {
+    return (
+      <View style={styles.rootContainer}>
+        <Image style={styles.image} source={require('../assets/images/splash-screen3.jpg')} />
+        <Text style={styles.mainText}>Preserving Tomorrow, One Plate at a Time</Text>
+        <Text style={styles.descriptionText}>Join our mission to nourish hope and sustain futures through the power 
+            of compassionate giving.</Text>
+        <TouchableOpacity style={styles.iconContainer} onPress={() => {
+          onButtonPress();
+          navigation.navigate('HomeScreen');
+        }}>
+          <Ionicons name='arrow-forward-circle' size={50} color='#453953' />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+export default SplashScreen3;
+
+const styles = StyleSheet.create({
+    rootContainer: {
+      flex: 1,
+      backgroundColor: 'white',
+      alignItems: 'center', 
+      justifyContent: 'center', 
+    },
+    image: {
+      height: 300,
+      width: 350,
+    },
+    mainText: {
+      marginTop: 90,
+      fontWeight: 'bold',
+      fontSize: 27,
+      textAlign: 'center', 
+      color: ColorPallete.darkBlue,
+    },
+    descriptionText: {
+      fontSize: 13,
+      fontWeight: '100',
+      textAlign: 'center',
+      color: ColorPallete.darkBlue,
+      padding: 12,
+    },
+    iconContainer: {
+      marginTop: 100,
+      marginLeft: 10,
+    },
+  });
