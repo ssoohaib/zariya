@@ -27,9 +27,17 @@
 //     screenBgTwo: '#cfe2e2',
 //     navbarIcons: '#B5B4B4',
 //     navbarText: '#737373',
+//<<<<<<< eeshaw
+// };
+//export default colorPallete = {
+   // lightBlue: '#FCE6D0',
+//=======
+// lightTextColor:'#8b8888',
 // };
 export default colorPallete = {
-    lightBlue: '#FCE6D0',
+    veryLightBlue: '#e2dde7',
+    lightBlue: '#fddcbc',
+//>>>>>>> master
     mediumBlue: '#453953',
     darkBlue: '#453953',
     inputText: '#737373',
@@ -37,6 +45,11 @@ export default colorPallete = {
     screenBgTwo: '#cfe2e2',
     navbarIcons: '#B5B4B4',
     navbarText: '#737373',
+//<<<<<<< eeshaw
+//=======
+    lightTextColor:'#8b8888',
+    unselectedColor:'#E7E7E9',
+//>>>>>>> master
 };
 // export default colorPallete = {
 //     lightBlue: '#ebdbd0',

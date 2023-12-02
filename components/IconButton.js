@@ -9,10 +9,15 @@ export default function IconButton(props) {
         props.onPress(props.screen)
     }
 
+    const pressWithValidator=()=>{
+        props.validator(props.validatorReturn)
+    }
+    
+
   return (
     <View style={[styles.container, props.style, {backgroundColor:props.bgColor}]}>
-        <Pressable onPress={pressHandler} android_ripple={{color:ColorPallete.darkBlue}}>
-            <View style={styles.innerContainer}>
+        <Pressable onPress={props.validator ? pressWithValidator:pressHandler} android_ripple={{color:ColorPallete.darkBlue}}>
+            <View style={[styles.innerContainer,props.styleInner]}>
                 {
                     props.icon &&
                     <MaterialCommunityIcons name={props.icon} size={24} 
@@ -44,6 +49,7 @@ const styles=StyleSheet.create({
         padding:8,
         alignItems:'center',
         justifyContent:'center',
+        // flexDirection:'row-reverse',
         
     },
     text:{

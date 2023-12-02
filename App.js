@@ -13,15 +13,21 @@ import SearchScreen from './screens/SearchScreen';
 import NgoDetailsScreen from './screens/NgoDetailsScreen';
 import NotificationScreen from './screens/NotificationScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import SplashScreen1 from './screens/SplashScreen1';
 import colorPallete from './constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from './screens/NgosListScreem';
 import PaymentScreen from './screens/PaymentScreen';
+import PaymentDetailsScreen from './screens/PaymentDetailsScreen';
 import { MaterialIcons } from '@expo/vector-icons';
+//<<<<<<< eeshaw
 import SplashScreen1 from './screens/SplashScreen1';
 import SplashScreen2 from './screens/SplashScreen2';
 import SplashScreen3 from './screens/SplashScreen3';
 
+//=======
+import { ToastProvider } from 'react-native-toast-notifications';
+//>>>>>>> master
 
 
 const Stack = createNativeStackNavigator();
@@ -58,6 +64,15 @@ function MyStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
+//<<<<<<< eeshaw
+//=======
+      {/* <Stack.Screen name="SplashScreen1" component={SplashScreen1} options={{
+        headerTitle:"",
+        headerTintColor:colorPallete.screenBg,
+        headerTransparent:true,
+        headerStyle:{}
+        }} /> */}
+//>>>>>>> master
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
       <Stack.Screen name="Food" component={FoodDonationScreen} />
       <Stack.Screen name="Ration" component={RationDonationScreen} />
@@ -66,7 +81,8 @@ function MyStack() {
 
       <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name="NgosList" component={NgosListScreen} options={{title:'All'}} />
-      <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Payment'}} />
+      <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Donation'}} />
+      <Stack.Screen name="PaymentDetails" component={PaymentDetailsScreen} options={{title:'Details'}} />
       <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} options={{
         headerTitle:"",
         headerTintColor:colorPallete.screenBg,
@@ -94,6 +110,12 @@ export default function App() {
   }, [showSplash]);
 
   return (
+    <ToastProvider
+      duration={4000}
+      animationType='zoom-in'
+      offsetBottom={100}
+      warningColor={colorPallete.darkBlue}
+    >
     <NavigationContainer>
       <StatusBar style='light' />
       {showSplash ? (
@@ -128,6 +150,7 @@ export default function App() {
         </Tab.Navigator>
       )}
     </NavigationContainer>
+    </ToastProvider>
   );
 }
 
