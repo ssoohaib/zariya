@@ -13,26 +13,20 @@ import SearchScreen from './screens/SearchScreen';
 import NgoDetailsScreen from './screens/NgoDetailsScreen';
 import NotificationScreen from './screens/NotificationScreen';
 import HistoryScreen from './screens/HistoryScreen';
-import SplashScreen1 from './screens/SplashScreen1';
 import colorPallete from './constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from './screens/NgosListScreem';
 import PaymentScreen from './screens/PaymentScreen';
 import PaymentDetailsScreen from './screens/PaymentDetailsScreen';
 import { MaterialIcons } from '@expo/vector-icons';
-//<<<<<<< eeshaw
 import SplashScreen1 from './screens/SplashScreen1';
 import SplashScreen2 from './screens/SplashScreen2';
 import SplashScreen3 from './screens/SplashScreen3';
-
-//=======
 import { ToastProvider } from 'react-native-toast-notifications';
-//>>>>>>> master
 
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-// const Tab = AnimatedTabBarNavigator();
 const StackSplash = createNativeStackNavigator();
 
 function SplashStack({ handleSplashScreenPress }) {
@@ -64,15 +58,6 @@ function MyStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
-//<<<<<<< eeshaw
-//=======
-      {/* <Stack.Screen name="SplashScreen1" component={SplashScreen1} options={{
-        headerTitle:"",
-        headerTintColor:colorPallete.screenBg,
-        headerTransparent:true,
-        headerStyle:{}
-        }} /> */}
-//>>>>>>> master
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
       <Stack.Screen name="Food" component={FoodDonationScreen} />
       <Stack.Screen name="Ration" component={RationDonationScreen} />
@@ -100,12 +85,8 @@ export default function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    // No need to use useNavigation here, as you are not using navigation in this component
     if (!showSplash) {
-      // Navigate to the HomeScreen when the splash screen is done
-      // You can use navigation.navigate if you are in a component that is part of the navigator stack
-      // For example, if this useEffect was inside a screen component
-      // navigation.navigate('HomeScreen');
+
     }
   }, [showSplash]);
 
@@ -114,42 +95,44 @@ export default function App() {
       duration={4000}
       animationType='zoom-in'
       offsetBottom={100}
-      warningColor={colorPallete.darkBlue}
-    >
-    <NavigationContainer>
-      <StatusBar style='light' />
-      {showSplash ? (
-        <SplashStack handleSplashScreenPress={() => setShowSplash(false)} />
-      ) : (
-        <Tab.Navigator
-          screenOptions={{
-            headerShown: false,
-            tabBarActiveTintColor: colorPallete.mediumBlue,
-            tabBarStyle: {
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-              overflow: 'hidden',
-            }
-          }}
-          sceneContainerStyle={{
-            backgroundColor: 'white'
-          }}
-        >
-          <Tab.Screen name="Home" component={MyStack} options={{
-            tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
-          }} />
-          <Tab.Screen name="History" component={HistoryScreen} options={{
-            tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
-          }} />
-          <Tab.Screen name="Notifications" component={NotificationScreen} options={{
-            tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
-          }} />
-          <Tab.Screen name="Profile" component={ProfileScreen} options={{
-            tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
-          }} />
-        </Tab.Navigator>
-      )}
-    </NavigationContainer>
+      warningColor={colorPallete.darkBlue}>
+
+      <NavigationContainer>
+        <StatusBar style='light' />
+        {
+          showSplash ? 
+          (<SplashStack handleSplashScreenPress={() => setShowSplash(false)} />)
+          : (
+              <Tab.Navigator
+                screenOptions={{
+                  headerShown: false,
+                  tabBarActiveTintColor: colorPallete.mediumBlue,
+                  tabBarStyle: {
+                    borderTopLeftRadius: 8,
+                    borderTopRightRadius: 8,
+                    overflow: 'hidden',
+                  }
+                }}
+                sceneContainerStyle={{
+                  backgroundColor: 'white'
+                }}
+                >
+                  <Tab.Screen name="Home" component={MyStack} options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
+                  }} />
+                  <Tab.Screen name="History" component={HistoryScreen} options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
+                  }} />
+                  <Tab.Screen name="Notifications" component={NotificationScreen} options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
+                  }} />
+                  <Tab.Screen name="Profile" component={ProfileScreen} options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
+                  }} />
+              </Tab.Navigator>
+            )
+        }
+      </NavigationContainer>
     </ToastProvider>
   );
 }
