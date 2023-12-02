@@ -1,13 +1,24 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import StateButton from '../components/StateButton';
 import { useState } from 'react';
 import ColorPallete from '../constants/ColorPallete';
 import IconButton from '../components/IconButton';
+import AlertText from '../components/AlertText';
+import { useToast } from 'react-native-toast-notifications';
 
-export default function PaymentScreen() {
+
+export default function PaymentScreen({navigation}) {
 
   const [paymentType,setPaymentType]=useState('')
   const [duration,setDuration]=useState('')
+  const [amount,setAmount]=useState(0)
+  const toast = useToast()
+
+  const [alertText,setAlertText]=useState('')
+
+  const amountHandler=(amount)=>{
+    setAmount(amount)
+  }
 
   const paymentTypeHandler =(type)=>{
     setPaymentType(type)
@@ -17,10 +28,43 @@ export default function PaymentScreen() {
     setDuration(duration)
   }
 
+  const showToast = (text)=>{
+    toast.show(text,{
+      type:'warning'
+    })
+  }
+
+  const validator = (screenName)=>{
+    let warn=[]
+    if (paymentType.length<1){
+      warn.push('Select Type ')
+    }
+    if (paymentType=='Subscription'){
+      if(duration.length<1){
+        warn.push('Choose Duration ')
+      }
+    }
+    if(amount<500){
+      warn.push('Min amount Rs. 500')
+    }
+    // console.log('>>>>',amount, typeof amount)
+
+    if (warn.length<1){
+      navigation.navigate("PaymentDetails",{
+        paymentType:screenName
+      })
+      return
+    }
+
+    showToast(warn)
+  }
+
+
     return (
       <ScrollView style={styles.container}> 
         <View style={styles.typeContainer}>
-          <Text style={styles.subtitle}>Select</Text>
+          <Text style={styles.subtitle}>Type</Text>
+          {/* <Button title='alert' onPress={()=>validator('lol')} /> */}
           <View style={styles.typeBtnContainer}>
             <StateButton
               title={'One Time'}
@@ -93,8 +137,16 @@ export default function PaymentScreen() {
 
         <View style={styles.amountContainer}>
           <Text style={styles.subtitle}>Enter the donation amount</Text>
-          <TextInput style={styles.input} placeholder='Amount' placeholderTextColor={colorPallete.lightTextColor} keyboardType='numeric' />
+          <TextInput 
+            style={styles.input} 
+            placeholder='Amount' 
+            placeholderTextColor={colorPallete.lightTextColor} 
+            keyboardType='numeric' 
+            value={amount}
+            onChangeText={amountHandler}
+          />
           <Text style={styles.indicator}>Min Rs. 500</Text>
+
           <IconButton 
               title={'Master Card'} 
               icon={'arrow-right-thin'} 
@@ -102,8 +154,9 @@ export default function PaymentScreen() {
               iconColor={colorPallete.darkBlue}
               style={{flex:0,padding:8,marginTop:12,borderWidth:1,borderColor:colorPallete.darkBlue}}
               styleInner={{flexDirection:'row-reverse', justifyContent:'space-between'}}
-              // onPress={switchScreenHandler}
-              // screen={'Food'}
+              validator={validator}
+              validatorReturn={'Master Card'}
+
             />
           <IconButton 
               title={'Easypaisa'} 
@@ -112,8 +165,9 @@ export default function PaymentScreen() {
               iconColor={colorPallete.darkBlue}
               style={{flex:0,padding:8,marginTop:8,borderWidth:1,borderColor:colorPallete.darkBlue}}
               styleInner={{flexDirection:'row-reverse', justifyContent:'space-between'}}
-              // onPress={switchScreenHandler}
-              // screen={'Food'}
+              validator={validator}
+              validatorReturn={'Easypaisa'}
+
             />
           <IconButton 
               title={'Jazz Cash'} 
@@ -122,8 +176,9 @@ export default function PaymentScreen() {
               iconColor={colorPallete.darkBlue}
               style={{flex:0,padding:8,marginTop:8,borderWidth:1,borderColor:colorPallete.darkBlue}}
               styleInner={{flexDirection:'row-reverse', justifyContent:'space-between'}}
-              // onPress={switchScreenHandler}
-              // screen={'Food'}
+              validator={validator}
+              validatorReturn={'Jazz Cash'}
+
             />
           
 

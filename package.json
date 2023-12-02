@@ -19,7 +19,9 @@
     "react-native-animated-nav-tab-bar": "^3.1.10",
     "react-native-dropdown-select-list": "^2.0.5",
     "react-native-image-slider-box": "^2.0.7",
-    "react-native-modal": "^13.0.1"
+    "react-native-modal": "^13.0.1",
+    "react-native-toast-message": "^2.1.7",
+    "react-native-toast-notifications": "^3.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

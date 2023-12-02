@@ -9,9 +9,14 @@ export default function IconButton(props) {
         props.onPress(props.screen)
     }
 
+    const pressWithValidator=()=>{
+        props.validator(props.validatorReturn)
+    }
+    
+
   return (
     <View style={[styles.container, props.style, {backgroundColor:props.bgColor}]}>
-        <Pressable onPress={pressHandler} android_ripple={{color:ColorPallete.darkBlue}}>
+        <Pressable onPress={props.validator ? pressWithValidator:pressHandler} android_ripple={{color:ColorPallete.darkBlue}}>
             <View style={[styles.innerContainer,props.styleInner]}>
                 {
                     props.icon &&
