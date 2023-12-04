@@ -31,7 +31,7 @@
 // };
 export default colorPallete = {
     veryLightBlue: '#e2dde7',
-    lightBlue: '#fddcbc',
+    lightBlue: '#f8e0c8',
     mediumBlue: '#453953',
     darkBlue: '#453953',
     inputText: '#737373',
