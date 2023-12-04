@@ -197,6 +197,7 @@ export const NOTIFICATIONS = [
         desc:'Al khidmat accepted your Food donation.',
         icon:'food-fork-drink',
         time:'02:23 PM',
+        status:'unread',
     },
     {
         id:'23342dfsdsdsdfsdf',
@@ -205,6 +206,7 @@ export const NOTIFICATIONS = [
         desc:'Edhi accepted your Clothes donation.',
         icon:'tshirt-crew',
         time:'07:23 PM',
+        status:'unread',
     },
     {
         id:'232323342dfsdfsdf',
@@ -213,6 +215,7 @@ export const NOTIFICATIONS = [
         desc:'Akhuwat accepted your Medicine donation.',
         icon:'medical-bag',
         time:'02:23 PM',
+        status:'read',
     },
     {
         id:'2334232dfsdfsdf',
@@ -221,6 +224,7 @@ export const NOTIFICATIONS = [
         desc:'Al khidmat accepted your Food donation.',
         icon:'food-fork-drink',
         time:'02:23 PM',
+        status:'unread',
     },
     {
         id:'2334452dfsdsdsdfsdf',
@@ -229,6 +233,7 @@ export const NOTIFICATIONS = [
         desc:'Edhi accepted your Clothes donation.',
         icon:'tshirt-crew',
         time:'07:23 PM',
+        status:'unread',
     },
     {
         id:'23236723342dfsdfsdf',
@@ -237,6 +242,7 @@ export const NOTIFICATIONS = [
         desc:'Akhuwat accepted your Medicine donation.',
         icon:'medical-bag',
         time:'02:23 PM',
+        status:'read',
     },
     {
         id:'2334892dfsdfsdf',
@@ -245,6 +251,7 @@ export const NOTIFICATIONS = [
         desc:'Al khidmat accepted your Food donation.',
         icon:'food-fork-drink',
         time:'02:23 PM',
+        status:'unread',
     },
     {
         id:'2334092dfsdsdsdfsdf',
@@ -253,6 +260,7 @@ export const NOTIFICATIONS = [
         desc:'Edhi accepted your Clothes donation.',
         icon:'tshirt-crew',
         time:'07:23 PM',
+        status:'read',
     },
     {
         id:'2323fg23342dfsdfsdf',
@@ -261,6 +269,7 @@ export const NOTIFICATIONS = [
         desc:'Akhuwat accepted your Medicine donation.',
         icon:'medical-bag',
         time:'02:23 PM',
+        status:'read',
     },
     {
         id:'2334er2dfsdfsdf',
@@ -269,6 +278,7 @@ export const NOTIFICATIONS = [
         desc:'Al khidmat accepted your Food donation.',
         icon:'food-fork-drink',
         time:'02:23 PM',
+        status:'unread',
     },
     {
         id:'2334gf2dfsdsdsdfsdf',
@@ -277,6 +287,7 @@ export const NOTIFICATIONS = [
         desc:'Edhi accepted your Clothes donation.',
         icon:'tshirt-crew',
         time:'07:23 PM',
+        status:'read',
     },
     {
         id:'2323er23342dfsdfsdf',
@@ -285,5 +296,6 @@ export const NOTIFICATIONS = [
         desc:'Akhuwat accepted your Medicine donation.',
         icon:'medical-bag',
         time:'02:23 PM',
+        status:'read',
     },
 ]

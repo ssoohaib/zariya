@@ -1,17 +1,28 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import ColorPallete from '../constants/ColorPallete';
+import { useState } from 'react';
 
 export default function NotificationCard(props) {
+
+    const [status,setStatus]=useState(props.status)
 
     const pressHandler=()=>{
         props.onPress('NgoDetails2',props.recieverId)
     }
 
+    const readHandler=()=>{
+        props.toggleRead(props.id)
+        if (status=="unread")
+            setStatus("read")
+        else
+            setStatus("unread")
+    }
+
   return (
     <View style={styles.container}>
         <Pressable onPress={pressHandler} android_ripple={ColorPallete.mediumBlue}>
-            <View style={styles.innerContainer}>
+            <View style={[styles.innerContainer, status == 'unread' && {backgroundColor:ColorPallete.lightBlueTwo}]}>
                 <View style={styles.left}>
                     <MaterialCommunityIcons name={props.icon} size={32} color={'white'} />
                 </View>
@@ -20,7 +31,14 @@ export default function NotificationCard(props) {
                         <Text style={styles.title}>{props.title}</Text>
                         <Text style={styles.time}>{props.time}</Text>
                     </View>
-                    <Text style={styles.desc}>{props.desc}</Text>
+                    <View style={styles.rightBottom}>
+                        <Text style={styles.desc}>
+                            {props.desc.slice(0,35)}
+                        </Text>
+                        <Pressable style={styles.eyeIcon} onPress={readHandler}>
+                            <MaterialCommunityIcons name="eye-outline" size={24} color={ColorPallete.lightTextColor} />
+                        </Pressable>
+                    </View>
                 </View>    
             </View>
         </Pressable>
@@ -65,14 +83,28 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
 
     },
+    time:{
+        color:ColorPallete.lightTextColor,
+        fontWeight:'bold',
+
+    },
+    rightBottom:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        
+    },
     desc:{
         marginBottom:4,
 
 
     },
-    time:{
-        color:ColorPallete.lightTextColor,
-        fontWeight:'bold',
+    eyeIcon:{
+        // borderWidth:1,
+        // borderColor:ColorPallete.lightTextColor,
+        padding:4,
+        // borderRadius:8,
+        // marginLeft:4,
 
     }
 })

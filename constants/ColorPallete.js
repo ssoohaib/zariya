@@ -32,6 +32,7 @@
 export default colorPallete = {
     veryLightBlue: '#e2dde7',
     lightBlue: '#f8e0c8',
+    lightBlueTwo: '#ffcd9c',
     mediumBlue: '#453953',
     darkBlue: '#453953',
     inputText: '#737373',

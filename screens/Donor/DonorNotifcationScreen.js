@@ -19,6 +19,15 @@ export default function DonorNotifactionScreen({navigation}) {
     })
   }
 
+  const toggleRead=(id)=>{
+    let not=NOTIFICATIONS.find(i=>i.id==id)
+
+    if (not.status=="read")
+      NOTIFICATIONS.find(i=>i.id==id).status="unread"
+    else
+      NOTIFICATIONS.find(i=>i.id==id).status="read"
+  }
+
   const renderNotifications = (itemData)=>{
     return(
       <NotificationCard 
@@ -28,7 +37,9 @@ export default function DonorNotifactionScreen({navigation}) {
         desc={itemData.item.desc}
         time={itemData.item.time}
         icon={itemData.item.icon}
+        status={itemData.item.status}
         onPress={switchScreenWithData}
+        toggleRead={toggleRead}
       />
     )
   }

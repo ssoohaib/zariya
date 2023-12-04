@@ -1,18 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import HomeScreen from '../HomeScreen';
 import FoodDonationScreen from '../FoodDonationScreen';
 import ClothesDonationScreen from '../ClothesDonationScreen';
 import RationDonationScreen from '../RationDonationScreen';
 import MedicineDonationScreen from '../MedicineDonationScreen';
-// import ProfileScreen from './screens/ProfileScreen';
 import SearchScreen from '../SearchScreen';
 import NgoDetailsScreen from '../NgoDetailsScreen';
-// import NotificationScreen from './screens/NotificationScreen';
-// import HistoryScreen from './screens/HistoryScreen';
-// import SplashScreen1 from './screens/SplashScreen1';
 import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from '../NgosListScreem';
 import PaymentScreen from '../PaymentScreen';
@@ -25,7 +20,6 @@ import NotificationDeatilsScreen from "./NotificationDeatilsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-// const Tab = AnimatedTabBarNavigator();
 
 function MyStack() {
     return (
@@ -97,6 +91,7 @@ export default function DonorMain() {
   return (
     <NavigationContainer>
       <StatusBar style='light' />
+
       <Tab.Navigator 
       screenOptions={{
         headerShown:false,
@@ -104,21 +99,15 @@ export default function DonorMain() {
         // tabBarActiveBackgroundColor:colorPallete.lightBlue,
         
         tabBarStyle:{
-          // backgroundColor:'red'
-          // borderWidth:1,
-          // borderRadius:8,
           borderTopLeftRadius:8,
           borderTopRightRadius:8,
           overflow:'hidden',
-          // paddingVertical:8
-
         }
       }}
       sceneContainerStyle={{
         backgroundColor:'white'
-      }}
+      }}>
       
-      >
         <Tab.Screen name="Home" component={MyStack} options={{
           tabBarIcon:({color, size})=><MaterialIcons name="home" color={color} size={size} />
         }} />
@@ -134,7 +123,6 @@ export default function DonorMain() {
           title:'Profile',
           tabBarIcon:({color, size})=><MaterialIcons name="person" color={color} size={size} />
         }} />
-
 
       </Tab.Navigator>
     </NavigationContainer>
