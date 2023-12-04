@@ -43,7 +43,7 @@ export default function HomeScreen({navigation}) {
               <ImageButton
                 style={styles.userImage}
                 onPress={switchScreenHandler}
-                screen={'Profile'}
+                screen={'Donor Profile'}
               />
             </View>
           </View>
