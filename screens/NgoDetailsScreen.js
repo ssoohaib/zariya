@@ -64,20 +64,15 @@ export default function NgoDetailsScreen({navigation, route}) {
         </View>
 
         <IconButton 
-          title={'Select Amount'} 
-          bgColor={ColorPallete.lightBlue} 
-          iconColor={ColorPallete.darkBlue}
-          style={{flex:1,paddingVertical:8,marginBottom:8}}
+          title={'Donate'} 
+          bgColor={ColorPallete.mediumBlue} 
+          // icon={'arrow-right-thin'}
+          iconColor={ColorPallete.screenBg}
+          style={{flex:1,paddingVertical:8,marginBottom:8,}}
+          // styleInner={{}}
           textStyle={{fontSize:18}}
           onPress={switchScreenHandler}
           screen={'Payment'}
-        />
-        <IconButton 
-          title={'Donate'} 
-          bgColor={ColorPallete.mediumBlue} 
-          iconColor={ColorPallete.screenBg}
-          style={{flex:1,paddingVertical:8,}}
-          textStyle={{fontSize:18}}
         />
         
       </View>
