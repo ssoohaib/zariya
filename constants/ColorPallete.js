@@ -37,7 +37,7 @@ export default colorPallete = {
     darkBlue: '#453953',
     inputText: '#737373',
     screenBg: '#FFFFFF',
-    screenBgTwo: '#cfe2e2',
+    screenBgTwo: '#F3F2F5',
     navbarIcons: '#B5B4B4',
     navbarText: '#737373',
     lightTextColor:'#8b8888',

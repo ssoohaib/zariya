@@ -17,6 +17,11 @@ import DonorHistoryScreen from "./DonorHistoryScreen";
 import DonorNotificationScreen from "./DonorNotifcationScreen";
 import DonorProfileScreen from "./DonorProfileScreen";
 import NotificationDeatilsScreen from "./NotificationDeatilsScreen";
+import EditProfileScreen from "../ProfileScreens/EditProfile";
+import UpdatePasswordScreen from "../ProfileScreens/UpdatePassword";
+import AnalyticsAndReportsScreen from "../ProfileScreens/AnalyticsAndReports";
+import VerificationScreen from "../ProfileScreens/Verification";
+import PrivacyAndTermsScreen from "../ProfileScreens/PrivacyAndTerms";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -87,6 +92,26 @@ function DonorNotifactionStack() {
     );
 }
 
+function DonorProfileStack() {
+  return (
+    <Stack.Navigator screenOptions={{
+      headerTintColor:colorPallete.screenBg,
+      headerStyle:{
+        backgroundColor:colorPallete.mediumBlue
+      }
+    }}>
+      <Stack.Screen name="ProfileScreen" component={DonorProfileScreen} options={{headerShown:false}}  />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+      <Stack.Screen name="UpdatePassword" component={UpdatePasswordScreen} />
+      <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReportsScreen} />
+      <Stack.Screen name="Verification" component={VerificationScreen} />
+      <Stack.Screen name="PrivacyAndTerms" component={PrivacyAndTermsScreen} />
+      
+      
+    </Stack.Navigator>
+  );
+}
+
 export default function DonorMain() {
   return (
     <NavigationContainer>
@@ -119,7 +144,7 @@ export default function DonorMain() {
           title:'Notifications',
           tabBarIcon:({color, size})=><MaterialIcons name="watch-later" color={color} size={size} />
         }} />
-        <Tab.Screen name="Donor Profile" component={DonorProfileScreen}  options={{
+        <Tab.Screen name="Donor Profile" component={DonorProfileStack}  options={{
           title:'Profile',
           tabBarIcon:({color, size})=><MaterialIcons name="person" color={color} size={size} />
         }} />
