@@ -9,7 +9,7 @@ export default function PressableOption(props) {
         props.onPress(props.screen)
     }
   return (
-    <Pressable style={styles.container} onPress={pressHandler}>
+    <Pressable style={styles.container} onPress={props.onPress && pressHandler}>
         <View style={styles.innerContainer}>
             <View style={styles.left}>
                 <View style={styles.leftIcon}>

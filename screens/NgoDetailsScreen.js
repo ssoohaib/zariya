@@ -5,11 +5,7 @@ import ColorPallete from "../constants/ColorPallete";
 import IconButton from "../components/IconButton";
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { useState } from "react";
-import { MaterialIcons } from '@expo/vector-icons';
 import PaymentModal from "../components/PaymentModal";
-import Modal from "react-native-modal";
-
-// import PaymentModal from "../components/PaymentModal";
 
 
 export default function NgoDetailsScreen({navigation, route}) {
@@ -17,9 +13,9 @@ export default function NgoDetailsScreen({navigation, route}) {
 
   const [isModalVisible, setModalVisible] = useState(false);
 
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
-    };
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const selectedNgo = NGOS.find(i=>i.id===route.params.id)
 
