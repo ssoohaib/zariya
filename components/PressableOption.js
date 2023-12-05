@@ -13,12 +13,12 @@ export default function PressableOption(props) {
         <View style={styles.innerContainer}>
             <View style={styles.left}>
                 <View style={styles.leftIcon}>
-                    <MaterialIcons name={props.leftIcon} size={24} color={props.leftIconColor} />
+                    <MaterialIcons name={props.leftIcon} size={24} color={props.leftIconColor ? props.leftIconColor:ColorPallete.darkBlue} />
                 </View>
                 <Text style={[styles.title, {color:props.titleColor}]}>{props.title}</Text>
             </View>
             <View style={styles.rightIcon}>
-                <MaterialIcons name={props.rightIcon} size={24} color={props.rightIconColor} />
+                <MaterialIcons name={props.rightIcon} size={24} color={props.rightIconColor ? props.rightIconColor:ColorPallete.darkBlue} />
             </View>
         </View>
     </Pressable>
