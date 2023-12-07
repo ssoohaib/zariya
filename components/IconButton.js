@@ -20,8 +20,10 @@ export default function IconButton(props) {
             <View style={[styles.innerContainer,props.styleInner]}>
                 {
                     props.icon &&
-                    <MaterialCommunityIcons name={props.icon} size={24} 
-                    color={props.iconColor ? props.iconColor:'black'} />
+                    <View style={props.iconContainer}>
+                        <MaterialCommunityIcons name={props.icon} size={props.iconSize || 24} 
+                        color={props.iconColor ? props.iconColor:'black'} />
+                    </View>
                 }
                 {
                     props.title &&
