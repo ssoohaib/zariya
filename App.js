@@ -6,4 +6,6 @@ export default function App() {
   return (
     <ToastProvider duration={4000} animationType='zoom-in' offsetBottom={100} warningColor={colorPallete.darkBlue} >
       <RecipientMain />
-import DonorMain from './screens/Donor/DonorMain';
+    </ToastProvider>
+  )
+}
