@@ -65,7 +65,7 @@ export default function HistoryCard(props) {
                 </View>
             </View>
         </Pressable>
-        <HistoryModal isModalVisible={isModalVisible} toggleModal={toggleModal} />
+        <HistoryModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal}/>
     </>
   )
 }

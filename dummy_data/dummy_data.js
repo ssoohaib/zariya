@@ -317,7 +317,7 @@ export const HISTORY = [
         title:'Clothes donated to Al khidmat',
         donationType:"Clothes",
         date:'10 Dec, 2023',
-        status:'Completed',
+        status:'Time out',
     },
     {
         id:"wew11we1r22432432",
@@ -335,7 +335,7 @@ export const HISTORY = [
         title:'Ration donated to Al khidmat',
         donationType:"Ration",
         date:'10 Jan, 2023',
-        status:'Completed',
+        status:'Canceled',
     },
     {
         id:"weww3er22432432",
