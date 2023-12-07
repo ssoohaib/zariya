@@ -66,8 +66,6 @@ function MyStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
-      <Stack.Screen name="RecipientHome" component={RecipientHome} options={{headerShown:false}}  />
-      <Stack.Screen name="RecipientMain" component={RecipientMain} options={{headerShown:false}}  />
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
       <Stack.Screen name="Food" component={FoodDonationScreen} />
       <Stack.Screen name="Ration" component={RationDonationScreen} />
