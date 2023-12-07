@@ -1,9 +1,9 @@
-import RecipientAnalyticCard from "../components/RecipientAnalyticCard";
+import RecipientAnalyticCard from "../../components/RecipientAnalyticCard";
 import { FlatList, StyleSheet, Text, View, ScrollView } from 'react-native';
-import ImageButton from '../components/ImageButton';
-import ColorPallete from "../constants/ColorPallete";
-import { Analytics } from "../dummy_data/recipient_analytics";
-import ReceiveDonationBtn from "../components/ReceiveDonationBtn";
+import ImageButton from '../../components/ImageButton';
+import ColorPallete from "../../constants/ColorPallete";
+import { Analytics } from "../../dummy_data/recipient_analytics";
+import ReceiveDonationBtn from "../../components/ReceiveDonationBtn";
 import { useNavigation } from '@react-navigation/native';
 
 function RecipientHome() {
@@ -13,7 +13,7 @@ function RecipientHome() {
     }
 
     const recipientMainScreenHandler = (id) => {
-        navigation.navigate('RecipientMain', {
+        navigation.navigate('RecieveDonation', {
             id: id
         })
     }

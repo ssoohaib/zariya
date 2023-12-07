@@ -1,9 +1,9 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import ColorPallete from '../constants/ColorPallete';
-import RecipientCard from '../components/RecipientCard';
-import { Donors } from '../dummy_data/recipient_data';
-import ImageButton from '../components/ImageButton';
+import ColorPallete from '../../constants/ColorPallete';
+import RecipientCard from '../../components/RecipientCard';
+import { Donors } from '../../dummy_data/recipient_data';
+import ImageButton from '../../components/ImageButton';
 
 function RecipientMain() {
 
@@ -29,7 +29,7 @@ function RecipientMain() {
       <ScrollView style={styles.container}> 
         <View style={styles.headerContainer}>
           <View style={styles.headerUpper}>
-            <Image style={styles.logo} source={require('../assets/images/logo-white.png')} />
+            <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
             <View style={styles.userContainer}>
               <View style={styles.userTextContainer}>
                 <Text style={styles.userGreet}>Hi,</Text>
