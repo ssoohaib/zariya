@@ -36,13 +36,18 @@
 // };
 export default colorPallete = {
     veryLightBlue: '#e2dde7',
+// <<<<<<< donr-screens
+    lightBlue: '#f8e0c8',
+    lightBlueTwo: '#ffcd9c',
+// =======
     lightBlue: '#fddcbc',
 //>>>>>>> master
+// >>>>>>> master
     mediumBlue: '#453953',
     darkBlue: '#453953',
     inputText: '#737373',
     screenBg: '#FFFFFF',
-    screenBgTwo: '#cfe2e2',
+    screenBgTwo: '#F3F2F5',
     navbarIcons: '#B5B4B4',
     navbarText: '#737373',
 //<<<<<<< eeshaw
