@@ -15,6 +15,12 @@ import RecipientHistory from './RecipientHistory';
 import RecipientNotification from './RecipientNotification';
 import RecipientProfile from './RecipientProfile';
 import RecieveDonation from './RecieveDonation';
+import DonationDetail from './DonationDetail';
+import EditProfile from '../ProfileScreens/EditProfile';
+import AnalyticsAndReports from '../ProfileScreens/AnalyticsAndReports';
+import PrivacyAndTerms from '../ProfileScreens/PrivacyAndTerms';
+import UpdatePassword from '../ProfileScreens/UpdatePassword';
+import Verification from '../ProfileScreens/Verification';
 
 
 
@@ -53,6 +59,7 @@ function MyStack() {
     }}>
       <Stack.Screen name="RecipientHome" component={RecipientHome} options={{headerShown:false}}  />
       <Stack.Screen name="RecieveDonation" component={RecieveDonation} options={{headerShown:false}}  />
+      <Stack.Screen name="DonationDetail" component={DonationDetail} options={{headerShown:false}}  />
     </Stack.Navigator>
   );
 }
@@ -92,6 +99,11 @@ function ProfileStack(){
       }
     }}>
       <Stack.Screen name="RecipientProfile" component={RecipientProfile} options={{headerShown:false}}  />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
+      <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReports} />
+      <Stack.Screen name="Verification" component={Verification} />
+      <Stack.Screen name="PrivacyAndTerms" component={PrivacyAndTerms} />
     </Stack.Navigator>
   );
 }

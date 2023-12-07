@@ -5,6 +5,7 @@ import ColorPallete from "../../constants/ColorPallete";
 import { Analytics } from "../../dummy_data/recipient_analytics";
 import ReceiveDonationBtn from "../../components/ReceiveDonationBtn";
 import { useNavigation } from '@react-navigation/native';
+import DonationDetail from "./DonationDetail";
 
 function RecipientHome() {
     const navigation = useNavigation();
@@ -81,7 +82,7 @@ function RecipientHome() {
                 </View>
             </View>
         </ScrollView>
-    );
+    )
 }
 
 export default RecipientHome;

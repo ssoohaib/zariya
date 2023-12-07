@@ -11,12 +11,18 @@ function RecipientMain() {
     navigation.navigate(screen)
 }
 
+const donationdetail = (id) => {
+  navigation.navigate('donationDetail', {
+      id: id
+  })
+}
+
   const renderFlatList = (itemData) =>{
     return(
       <RecipientCard 
         id={itemData.item.id}
         name={itemData.item.name}
-        //onPress={ngoScreenHandler}
+        //onPress={donationDetail}
         desc={itemData.item.desc}
         time={itemData.item.time}
         category={itemData.item.category}

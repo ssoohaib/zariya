@@ -1,6 +1,7 @@
 import colorPallete from './constants/ColorPallete';
 import { ToastProvider } from 'react-native-toast-notifications';
 import RecipientMain from './screens/Recipient/RecipientMain';
+import DonorMain from './screens/Donor/DonorMain';
 
 export default function App() {
   return (

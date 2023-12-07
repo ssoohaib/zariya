@@ -1,13 +1,21 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import IconButton from './IconButton'
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import AcceptDonationBtn from './AcceptDonationBtn';
 
 import ColorPallete from '../constants/ColorPallete'
 
 function RecipientCard(props) {
+    const navigation = useNavigation();
+
+  const handleAccept = () => {
+    navigation.navigate('DonationDetail');
+  };
+
     return (
         <View style={styles.container}>
-            <Pressable>
+            <Pressable onPress={handleAccept}>
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
@@ -31,13 +39,7 @@ function RecipientCard(props) {
                                 color={ColorPallete.darkBlue}
                             />
                         </View>
-                        <IconButton
-                            title={'Accept'}
-                            bgColor={ColorPallete.mediumBlue}
-                            iconColor={ColorPallete.screenBg}
-                            style={{ flex: 1, height: '100%' }}
-                            textStyle={{ fontSize: 15 }}
-                        />
+                        <AcceptDonationBtn onPress={handleAccept}>Accept</AcceptDonationBtn>
                     </View>
                 </View>
             </Pressable>
