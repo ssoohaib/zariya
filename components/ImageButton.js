@@ -6,7 +6,7 @@ export default function ImageButton(props) {
         <Pressable onPress={()=>props.onPress(props.screen)}>
             <View>
                 <Image 
-                    source={require('../assets/images/user.png')}
+                    source={require('../assets/images/user2.png')}
                     style={[
                         styles.default,
                         props.style

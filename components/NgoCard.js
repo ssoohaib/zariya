@@ -56,7 +56,7 @@ const styles=StyleSheet.create({
     },
     infoContainer:{
         paddingHorizontal:8,
-        paddingBottom:20,
+        paddingBottom:8,
 
         // borderWidth:1,
         // borderColor:'red',
