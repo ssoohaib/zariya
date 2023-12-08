@@ -69,3 +69,10 @@ export const NGOS = [
         ]
     },
 ]
+
+export const Feedbacks = [
+    {
+        name:"Adam",
+        fb:"yoyoyooyoyoyoyoyoyoyooy"
+    }
+]

@@ -2,12 +2,7 @@ import  { useState, useEffect } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import HomeScreen from './screens/HomeScreen';
-import FoodDonationScreen from './screens//FoodDonationScreen';
-import ClothesDonationScreen from './screens/ClothesDonationScreen';
-import RationDonationScreen from './screens/RationDonationScreen';
-import MedicineDonationScreen from './screens/MedicineDonationScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SearchScreen from './screens/SearchScreen';
 import NgoDetailsScreen from './screens/NgoDetailsScreen';
@@ -15,42 +10,22 @@ import NotificationScreen from './screens/NotificationScreen';
 import HistoryScreen from './screens/HistoryScreen';
 import colorPallete from './constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
-import NgosListScreen from './screens/NgosListScreem';
-import PaymentScreen from './screens/PaymentScreen';
-import PaymentDetailsScreen from './screens/PaymentDetailsScreen';
 import { MaterialIcons } from '@expo/vector-icons';
-import SplashScreen1 from './screens/SplashScreen1';
-import SplashScreen2 from './screens/SplashScreen2';
-import SplashScreen3 from './screens/SplashScreen3';
 import { ToastProvider } from 'react-native-toast-notifications';
-
-
+import AdminNotificationScreen from './screens/Admin/AdminNotificationScreen';
+import AdminSupportScreen from './screens/Admin/AdminSupportScreen';
+import AdminProfileScreen from './screens/Admin/AdminProfileScreen';
+import AdminHomeScreen from './screens/Admin/AdminHomeScreen';
+import AdminDonorScreen from './screens/Admin/AdminDonorScreen';
+import AdminRecipientScreen from './screens/Admin/AdminRecipientScreen';
+import FeedbackScreen from './screens/Admin/FeedbackScreen';
+import SearchDonorScreen from './screens/Admin/SearchDonorScreen';
+import DonorRequestScreen from './screens/Admin/DonorRequestScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const StackSplash = createNativeStackNavigator();
-
-function SplashStack({ handleSplashScreenPress }) {
-  return (
-    <StackSplash.Navigator screenOptions={{ headerShown: false }}>
-      <StackSplash.Screen name="SplashScreen1" component={SplashScreen1} />
-      <StackSplash.Screen name="SplashScreen2" component={SplashScreen2} />
-      <StackSplash.Screen
-        name="SplashScreen3"
-        options={{
-          animationEnabled: false,
-          headerShown: false,
-        }}
-      >
-        {(props) => (
-          <SplashScreen3 {...props} onButtonPress={handleSplashScreenPress} navigation={props.navigation} />
-        )}
-      </StackSplash.Screen>
-    </StackSplash.Navigator>
-  );
-}
 
 
-function MyStack() {
+function HomeScreenStack() {
   return (
     <Stack.Navigator screenOptions={{
       headerTintColor:colorPallete.screenBg,
@@ -58,37 +33,18 @@ function MyStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
-      <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
-      <Stack.Screen name="Food" component={FoodDonationScreen} />
-      <Stack.Screen name="Ration" component={RationDonationScreen} />
-      <Stack.Screen name="Clothes" component={ClothesDonationScreen} />
-      <Stack.Screen name="Medicine" component={MedicineDonationScreen} />
-
-      <Stack.Screen name="Search" component={SearchScreen} />
-      <Stack.Screen name="NgosList" component={NgosListScreen} options={{title:'All'}} />
-      <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Donation'}} />
-      <Stack.Screen name="PaymentDetails" component={PaymentDetailsScreen} options={{title:'Details'}} />
-      <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} options={{
-        headerTitle:"",
-        headerTintColor:colorPallete.screenBg,
-        headerTransparent:true,
-        headerStyle:{
-          // bac
-        }
-      }} />
+      <Stack.Screen name="HomeScreen" component={AdminHomeScreen} options={{headerShown:false}}  />
+      <Stack.Screen name="DonorDetailsScreen" component={AdminDonorScreen} options={{title:'Donor Details', headerBackTitle: ''}}  />
+      <Stack.Screen name="RecipientDetailsScreen" component={AdminRecipientScreen} options={{title:'Recipient Details'}}  />
+      <Stack.Screen name="SearchDonorScreen" component={SearchDonorScreen} options={{title:'Search Donor', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="DonorRequestScreen" component={DonorRequestScreen} options={{title:'Donor Requests', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} options={{title:'Donor Feedback', headerBackTitle: "Back"}}  />
     </Stack.Navigator>
   );
 }
 
 
 export default function App() {
-  const [showSplash, setShowSplash] = useState(true);
-
-  useEffect(() => {
-    if (!showSplash) {
-
-    }
-  }, [showSplash]);
 
   return (
     <ToastProvider
@@ -99,39 +55,33 @@ export default function App() {
 
       <NavigationContainer>
         <StatusBar style='light' />
-        {
-          showSplash ? 
-          (<SplashStack handleSplashScreenPress={() => setShowSplash(false)} />)
-          : (
-              <Tab.Navigator
-                screenOptions={{
-                  headerShown: false,
-                  tabBarActiveTintColor: colorPallete.mediumBlue,
-                  tabBarStyle: {
-                    borderTopLeftRadius: 8,
-                    borderTopRightRadius: 8,
-                    overflow: 'hidden',
-                  }
-                }}
-                sceneContainerStyle={{
-                  backgroundColor: 'white'
-                }}
-                >
-                  <Tab.Screen name="Home" component={MyStack} options={{
-                    tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
-                  }} />
-                  <Tab.Screen name="History" component={HistoryScreen} options={{
-                    tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
-                  }} />
-                  <Tab.Screen name="Notifications" component={NotificationScreen} options={{
-                    tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
-                  }} />
-                  <Tab.Screen name="Profile" component={ProfileScreen} options={{
-                    tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
-                  }} />
-              </Tab.Navigator>
-            )
-        }
+          <Tab.Navigator
+            screenOptions={{
+              headerShown: false,
+              tabBarActiveTintColor: colorPallete.mediumBlue,
+              tabBarStyle: {
+                borderTopLeftRadius: 8,
+                borderTopRightRadius: 8,
+                overflow: 'hidden',
+              }
+            }}
+            sceneContainerStyle={{
+              backgroundColor: 'white'
+            }}
+            >
+              <Tab.Screen name="Home" component={HomeScreenStack} options={{
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
+              }} />
+              <Tab.Screen name="Notifications" component={AdminNotificationScreen} options={{
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
+              }} />
+              <Tab.Screen name="Support" component={AdminSupportScreen} options={{
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
+              }} />
+              <Tab.Screen name="Profile" component={AdminProfileScreen} options={{
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
+              }} />
+          </Tab.Navigator>
       </NavigationContainer>
     </ToastProvider>
   );
