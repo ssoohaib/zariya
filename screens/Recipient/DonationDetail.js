@@ -1,17 +1,84 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TextInput, TouchableOpacity } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import AcceptDonationBtn from '../../components/AcceptDonationBtn';
 import ColorPallete from '../../constants/ColorPallete';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import Congratulations from '../../components/Congratulations';
 
-function DonationDetail() {
+
+function DonationDetail(props) {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [riderName, setRiderName] = useState('');
+  const [riderContact, setRiderContact] = useState('');
+  const [donationId, setDonationId] = useState(null);
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [isContactValid, setIsContactValid] = useState(true);
+  const [nameError, setNameError] = useState('');
+  const [contactError, setContactError] = useState('');
 
   const navigation = useNavigation();
   const switchScreenHandler = (screen) => {
     navigation.navigate(screen)
   }
+  
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const handleAccept = () => {
+    setDonationId(props.id);
+    toggleModal();
+  };
+
+  const handleClose = () => {
+    setNameError('');
+    setContactError('');
+    setIsNameValid(true);
+    setIsContactValid(true);
+    setModalVisible(false);
+  };
+
+  useEffect(() => {
+    if (contactError !== '') {
+
+      console.log(contactError);
+    } else {
+
+      toggleModal();
+    }
+  }, [contactError]);
+
+  const handleSubmit = () => {
+    const nameValid = !!riderName.trim();
+    const contactValid = !!riderContact.trim();
+
+    setIsNameValid(nameValid);
+    setIsContactValid(contactValid);
+
+    if (!nameValid) {
+      setNameError('Name is required');
+    } else {
+      setNameError('');
+    }
+
+    if (!contactValid) {
+      setContactError('Phone No. is required');
+    } else if (!/^\+\d{8,15}$/.test(riderContact.trim())) {
+      setContactError('Phone number is incorrect.');
+    } else {
+      setContactError('');
+    }
+    if (nameValid && contactValid) {
+      navigation.navigate('Congratulations');
+    }
+  };
+
 
   const image = [require('../../assets/images/biryani.png')]
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -36,9 +103,55 @@ function DonationDetail() {
           essentially unchanged. </Text>
       </View>
       <View style={styles.btn}>
-        <AcceptDonationBtn onPress={() => donationdetail(props.id)}>Accept</AcceptDonationBtn>
-
+        <AcceptDonationBtn onPress={() => handleAccept(props.id)}>Accept</AcceptDonationBtn>
       </View>
+
+      {/* Rider Details Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={toggleModal}
+      >
+        <View style={styles.modalContainer}>
+          <TouchableOpacity style={styles.closeIcon} onPress={handleClose}>
+            <Ionicons name="close" size={30} color={ColorPallete.darkBlue} />
+          </TouchableOpacity>
+          <Text style={styles.modalHeading}>Fill Rider's Details</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Name</Text>
+            <TextInput
+              style={[styles.input, !isNameValid && styles.inputError]}
+              placeholder="Ligma"
+              placeholderTextColor={'#B2B1B0'}
+              onChangeText={(text) => setRiderName(text)}
+            />
+            {!isNameValid && <Text style={styles.errorText}>{nameError}</Text>}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Phone No.</Text>
+            <TextInput
+              style={[styles.input, !isContactValid && styles.inputError]}
+              placeholder="+923055178654"
+              placeholderTextColor={'#B2B1B0'}
+              onChangeText={(text) => setRiderContact(text)}
+            />
+            {!isContactValid && (
+              <Text style={[styles.errorText, styles.inputError]}>
+                {contactError !== '' ? contactError : 'Phone number is incorrect.'}
+              </Text>
+            )}
+          </View>
+
+          <TouchableOpacity
+            style={styles.modalButton}
+            onPress={handleSubmit}
+          >
+            <Text style={styles.modalButtonText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   )
 }
@@ -102,5 +215,71 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 16,
     marginTop: 30,
-  }
+  },
+  modalContainer: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F0EFEF',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    position: 'absolute',
+    bottom: 80,
+    left: 0,
+    right: 0,
+    overflow: 'hidden',
+  },
+  modalHeading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 20,
+    //marginBottom: 20,
+    color: ColorPallete.darkBlue,
+  },
+  input: {
+    width: 300,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 3,
+    paddingLeft: 10,
+    borderRadius: 8,
+    borderColor: '#9F9E9D',
+  },
+  modalButton: {
+    backgroundColor: ColorPallete.darkBlue,
+    padding: 10,
+    height: 40,
+    width: 150,
+    borderRadius: 8,
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  modalButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  label: {
+    color: '#9F9E9D',
+    marginBottom: 3,
+    marginTop: 20,
+  },
+  closeIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  inputError: {
+    borderColor: 'red',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 10,
+    //marginTop: 3,
+  },
+  inputErrorText: {
+    color: 'red',
+    marginTop: 5,
+  },
 });

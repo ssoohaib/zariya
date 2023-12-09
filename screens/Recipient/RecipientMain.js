@@ -21,6 +21,7 @@ import AnalyticsAndReports from '../ProfileScreens/AnalyticsAndReports';
 import PrivacyAndTerms from '../ProfileScreens/PrivacyAndTerms';
 import UpdatePassword from '../ProfileScreens/UpdatePassword';
 import Verification from '../ProfileScreens/Verification';
+import Congratulations from '../../components/Congratulations';
 
 
 
@@ -60,6 +61,7 @@ function MyStack() {
       <Stack.Screen name="RecipientHome" component={RecipientHome} options={{headerShown:false}}  />
       <Stack.Screen name="RecieveDonation" component={RecieveDonation} options={{headerShown:false}}  />
       <Stack.Screen name="DonationDetail" component={DonationDetail} options={{headerShown:false}}  />
+      <Stack.Screen name="Congratulations" component={Congratulations} options={{headerShown:false}}  />
     </Stack.Navigator>
   );
 }
