@@ -2,13 +2,7 @@ import { useState } from "react";
 import { TextInput, View, Text, StyleSheet, Platform } from "react-native";
 import ColorPallete from "../constants/ColorPallete";
 
-export default function ImprovInput(props) {
-    const [title,setTitle] = useState('')
-
-    const titleHandler = (str) => {
-        setTitle(str)
-    }
-    
+export default function ImprovInput(props) {    
 
   return (
     <View style={styles.container}>
@@ -21,16 +15,18 @@ export default function ImprovInput(props) {
         <TextInput 
             placeholder={props.placeholder}
             maxLength={props.maxLength}
-            value={title}
-            onChangeText={titleHandler}
+            value={props.value}
+            onChangeText={props.onChange}
             numberOfLines={props.rows}
             style={[styles.input, props.inputStyle]}
-            multiline={true}
+            inputMode={props.inputMode}
+            // multiline={true}
+
 
         />
         {
             props.liveLength &&
-            <Text style={[styles.correctionText, props.correctionTextStyle]}>{title.length}/{props.maxLength} characters</Text>
+            <Text style={[styles.correctionText, props.correctionTextStyle]}>{props.value.length}/{props.maxLength} characters</Text>
         }
     </View>
   )
@@ -38,6 +34,7 @@ export default function ImprovInput(props) {
 
 const styles = StyleSheet.create({
     container:{
+        marginTop:-16
 
     },
     tagContainer:{
@@ -46,6 +43,7 @@ const styles = StyleSheet.create({
 
     },
     tag:{
+        // color:ColorPallete.lightTextColor,
         fontWeight:'bold',
         marginBottom:8,   
         paddingHorizontal:2,   
@@ -58,10 +56,11 @@ const styles = StyleSheet.create({
 
     },
     input:{
+
         borderWidth:1,
         padding: Platform.OS=='android' ? 10:16,
         paddingLeft:10,
-        borderRadius:8,
+        borderRadius:16,
         borderColor:ColorPallete.lightTextColor,
     },
     correctionText:{
