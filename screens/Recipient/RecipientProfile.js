@@ -39,11 +39,11 @@ function RecipientProfile({navigation}) {
             screen={'UpdatePassword'}
           />
           <PressableOption 
-            title={'Analytics & Reports'}
-            leftIcon={"analytics"}
+            title={'Feedback & Support'}
+            leftIcon={"feedback"}
             rightIcon={"keyboard-arrow-right"}
             onPress={switchScreen}
-            screen={'AnalyticsAndReports'}
+            screen={'FeedbackAndSupport'}
           />
           <PressableOption 
             title={'Verification'}

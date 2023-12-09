@@ -32,12 +32,12 @@ export default function RecipientNotification() {
 
   const handleMarkAsRead = (id) => {
     toggleRead(id);
-    console.log('Marked as Read');
+    //console.log('Marked as Read');
   };
 
   const handleMarkAsUnread = (id) => {
     toggleRead(id);
-    console.log('Marked as Unread');
+    //console.log('Marked as Unread');
   };
 
   const handleDelete = (id) => {
