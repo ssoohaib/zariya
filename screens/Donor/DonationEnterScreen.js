@@ -1,32 +1,34 @@
 import { useEffect, useState } from "react";
-import { Button, ScrollView, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { ScrollView, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import ColorPallete from "../../constants/ColorPallete";
 import ImprovInput from "../../components/ImprovInput";
-import StateButton from "../../components/StateButton";
-import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list'
+import { SelectList } from 'react-native-dropdown-select-list'
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import date from 'date-and-time';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-
-
 export default function DonationEnterScreen({navigation, route}) {
-    const [item,setItem]=useState({})
     const [items,setItems]=useState([])
 
     const [title,setTitle]=useState('')
-    const [servings,setServings]=useState(0)
+
     const [mealType,setMealType]=useState('')
+    const [servings,setServings]=useState(0)
 
-    const [imageOne, setImageOne] = useState(null);
-    const [imageTwo, setImageTwo] = useState(null);
-    const [imageThree, setImageThree] = useState(null);
+    const [clothesSeason,setClothesSeason]=useState('')
+    const [clothesQuality,setClothesQuality]=useState(0)
+    const [clothesGender,setClothesGender]=useState('')
+    const [clothesSize,setClothesSize]=useState('')
 
-    const [foodType, setFoodType] = useState('')
-    const [selected, setSelected] = useState("");
+    const [rationQuantity,setRationQuantity]=useState(0)
 
+    const [medicineQuantity,setMedicineQuantity]=useState(0)
+    const [medicineExp,setMedicineExp]=useState(new Date())
+    const [medicineType,setMedicineType]=useState('')
+
+    const [images, setImages] = useState([]);
     const [fromDate, setFromDate] = useState(new Date());
     const [tillDate, setTillDate] = useState(new Date());
 
@@ -37,6 +39,16 @@ export default function DonationEnterScreen({navigation, route}) {
         })
     },[])
 
+    const mealsTypeList=['Produce', 'Dairy', 'Non-Perishable', 'Beverages', 'Meat', 'Desserts']
+
+    const clothesSeasonList=['Summer', 'Winter', 'Rainy', 'Spring', 'Autumn', 'All']
+    const genderList = ['Male', 'Female', 'Unisex']
+    const sizeList = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
+    const qualityList=[1,2,3,4,5,6,7,8,9,10]
+
+    const medicineTypesList=['Liquid','Tablet','Capsules','Drops','Crushed','Inhalers']
+    
+
     const addItem = ()=>{
         const obj={
             id:Math.random(0,10000),
@@ -45,13 +57,8 @@ export default function DonationEnterScreen({navigation, route}) {
             servings:servings,
             fromDate:fromDate,
             tillDate:tillDate,
-            images:[
-                imageOne,
-                imageTwo && imageTwo,
-                imageThree && imageThree
-            ]
+            images:images,
         }
-
         setItems(prev=>[...prev,obj])
     }
 
@@ -67,8 +74,15 @@ export default function DonationEnterScreen({navigation, route}) {
         setServings(serv)
     }
 
+    const medicineQuantityHandler = (quantity)=>{
+        setMedicineQuantity(quantity)
+    }
 
-    const pickImageOne = async () => {
+    const rationQuantityHandler = (quantity)=>{
+        setRationQuantity(quantity)
+    }
+
+    const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
@@ -76,57 +90,58 @@ export default function DonationEnterScreen({navigation, route}) {
           quality: 1,
         });
         if (!result.canceled) {
-          setImageOne(result.assets[0].uri);
-        }
-    };
-    const pickImageTwo = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-        if (!result.canceled) {
-          setImageTwo(result.assets[0].uri);
-        }
-    };
-    const pickImageThree = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-        if (!result.canceled) {
-          console.log(result.assets[0].uri);
-          setImageThree(result.assets[0].uri);
+            setImages(prev=>[...prev,result.assets[0].uri])
         }
     };
 
     const onFromDateChange = (event, selectedDate) => {
         const currentDate = selectedDate;
-        // setShow(false);
         setFromDate(currentDate);
     };
 
     const onTillDateChange = (event, selectedDate) => {
         const currentDate = selectedDate;
-        // setShow(false);
         setTillDate(currentDate);
     };
 
-    const foodTypeHandler = (type)=>{
-        setFoodType(type)
-    }
+    const onExpDateChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setMedicineExp(currentDate);
+    };
 
-    // useEffect(()=>{
-    //     console.log("from>>>",date.format(fromDate,'ddd, MMM DD YYYY HH:mm:ss'))
-    //     console.log("till>>>",date.format(tillDate,'ddd, MMM DD YYYY HH:mm:ss'))
-    // },[fromDate,tillDate])
+    const customSelectList = (setter, list, placeholder)=>{
+        return(
+            <SelectList
+                setSelected={(val) => setter(val)} 
+                data={list} 
+                placeholder={placeholder}
+                save={'value'}
+                search={false}
+                arrowicon={
+                    <MaterialCommunityIcons name="chevron-down" size={24} color={ColorPallete.screenBg} />
+                }
+                boxStyles={{
+                    backgroundColor:ColorPallete.mediumBlue,
+                    borderWidth:0,
+                    alignItems:'center',
+                }}
+                inputStyles={{
+                    color:ColorPallete.screenBg,
+                    fontWeight:'bold',
+                }}
+                dropdownStyles={{
+                    position:'absolute',
+                    top:48,
+                    backgroundColor:ColorPallete.screenBg,
+                    width:"100%",
+                    zIndex:99999,
+                }}
+            />
+        )
+    }
 
   return (
     <ScrollView style={styles.container}>
-
         <View style={styles.cartContainer}>
             {
                 !items.length ?
@@ -164,7 +179,6 @@ export default function DonationEnterScreen({navigation, route}) {
                 </View>
             }
         </View>
-
         <View style={styles.inputContainer}>
             <ImprovInput
                 tag={'Title'}
@@ -173,76 +187,129 @@ export default function DonationEnterScreen({navigation, route}) {
                 maxLength={50}
                 liveLength={true}
             />
-        </View>        
+        </View> 
+        {
+            category == 'Ration' &&
+            <View style={styles.inputContainer}>
+                <ImprovInput
+                    tag={'Quantity'}
+                    value={rationQuantity}
+                    onChange={setRationQuantity}
+                    inputMode={'numeric'}
+                />
+            </View> 
+        }    
         <View style={styles.choicesContainer}>
             <View style={styles.mealType}>
-                <SelectList 
-                    setSelected={(val) => setMealType(val)} 
-                    data={['Produce', 'Dairy', 'Non-Perishable', 'Beverages', 'Meat', 'Desserts']} 
-                    save={'value'}
-                    search={false}
-                    placeholder="Meal Type"
-                    arrowicon={
-                        <MaterialCommunityIcons name="chevron-down" size={24} color={ColorPallete.screenBg} />
-                    }
-                    boxStyles={{
-                        backgroundColor:ColorPallete.mediumBlue,
-                        borderWidth:0,
-                        alignItems:'center',
-                    }}
-                    inputStyles={{
-                        color:ColorPallete.screenBg,
-                        fontWeight:'bold'
-                    }}
-                    dropdownStyles={{
-                        position:'absolute',
-                        top:48,
-                        backgroundColor:ColorPallete.screenBg,
-                        zIndex:99999
-                    }}
-                />
+                {
+                    category == 'Food' &&
+                    customSelectList(setMealType,mealsTypeList,'Meal Type')
+                }
+                {
+                    category == 'Clothes' &&
+                    customSelectList(setClothesSeason,clothesSeasonList,'Season')
+                }
+                {
+                    category == 'Medicine' &&
+                    customSelectList(setMedicineType,medicineTypesList,'Type')
+                }
             </View>
             <View style={styles.servingsContainer}>
-                <ImprovInput
-                    tag={'Servings'}
-                    value={servings}
-                    onChange={servingsHandler}
-                    inputMode={'numeric'}
-                    // maxLength={50}
-                    liveLength={false}
-                />
+                {
+                    category=='Food' &&
+                    <ImprovInput
+                        tag={'Servings'}
+                        value={servings}
+                        onChange={servingsHandler}
+                        inputMode={'numeric'}
+                        liveLength={false}
+                    />
+                }
+                {
+                    category == 'Clothes' &&
+                    customSelectList(setClothesGender,genderList,'Gender')
+                }
+                {
+                    category == 'Medicine' &&
+                    <ImprovInput
+                        tag={'Quantity'}
+                        value={medicineQuantity}
+                        onChange={medicineQuantityHandler}
+                        inputMode={'numeric'}
+                        liveLength={false}
+                    />
+                }
             </View>
         </View>
-        <View style={styles.imageContainer}>
-            <Text style={styles.title}>Images <Text style={{color:ColorPallete.lightTextColor}}>(1 Min)</Text></Text>
-            <View style={styles.imagesContainer}>
-                <Pressable onPress={pickImageOne} style={styles.singleImageContainer}>
+        {
+            category == 'Clothes' &&
+            <View style={[styles.choicesContainer, {zIndex:-1}]}>
+                <View style={styles.mealType}>
                     {
-                        imageOne ? 
-                        <Image style={styles.singleImage} source={{uri:imageOne}} />
-                        :
-                        <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
+                        customSelectList(setClothesSize,sizeList,'Size')                        
                     }
-                </Pressable>
-                <Pressable onPress={pickImageTwo} style={styles.singleImageContainer}>
+                </View>
+                <View style={styles.servingsContainer}>
                     {
-                        imageTwo ? 
-                        <Image style={styles.singleImage} source={{uri:imageTwo}} />
-                        :
-                        <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
+                        customSelectList(setClothesQuality,qualityList,'Quality')
                     }
-                </Pressable>
-                <Pressable onPress={pickImageThree} style={styles.singleImageContainer}>
-                    {
-                        imageThree ? 
-                        <Image style={styles.singleImage} source={{uri:imageThree}} />
-                        :
-                        <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
-                    }
-                </Pressable>
-                
+                </View>
             </View>
-        </View>
+        }
+        {
+            category == 'Medicine' &&
+            <View style={styles.expContainer}>
+                <Text style={[styles.title,{marginBottom:0, color:ColorPallete.screenBg}]}>Expiration Date</Text>
+                <View style={{
+                    borderRadius:8,
+                    overflow:'hidden',
+
+                }}>
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={medicineExp}
+                        mode={'date'}
+                        is24Hour={true}
+                        onChange={onExpDateChange}
+                        style={{
+                            backgroundColor:ColorPallete.screenBg,
+                        }}
+                    />
+                </View>
+            </View>
+        }
+        {
+            category != 'Medicine' &&
+            <View style={styles.imageContainer}>
+                <Text style={styles.title}>Images <Text style={{color:ColorPallete.lightTextColor}}>(1 Min)</Text></Text>
+                <View style={styles.imagesContainer}>
+                    <Pressable onPress={pickImage} style={styles.singleImageContainer}>
+                        {
+                            images[0] ? 
+                            <Image style={styles.singleImage} source={{uri:images[0]}} />
+                            :
+                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
+                        }
+                    </Pressable>
+                    <Pressable onPress={pickImage} style={styles.singleImageContainer}>
+                        {
+                            images[1] ? 
+                            <Image style={styles.singleImage} source={{uri:images[1]}} />
+                            :
+                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
+                        }
+                    </Pressable>
+                    <Pressable onPress={pickImage} style={styles.singleImageContainer}>
+                        {
+                            images[2] ? 
+                            <Image style={styles.singleImage} source={{uri:images[2]}} />
+                            :
+                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
+                        }
+                    </Pressable>
+                </View>
+            </View>
+        }
         <View style={styles.dateTimeConatiner}>
             <View style={[styles.fromContainer]}>
                 <Text style={styles.title}>From</Text>
@@ -271,8 +338,7 @@ export default function DonationEnterScreen({navigation, route}) {
                                 value={fromDate}
                                 mode={'time'}
                                 is24Hour={true}
-                                onChange={onFromDateChange}
-                                
+                                onChange={onFromDateChange}      
                             />
                         </View>                
                     </View>
@@ -313,33 +379,29 @@ export default function DonationEnterScreen({navigation, route}) {
                 </View>
             </View>
         </View>
-        
-
-        <View>
-            <Pressable onPress={addItem}>
-                <View style={styles.addItemBtn}>
-                    <Text style={styles.addItemBtnTitle}>Add Item</Text>
-                    <MaterialIcons name="add-circle-outline" size={24} color={ColorPallete.mediumBlue} />
-                </View>
-            </Pressable>
-        </View>
-
-        <View>
-            <Pressable>
-                <View style={[styles.addItemBtn, {borderWidth:0, backgroundColor:ColorPallete.mediumBlue}]}>
-                    <Text style={[styles.addItemBtnTitle, {color:ColorPallete.screenBg}]}>Post Donation</Text>
-                    <MaterialIcons name="chevron-right" size={24} color={ColorPallete.screenBg} />
-                </View>
-            </Pressable>
+        <View style={styles.btnContainer}>
+            <View>
+                <Pressable onPress={addItem}>
+                    <View style={styles.addItemBtn}>
+                        <Text style={styles.addItemBtnTitle}>Add Item</Text>
+                        <MaterialIcons name="add-circle-outline" size={24} color={ColorPallete.mediumBlue} />
+                    </View>
+                </Pressable>
+            </View>
+            <View>
+                <Pressable>
+                    <View style={[styles.addItemBtn, {borderWidth:0, backgroundColor:ColorPallete.mediumBlue}]}>
+                        <Text style={[styles.addItemBtnTitle, {color:ColorPallete.screenBg}]}>Post Donation</Text>
+                        <MaterialIcons name="chevron-right" size={24} color={ColorPallete.screenBg} />
+                    </View>
+                </Pressable>
+            </View>
         </View>
 
         <View style={{
             height:32
         }}>
-
-        </View>
-
-        
+        </View>        
     </ScrollView>
   )
 }
@@ -353,7 +415,6 @@ const styles=StyleSheet.create({
     },
     cartContainer:{
         minHeight:140,
-        // padding:8,
         marginBottom:24,
         backgroundColor:ColorPallete.lightBlue,
         borderRadius:16,
@@ -380,7 +441,6 @@ const styles=StyleSheet.create({
         marginBottom:8,
     },
     title:{
-        // fontSize:16,
         marginBottom:8,
         fontWeight:'bold',
 
@@ -391,23 +451,17 @@ const styles=StyleSheet.create({
 
     },
     inputContainer:{
-        // marginTop:-16,
         marginBottom:8,
     },
     choicesContainer:{
         flexDirection:'row',
         alignItems:'center',
         marginBottom:16,
-
-        // borderWidth:1
         
     },
     mealType:{
         flex:1,
         marginRight:8,
-        // marginBottom:-16,
-
-        // borderWidth:1
 
     },
     servingsContainer:{
@@ -417,10 +471,7 @@ const styles=StyleSheet.create({
     },
     dateTimeConatiner:{
         marginBottom:16,
-
-        zIndex:-1,
-        // borderWidth:1
-        
+        zIndex:-10,        
 
     },
     fromContainer:{
@@ -433,9 +484,17 @@ const styles=StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
 
-
-
-
+    },
+    expContainer:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        marginBottom:16,
+        backgroundColor:ColorPallete.mediumBlue,
+        padding:8,
+        paddingHorizontal:16,
+        borderRadius:8,
+        zIndex:-1,
     },
     dateContainer:{
         flexDirection:'row',
@@ -454,7 +513,7 @@ const styles=StyleSheet.create({
 
     },
     imageContainer:{
-        zIndex:-1,
+        zIndex:-9,
         marginBottom:16,
 
     },
@@ -474,14 +533,11 @@ const styles=StyleSheet.create({
     singleImage:{
         height:80,
         width:80,
-        // borderWidth:1,
-        // marginRight:8,
+        
     },
     addItemBtn:{
         padding:16,
         backgroundColor:ColorPallete.lightBlue,
-        // borderWidth:1,
-        borderColor:ColorPallete.mediumBlue,
         borderRadius:8,
         flexDirection:'row',
         alignItems:'center',
@@ -491,8 +547,10 @@ const styles=StyleSheet.create({
     addItemBtnTitle:{
         fontWeight:'bold',
         color:ColorPallete.mediumBlue,
-        marginRight:8,
+        marginRight:4,
 
+    },
+    btnContainer:{
+        zIndex:-10
     }
-
 })
