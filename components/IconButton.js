@@ -51,10 +51,14 @@ const styles=StyleSheet.create({
         padding:8,
         alignItems:'center',
         justifyContent:'center',
+
+        // borderWidth:1,
         // flexDirection:'row-reverse',
         
     },
     text:{
+        paddingVertical:4,
+        // borderWidth:1
 
     }
 })

@@ -23,7 +23,7 @@ export default function NgoCard(props) {
                             title={'Donate'} 
                             bgColor={ColorPallete.mediumBlue} 
                             iconColor={ColorPallete.screenBg}
-                            style={{flex:1,height:'100%'}}
+                            style={{flex:1,}}
                             textStyle={{fontSize:18}}
                         />
                     </View>

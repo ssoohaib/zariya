@@ -5,7 +5,7 @@ import ColorPallete from "../constants/ColorPallete";
 export default function ImprovInput(props) {    
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, props.outerStyle]}>
         {
             props.tag &&
             <View style={styles.tagContainer}>
@@ -20,7 +20,8 @@ export default function ImprovInput(props) {
             numberOfLines={props.rows}
             style={[styles.input, props.inputStyle]}
             inputMode={props.inputMode}
-            // multiline={true}
+            secureTextEntry={props.secureTextEntry}
+            multiline={props.multiline}
 
 
         />
