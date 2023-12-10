@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../HomeScreen';
+import HomeScreen from './HomeScreen';
 import FoodDonationScreen from '../FoodDonationScreen';
 import ClothesDonationScreen from '../ClothesDonationScreen';
 import RationDonationScreen from '../RationDonationScreen';
@@ -22,6 +22,7 @@ import UpdatePasswordScreen from "../ProfileScreens/UpdatePassword";
 import AnalyticsAndReportsScreen from "../ProfileScreens/AnalyticsAndReports";
 import VerificationScreen from "../ProfileScreens/Verification";
 import PrivacyAndTermsScreen from "../ProfileScreens/PrivacyAndTerms";
+import DonationEnterScreen from './DonationEnterScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,6 +42,7 @@ function MyStack() {
           headerStyle:{}
           }} /> */}
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
+        <Stack.Screen name="DonationEnter" component={DonationEnterScreen}  />
         <Stack.Screen name="Food" component={FoodDonationScreen} />
         <Stack.Screen name="Ration" component={RationDonationScreen} />
         <Stack.Screen name="Clothes" component={ClothesDonationScreen} />

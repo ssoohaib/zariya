@@ -13,6 +13,7 @@ export default function DonorHistoryScreen({navigation}) {
 
   const renderHistory = itemData => (
       <HistoryCard
+        id={itemData.item.id}
         title={itemData.item.title}
         puid={itemData.item.puid}
         date={itemData.item.date}
