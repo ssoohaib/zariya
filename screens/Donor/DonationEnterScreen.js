@@ -48,16 +48,52 @@ export default function DonationEnterScreen({navigation, route}) {
 
     const medicineTypesList=['Liquid','Tablet','Capsules','Drops','Crushed','Inhalers']
     
-
     const addItem = ()=>{
-        const obj={
-            id:Math.random(0,10000),
-            title:title,
-            mealType:mealType,
-            servings:servings,
-            fromDate:fromDate,
-            tillDate:tillDate,
-            images:images,
+        let obj={}
+        if (category=='Food'){
+            obj={
+                id:Math.random(0,10000),
+                title:title,
+                mealType:mealType,
+                servings:servings,
+                fromDate:fromDate,
+                tillDate:tillDate,
+                images:images,
+            }
+        }
+        if (category=='Clothes'){
+            obj={
+                id:Math.random(0,10000),
+                title:title,
+                season:clothesSeason,
+                gender:clothesGender,
+                size:clothesSize,
+                quality:clothesQuality,
+                fromDate:fromDate,
+                tillDate:tillDate,
+                images:images,
+            }
+        }
+        if (category=='Medicine'){
+            obj={
+                id:Math.random(0,10000),
+                title:title,
+                type:medicineType,
+                quantity:medicineQuantity,
+                exp:medicineExp,
+                fromDate:fromDate,
+                tillDate:tillDate,
+            }
+        }
+        if (category=='Ration'){
+            obj={
+                id:Math.random(0,10000),
+                title:title,
+                quantity:rationQuantity,
+                fromDate:fromDate,
+                tillDate:tillDate,
+                images:images,
+            }
         }
         setItems(prev=>[...prev,obj])
     }
@@ -194,7 +230,7 @@ export default function DonationEnterScreen({navigation, route}) {
                 <ImprovInput
                     tag={'Quantity'}
                     value={rationQuantity}
-                    onChange={setRationQuantity}
+                    onChange={rationQuantityHandler}
                     inputMode={'numeric'}
                 />
             </View> 
