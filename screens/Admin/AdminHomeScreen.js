@@ -1,5 +1,5 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import IconButton from '../../components/IconButton';
+import AdminHomebtn from '../../components/AdminHomebtn';
 import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
 
@@ -34,8 +34,8 @@ export default function HomeScreen({navigation}) {
         <View style={styles.categoryContainer}>
           <Text style={styles.subtitle}>Manage Users</Text>
           <View style={styles.buttonsContainer}>
-            <IconButton 
-              title={'Donor Details'} 
+            <AdminHomebtn 
+              title={'Donor'} 
               icon={'account-multiple'} 
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
@@ -46,9 +46,9 @@ export default function HomeScreen({navigation}) {
           </View>
 
           <View style={styles.buttonsContainer}>
-            <IconButton 
-              title={'Recipient Details'} 
-              icon={'account-multiple'} 
+            <AdminHomebtn 
+              title={'Recipient'} 
+              icon={'office-building'} 
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
               style={{marginRight:4}}
@@ -140,10 +140,7 @@ const styles = StyleSheet.create({
       marginHorizontal:3,
     },
     buttonsContainer:{
-      flexDirection:'row',
       marginBottom: 16, 
-      
-
     },
     
 });
