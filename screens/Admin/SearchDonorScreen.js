@@ -1,21 +1,39 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import colorPallete from '../../constants/ColorPallete'
+import colorPallete from '../../constants/ColorPallete';
 import { Donors } from '../../dummy_data/donor_data';
 import InputBar from '../../components/InputBar';
 import DonorCard from '../../components/DonorCard';
 import React, { useState } from 'react';
+import DonorInfoModal from '../../components/DonorInfoModal';
 
-export default function SearchDonorScreen({navigation}) {
-
-  const switchScreenHandler = (screen) =>{
-    navigation.navigate(screen)
+export default function SearchDonorScreen({ navigation }) {
+  const switchScreenHandler = (screen) => {
+    navigation.navigate(screen);
   }
+
+  // Search User State
   const [searchTerm, setSearchTerm] = useState('');
   const textChangeHandler = (text) => {
     setSearchTerm(text);
-  };
+  }
+
+  // Donor Info State
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedDonor, setSelectedDonor] = useState({});
+
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  }
+
+  const callModal = () => {
+    toggleModal();
+  }
 
   const renderFlatList = (itemData) => {
+
+    setSelectedDonor(itemData.item)
+
     return (
       <DonorCard
         id={itemData.item.id}
@@ -24,14 +42,13 @@ export default function SearchDonorScreen({navigation}) {
         phone={itemData.item.contact.phone}
         imageUrl={itemData.item.images[0]}
         status={itemData.item.status}
+        onPress={callModal}
       />
     );
-  };
-
   
+  }
 
   return (
-    
     <ScrollView style={styles.container}>
       <View style={styles.heading}>
         <View style={styles.buttonsContainer}></View>
@@ -48,7 +65,7 @@ export default function SearchDonorScreen({navigation}) {
 
       <View style={styles.donorContainer}>
         <View style={styles.donorListContainer}>
-        <FlatList
+          <FlatList
             data={Donors.filter((donor) =>
               donor.name.toLowerCase().includes(searchTerm.toLowerCase())
             )}
@@ -57,30 +74,33 @@ export default function SearchDonorScreen({navigation}) {
           />
         </View>
       </View>
+
+      <DonorInfoModal
+        isModalVisible={isModalVisible}
+        toggleModal={toggleModal}
+        donor={selectedDonor}
+      />
     </ScrollView>
   );
 }
 
-
-
-
 const styles = StyleSheet.create({
-    
-    
-    heading:{
-      paddingHorizontal:16,
-      paddingTop:16
-    },
-    subtitle:{
-      fontSize:18,
-      fontWeight:'bold',
-      marginVertical:16,
-      marginHorizontal:3,
-    },
-    inputBarcolour:{
-      backgroundColor:'#afafaf',
-      borderRadius:20,
-    }
-
-    
+  container: {
+    // Add your container styles here
+  },
+  heading: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 16,
+    marginHorizontal: 3,
+  },
+  inputBarcolour: {
+    backgroundColor: '#afafaf',
+    borderRadius: 20,
+  },
+  // Add any additional styles you need
 });

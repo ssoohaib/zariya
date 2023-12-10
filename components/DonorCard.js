@@ -1,16 +1,31 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import ColorPallete from '../constants/ColorPallete'
+import IconButton from './IconButton';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useState } from "react";
+import DonorInfoModal from "../components/DonorInfoModal"
 
 function DonorCard(props) {
 
     const statusStyles = {
         color: props.status === 'Verified' ? 'green' : 'red',
     };
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
+
+    const switchWithPayload = (screen,screenName)=>{
+        navigation.navigate(screen,{
+          paymentType:screenName
+        })
+      }
 
     return (
         <View style={styles.container}>
-            <Pressable>
+            <Pressable onPress={props.onPress}>
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
@@ -21,19 +36,21 @@ function DonorCard(props) {
                                     <Text style={styles.name}>{props.name}</Text>
                                 </View>
                                 <View style={styles.emailContainer}>
-                                    <Text style={styles.email}>{props.email}</Text>
+                                    <Text style={styles.email}>ID: {props.id}</Text>
                                 </View>
-                                <View style={styles.emailContainer}>
+                                {/* <View style={styles.emailContainer}>
                                     <Text style={styles.phone}>{props.phone}</Text>
                                 </View>
                                 <View style={styles.emailContainer}>
                                     <Text style={[styles.phone, statusStyles]}>{props.status}</Text>
-                                </View>
+                                </View> */}
                             </View>
                         </View>
                     </View>
+
                 </View>
             </Pressable>
+            <DonorInfoModal isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
         </View>
     )
 }
@@ -76,5 +93,9 @@ const styles = StyleSheet.create({
     emailContainer: {
         marginTop: 5,
     },
-
+    bottomContainer: {
+        flexDirection: 'row',
+        marginTop: 10,
+        justifyContent: 'space-between',
+    },
 });

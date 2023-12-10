@@ -214,8 +214,6 @@ const styles = StyleSheet.create({
     },
     categoryContainer:{
       paddingHorizontal:16,
-
-
     },
     subtitle:{
       fontSize:18,

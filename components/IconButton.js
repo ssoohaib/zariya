@@ -48,11 +48,6 @@ const styles=StyleSheet.create({
     innerContainer:{
         padding:8,
         alignItems:'center',
-        justifyContent:'center',
-        // flexDirection:'row-reverse',
-        
+        justifyContent:'center',  
     },
-    text:{
-
-    }
 })
