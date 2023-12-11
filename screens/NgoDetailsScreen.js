@@ -1,20 +1,32 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Button, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SliderBox } from "react-native-image-slider-box";
 import { NGOS } from "../dummy_data/dummy_data";
 import ColorPallete from "../constants/ColorPallete";
 import IconButton from "../components/IconButton";
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { useState } from "react";
-import { MaterialIcons } from '@expo/vector-icons';
 import PaymentModal from "../components/PaymentModal";
 
 
 export default function NgoDetailsScreen({navigation, route}) {
   const [selectedCauses, setSelectedCauses] = useState([]);
+
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const selectedNgo = NGOS.find(i=>i.id===route.params.id)
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
+  }
+
+  const switchWithPayload = (screen,screenName)=>{
+    navigation.navigate(screen,{
+      paymentType:screenName
+    })
   }
 
   return (
@@ -33,17 +45,16 @@ export default function NgoDetailsScreen({navigation, route}) {
           }}
         />
       </View>
+
       <View style={styles.detailsContainer}>
         <View style={styles.titleContainer}>
           <View style={styles.titleLeftContainer}>
-            {/* <Image style={styles.logo} source={{uri:selectedNgo.logo}}/> */}
             <Text style={styles.title}>{selectedNgo.title}</Text>
             <Text style={styles.address}>{selectedNgo.contact.city}, {selectedNgo.contact.country}</Text>
             
           </View>
           <IconButton 
             icon={'star'} 
-            // bgColor={ColorPallete.lightBlue} 
             iconColor={ColorPallete.mediumBlue}
             style={{flex:0,borderWidth:1,borderColor:ColorPallete.mediumBlue}}
         />
@@ -57,24 +68,15 @@ export default function NgoDetailsScreen({navigation, route}) {
             save="value"
             placeholder="Select Causes"
             search={false}
-            // closeicon={<MaterialIcons name="close" color={'black'} size={24} />}
-            // onSelect={() => alert(selectedCauses)} 
             label="Causes"
           />
         </View>
 
-        <IconButton 
-          title={'Donate'} 
-          bgColor={ColorPallete.mediumBlue} 
-          // icon={'arrow-right-thin'}
-          iconColor={ColorPallete.screenBg}
-          style={{flex:1,paddingVertical:8,marginBottom:8,}}
-          // styleInner={{}}
-          textStyle={{fontSize:18}}
-          onPress={switchScreenHandler}
-          screen={'Payment'}
-        />
-        
+        <Pressable onPress={toggleModal} style={styles.donateBtn}>
+          <Text style={styles.donateBtnTitle}>Donate</Text>
+        </Pressable>
+        <PaymentModal isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
+
       </View>
     </ScrollView>
   )
@@ -165,8 +167,18 @@ const styles = StyleSheet.create({
     marginBottom:8,
     // borderWidth:1,
     // borderColor:'red',
+  },
+  donateBtn:{
+    backgroundColor:ColorPallete.mediumBlue,
+    padding:16,
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:8
+  },
+  donateBtnTitle:{
+    color:ColorPallete.screenBg,
+    fontSize:18,
   }
 
 
 })
-

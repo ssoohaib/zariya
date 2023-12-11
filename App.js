@@ -20,7 +20,7 @@ import AdminDonorScreen from './screens/Admin/AdminDonorScreen';
 import AdminRecipientScreen from './screens/Admin/AdminRecipientScreen';
 import FeedbackScreen from './screens/Admin/FeedbackScreen';
 import SearchDonorScreen from './screens/Admin/SearchDonorScreen';
-import DonorRequestScreen from './screens/Admin/DonorRequestScreen';
+import SearchRecipientScreen from './screens/Admin/SearchRecipientScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -37,8 +37,8 @@ function HomeScreenStack() {
       <Stack.Screen name="DonorDetailsScreen" component={AdminDonorScreen} options={{title:'Donor Details', headerBackTitle: ''}}  />
       <Stack.Screen name="RecipientDetailsScreen" component={AdminRecipientScreen} options={{title:'Recipient Details'}}  />
       <Stack.Screen name="SearchDonorScreen" component={SearchDonorScreen} options={{title:'Search Donor', headerBackTitle: "Back"}}  />
-      <Stack.Screen name="DonorRequestScreen" component={DonorRequestScreen} options={{title:'Donor Requests', headerBackTitle: "Back"}}  />
-      <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} options={{title:'Donor Feedback', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="FeedbackScreen" component={FeedbackScreen} options={{title:'Feedbacks', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="SearchRecipientScreen" component={SearchRecipientScreen} options={{title:'Search Recipient', headerBackTitle: "Back"}}  />
     </Stack.Navigator>
   );
 }
