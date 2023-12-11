@@ -53,9 +53,9 @@ export default function DonorInfoModal(props) {
           />
           <View style={styles.overlayContainer}>
             <Text style={styles.nameContainer}>{donor.name.toUpperCase()}</Text>
-            <Text style={styles.textContainer}>Email: {donor.email}</Text>
-            <Text style={styles.textContainer}>Phone Number: {donor.contact.phone}</Text>
-            <Text style={styles.textContainer}>Account Status: {donor.status}</Text>
+            <Text style={styles.textContainer}>✉ {donor.email}</Text>
+            <Text style={styles.textContainer}>☎ {donor.contact.phone}</Text>
+            <Text style={styles.textContainer}>👤 {donor.status}</Text>
           </View>
           <View style={styles.bottomContainer}>
               <IconButton
@@ -110,10 +110,10 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     fontSize: 20,
-    fontWeight:'bold',
-    textAlign:'auto',
+    fontWeight:'150',
+    textAlign:'center',
     color:'white',
-    fontStyle:'italic',
+    fontStyle:'',
     lineHeight:40,
   },
   nameContainer: {

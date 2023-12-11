@@ -19,7 +19,7 @@ export default function SearchDonorScreen({ navigation }) {
 
   // Donor Info State
   const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedDonor, setSelectedDonor] = useState({});
+  const [selectedDonor, setSelectedDonor] = useState();
 
 
   const toggleModal = () => {
@@ -33,7 +33,6 @@ export default function SearchDonorScreen({ navigation }) {
   const renderFlatList = (itemData) => {
 
     setSelectedDonor(itemData.item)
-
     return (
       <DonorCard
         id={itemData.item.id}
@@ -45,6 +44,8 @@ export default function SearchDonorScreen({ navigation }) {
         onPress={callModal}
       />
     );
+
+
   
   }
 
@@ -76,9 +77,9 @@ export default function SearchDonorScreen({ navigation }) {
       </View>
 
       <DonorInfoModal
+        donor={selectedDonor}
         isModalVisible={isModalVisible}
         toggleModal={toggleModal}
-        donor={selectedDonor}
       />
     </ScrollView>
   );

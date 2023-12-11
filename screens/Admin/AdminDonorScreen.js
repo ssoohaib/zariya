@@ -17,25 +17,13 @@ export default function AdminDonorScreen({navigation}) {
           <Text style={styles.subtitle}>Actions</Text>
           <View style={styles.buttonsContainer}>
             <IconButton 
-              title={'Search Donor'} 
+              title={'Search Donors'} 
               icon={'magnify'} 
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
               style={{marginRight:4}}
               onPress={switchScreenHandler}
               screen={'SearchDonorScreen'}
-            />
-          </View>
-
-          <View style={styles.buttonsContainer}>
-            <IconButton 
-              title={'Donor Requests'} 
-              icon={'account-check'} 
-              bgColor={colorPallete.lightBlue} 
-              iconColor={colorPallete.darkBlue}
-              style={{marginRight:4}}
-              onPress={switchScreenHandler}
-              screen={'DonorRequestScreen'}
             />
           </View>
 
