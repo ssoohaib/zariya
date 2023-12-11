@@ -17,18 +17,8 @@ export default function SearchDonorScreen({ navigation }) {
     setSearchTerm(text);
   }
 
-  // Donor Info State
-  const [isModalVisible, setModalVisible] = useState(false);
   const [selectedDonor, setSelectedDonor] = useState();
 
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  }
-
-  const callModal = () => {
-    toggleModal();
-  }
 
   const renderFlatList = (itemData) => {
 
@@ -41,7 +31,6 @@ export default function SearchDonorScreen({ navigation }) {
         phone={itemData.item.contact.phone}
         imageUrl={itemData.item.images[0]}
         status={itemData.item.status}
-        onPress={callModal}
       />
     );
 
@@ -75,12 +64,6 @@ export default function SearchDonorScreen({ navigation }) {
           />
         </View>
       </View>
-
-      <DonorInfoModal
-        donor={selectedDonor}
-        isModalVisible={isModalVisible}
-        toggleModal={toggleModal}
-      />
     </ScrollView>
   );
 }

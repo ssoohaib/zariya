@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, View, Text, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import ColorPallete from '../constants/ColorPallete';
 import IconButton from './IconButton';
+import { Donors } from '../dummy_data/donor_data';
+
 
 export default function DonorInfoModal(props) {
 
   const { isModalVisible, toggleModal, donor } = props;
+
+  const selectedDonor = Donors.find((i)=>i.id==props.id)
 
   const handleRemovePress = () => {
     console.log('remove pressed');
@@ -44,18 +48,18 @@ export default function DonorInfoModal(props) {
       style={styles.modalContainer}
       onBackdropPress={toggleModal}
     >
-      {donor && (
+      {selectedDonor && (
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={{ uri: donor.images[0] }}
+            source={{ uri: selectedDonor.images[0] }}
             resizeMode="cover"
           />
           <View style={styles.overlayContainer}>
-            <Text style={styles.nameContainer}>{donor.name.toUpperCase()}</Text>
-            <Text style={styles.textContainer}>✉ {donor.email}</Text>
-            <Text style={styles.textContainer}>☎ {donor.contact.phone}</Text>
-            <Text style={styles.textContainer}>👤 {donor.status}</Text>
+            <Text style={styles.nameContainer}>{selectedDonor.name.toUpperCase()}</Text>
+            <Text style={styles.textContainer}>✉ {selectedDonor.email}</Text>
+            <Text style={styles.textContainer}>☎ {selectedDonor.contact.phone}</Text>
+            <Text style={styles.textContainer}>👤 {selectedDonor.status}</Text>
           </View>
           <View style={styles.bottomContainer}>
               <IconButton
@@ -110,10 +114,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     fontSize: 20,
-    fontWeight:'150',
+    fontWeight:'200',
     textAlign:'center',
     color:'white',
-    fontStyle:'',
     lineHeight:40,
   },
   nameContainer: {

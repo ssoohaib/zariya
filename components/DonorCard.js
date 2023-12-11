@@ -25,7 +25,7 @@ function DonorCard(props) {
 
     return (
         <View style={styles.container}>
-            <Pressable onPress={props.onPress}>
+            <Pressable onPress={toggleModal}>
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
@@ -38,19 +38,13 @@ function DonorCard(props) {
                                 <View style={styles.emailContainer}>
                                     <Text style={styles.email}>ID: {props.id}</Text>
                                 </View>
-                                {/* <View style={styles.emailContainer}>
-                                    <Text style={styles.phone}>{props.phone}</Text>
-                                </View>
-                                <View style={styles.emailContainer}>
-                                    <Text style={[styles.phone, statusStyles]}>{props.status}</Text>
-                                </View> */}
                             </View>
                         </View>
                     </View>
 
                 </View>
             </Pressable>
-            <DonorInfoModal isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
+            <DonorInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
         </View>
     )
 }

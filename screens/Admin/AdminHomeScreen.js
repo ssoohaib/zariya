@@ -1,7 +1,8 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import AdminHomebtn from '../../components/AdminHomebtn';
 import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
+//import 'graph' from '../../assets/images';
 
 export default function HomeScreen({navigation}) {
 
@@ -43,9 +44,6 @@ export default function HomeScreen({navigation}) {
               onPress={switchScreenHandler}
               screen={'DonorDetailsScreen'}
             />
-          </View>
-
-          <View style={styles.buttonsContainer}>
             <AdminHomebtn 
               title={'Recipient'} 
               icon={'office-building'} 
@@ -56,6 +54,13 @@ export default function HomeScreen({navigation}) {
               screen={'RecipientDetailsScreen'}
             />
           </View>
+          <Text style={styles.subtitle}>Reports and Analytics</Text>
+          <TouchableOpacity onPress={() => switchScreenHandler('AdminReportScreen')} style={styles.graphContainer}>
+            <Image
+              style={styles.graphpicture}
+              source={require('../../assets/images/graph.jpg')}
+            />
+        </TouchableOpacity>
         </View>
 
       </ScrollView>
@@ -64,13 +69,10 @@ export default function HomeScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-      // paddingTop:48,
-      // paddingHorizontal:16,
       backgroundColor:'white'
-      
-      // borderWidth:1,
-      // borderColor:'red',
+ 
     },
+
     headerContainer:{
       // paddingVertical:48,
       paddingTop:48,
@@ -132,15 +134,25 @@ const styles = StyleSheet.create({
 
     categoryContainer:{
       paddingHorizontal:16,
+      //justifyContent:'space-between',
     },
+    graphpicture:{
+      height:230,
+      width:'100%',
+      borderWidth: 0.5, // Border width
+      borderColor: 'grey', // Border color
+      borderRadius: 10, 
+    },
+
     subtitle:{
       fontSize:18,
       fontWeight:'bold',
       marginVertical:16,
       marginHorizontal:3,
     },
-    buttonsContainer:{
-      marginBottom: 16, 
+    buttonsContainer:{ 
+      flexDirection:'row',
+      justifyContent:'space-evenly'
     },
     
 });

@@ -20,7 +20,7 @@ export default function AdminHomebtn(props) {
             <View style={[styles.innerContainer,props.styleInner]}>
                 {
                     props.icon &&
-                    <MaterialCommunityIcons name={props.icon} size={65} 
+                    <MaterialCommunityIcons name={props.icon} size={100} 
                     color={props.iconColor ? props.iconColor:'black'} />
                 }
                 {
@@ -41,13 +41,12 @@ export default function AdminHomebtn(props) {
 
 const styles=StyleSheet.create({
     container:{
-        position:'relative',
-        borderRadius:10,
-        overflow:'hidden'
+        //position:'relative',
+        borderRadius:35,
+        //overflow:'hidden'
     },
     innerContainer:{
         padding:30,
         alignItems:'center',
-        justifyContent:'center',  
     },
 })
