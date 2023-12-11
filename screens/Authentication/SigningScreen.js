@@ -96,41 +96,6 @@ export default function SigningScreen({navigation}) {
     };
 
 
-    const imagePicker = (title, images) =>{
-        return(
-            <View style={styles.imageContainerr}>
-                <Text style={styles.title}>{title} <Text style={{color:ColorPallete.lightTextColor}}>(1 Min)</Text></Text>
-                <View style={styles.imagesContainer}>
-                    <Pressable onPress={()=>pickImage(title)} style={styles.singleImageContainer}>
-                        {
-                            images[0] ? 
-                            <Image style={styles.singleImage} source={{uri:images[0]}} />
-                            :
-                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
-                        }
-                    </Pressable>
-                    <Pressable onPress={()=>pickImage(title)} style={styles.singleImageContainer}>
-                        {
-                            images[1] ? 
-                            <Image style={styles.singleImage} source={{uri:images[1]}} />
-                            :
-                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
-                        }
-                    </Pressable>
-                    <Pressable onPress={()=>pickImage(title)} style={styles.singleImageContainer}>
-                        {
-                            images[2] ? 
-                            <Image style={styles.singleImage} source={{uri:images[2]}} />
-                            :
-                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
-                        }
-                    </Pressable>
-                </View>
-            </View>
-        )
-    }
-
-
   return (
     <ScrollView 
         style={{
@@ -304,7 +269,7 @@ export default function SigningScreen({navigation}) {
                         </>
                     }
 
-                    <Pressable style={mode !='SignIn' && {marginTop:8}}>
+                    <Pressable onPress={mode!="SignIn" ? ()=>switchScreen('Verification'):null } style={mode !='SignIn' && {marginTop:8}}>
                         <View style={[styles.btnContainer, { backgroundColor:ColorPallete.mediumBlue, paddingVertical:20}]}>
                             {
                                 mode == 'SignIn' ?
