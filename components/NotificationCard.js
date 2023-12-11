@@ -1,110 +1,168 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Modal } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import ColorPallete from '../constants/ColorPallete';
-import { useState } from 'react';
 
-export default function NotificationCard(props) {
-
-    const [status,setStatus]=useState(props.status)
-
-    const pressHandler=()=>{
-        props.onPress('NgoDetails2',props.recieverId)
-    }
-
-    const readHandler=()=>{
-        props.toggleRead(props.id)
-        if (status=="unread")
-            setStatus("read")
-        else
-            setStatus("unread")
-    }
+function RecipientNotificationCard(props) {
+    const [isOptionsVisible, setOptionsVisible] = useState(false);
+    const isRead = props.status === 'read';
+  
+    const showOptions = () => {
+      setOptionsVisible(true);
+    };
+  
+    const hideOptions = () => {
+      setOptionsVisible(false);
+    };
+  
+    const handleMoreOptionsPress = () => {
+      showOptions();
+    };
+  
+    const handleOptionPress = (option) => {
+      if (option === 'delete') {
+        props.onDelete();
+      } else if (option === 'markAsRead') {
+        //setIsRead(true);
+        props.onMarkAsRead(props.id);
+        hideOptions();
+      } else if (option === 'markAsUnread') {
+        //setIsRead(false);
+        props.onMarkAsUnread(props.id);
+        hideOptions();
+      }
+    };
 
   return (
-    <View style={styles.container}>
-        <Pressable onPress={pressHandler} android_ripple={ColorPallete.mediumBlue}>
-            <View style={[styles.innerContainer, status == 'unread' && {backgroundColor:ColorPallete.lightBlueTwo}]}>
-                <View style={styles.left}>
-                    <MaterialCommunityIcons name={props.icon} size={32} color={'white'} />
-                </View>
-                <View style={styles.right}>
-                    <View style={styles.rightTop}>
-                        <Text style={styles.title}>{props.title}</Text>
-                        <Text style={styles.time}>{props.time}</Text>
-                    </View>
-                    <View style={styles.rightBottom}>
-                        <Text style={styles.desc}>
-                            {props.desc.slice(0,35)}
-                        </Text>
-                        <Pressable style={styles.eyeIcon} onPress={readHandler}>
-                            <MaterialCommunityIcons name="eye-outline" size={24} color={ColorPallete.lightTextColor} />
-                        </Pressable>
-                    </View>
-                </View>    
-            </View>
-        </Pressable>
+    <View style={[styles.container, isRead ? { backgroundColor: '#FFF3E8' } : null]}>
+      <TouchableOpacity onPress={() => handleMoreOptionsPress()} style={styles.iconContainer}>
+        <Ionicons name="options" size={24} color={ColorPallete.primary} />
+      </TouchableOpacity>
+      <View style={styles.innerContainer}></View>
+      <View style={styles.innerContainer}>
+        <View style={styles.imageContainer}>
+          <Ionicons>{props.icon}</Ionicons>
+        </View>
+        <View style={styles.nameTimeDescContainer}>
+          <View style={styles.nameTimeContainer}>
+            <Text style={styles.name}>{props.name}</Text>
+            <Text style={styles.desc}>{props.desc}</Text>
+          </View>
+          <Text style={styles.time}>{props.time}</Text>
+        </View>
+      </View>
+      <View style={styles.separator} />
+      <Modal transparent={true} visible={isOptionsVisible} onRequestClose={hideOptions}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity onPress={() => handleOptionPress('markAsRead')}>
+            <Text style={styles.modalOption}>{isRead ? 'Mark as Unread' : 'Mark as Read'}</Text>
+          </TouchableOpacity>
+          <View style={styles.modalSeparator} />
+          <TouchableOpacity onPress={() => handleOptionPress('delete')}>
+            <Text style={styles.modalDelete}>Delete</Text>
+          </TouchableOpacity>
+          <View style={styles.modalSeparator} />
+          <TouchableOpacity onPress={hideOptions}>
+            <Text style={styles.modalCancel}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
-  )
+  );
 }
 
+export default RecipientNotificationCard;
+
 const styles = StyleSheet.create({
-    container:{
-        marginBottom:8,
-
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+        width: '100%',
     },
-    innerContainer:{
-        flexDirection:'row',
-        alignItems:'center',
-        // justifyContent:'space-between',
-        padding:8,
-        borderRadius:8,
-        backgroundColor:ColorPallete.lightBlue,
-
-        // borderWidth:1,
-        borderColor:ColorPallete.mediumBlue,
+    innerContainer: {
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 10,
     },
-    left:{
-        backgroundColor:ColorPallete.mediumBlue,
-        padding:8,
-        borderRadius:8,
-        marginRight:8,
-
+    nameTimeDescContainer: {
+        flexDirection: 'column',
+        marginLeft: 10,
     },
-    right:{
-        flex:1,
+    nameTimeContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    rightTop:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        marginBottom:4,
+    imageContainer: {
+        width: 25,
+        height: 25,
+        borderRadius: 5,
+        backgroundColor: '#FFEAD7',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    title:{
-        fontSize:15,
-        fontWeight:'bold',
-
+    name: {
+        fontWeight: 'bold',
+        fontSize: 14,
     },
-    time:{
-        color:ColorPallete.lightTextColor,
-        fontWeight:'bold',
-
+    time: {
+        marginTop: 5,
+        fontWeight: '300',
+        color: '#B8B8B8',
+        fontSize: 12,
     },
-    rightBottom:{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
-        
+    desc: {
+        fontWeight: '400',
+        fontSize: 14,
+        marginLeft: 3,
     },
-    desc:{
-        marginBottom:4,
-
-
+    separator: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#E0E0E0',
+        marginLeft: 10,
+        marginRight: 10,
     },
-    eyeIcon:{
-        // borderWidth:1,
-        // borderColor:ColorPallete.lightTextColor,
-        padding:4,
-        // borderRadius:8,
-        // marginLeft:4,
-
+    iconContainer: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 1,
+    },
+    modalContainer: {
+        position: 'absolute',
+        top: 130,
+        right: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        padding: 10,
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#E0E0E0',
+    },
+    modalOption: {
+        fontSize: 12,
+        color: 'blue',
+        textAlign: 'center',
+        //marginBottom: 5,
+    },
+    modalDelete: {
+        fontSize: 12,
+        color: 'red',
+        textAlign: 'center',
+        marginTop: 5,
+        //marginBottom: 5,
+    },
+    modalCancel: {
+        fontSize: 12,
+        color: 'red',
+        textAlign: 'center',
+        marginTop: 5,
+        // marginBottom: 5,
+    },
+    modalSeparator: {
+        height: 1,
+        backgroundColor: '#E0E0E0',
+        width: '100%',
+        marginVertical: 5,
     }
-})
+});

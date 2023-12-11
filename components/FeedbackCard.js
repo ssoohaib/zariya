@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     },
     innerContainer: {
         margin: 4,
-        marginTop: 20
+        marginTop: 10,
     },
     image: {
         width: 60,
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     },
     feedback: {
         lineHeight:20,
-        marginTop:12,
         marginRight:60,
     }
 });
