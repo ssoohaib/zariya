@@ -4,9 +4,9 @@ import ColorPallete from '../constants/ColorPallete'
 import IconButton from './IconButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from "react";
-import RecipientInfoModal from "../components/RecipientInfoModal"
+import RecipientRequestModal from "../components/RecipientRequestModal"
 
-function RecipientCard(props) {
+function RecipientRequestCard(props) {
 
     const statusStyles = {
         color: props.status === 'Verified' ? 'green' : 'red',
@@ -41,12 +41,12 @@ function RecipientCard(props) {
 
                 </View>
             </Pressable>
-            <RecipientInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
+            <RecipientRequestModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
         </View>
     )
 }
 
-export default RecipientCard;
+export default RecipientRequestCard;
 
 const styles = StyleSheet.create({
     container: {

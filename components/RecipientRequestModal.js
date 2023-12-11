@@ -58,27 +58,42 @@ export default function RecipientInfoModal(props) {
           <View style={styles.overlayContainer}>
             <Text style={styles.nameContainer}>{selectedRecipient.title.toUpperCase()}</Text>
             <Text style={styles.textContainer}>{selectedRecipient.desc.slice(0,250)}</Text>
-          </View>
-          <View style={styles.bottomContainer}>
-              <IconButton
-                  title={'Remove'}
-                  icon={'account-minus'}
-                  bgColor={colorPallete.lightBlue}
-                  iconColor={colorPallete.darkBlue}
-                  style={{ marginRight: 4 }}
-                  onPress={handleRemovePress}
-                />
+            <View style={styles.btmContainer}>
+              <View>
+                <Text style={styles.contactContainer}>☎ {selectedRecipient.contact.phone}</Text>
+                <Text style={styles.contactContainer}>📍 {selectedRecipient.contact.city}, {selectedRecipient.contact.country}</Text>
                 <IconButton
                   title={'Documents'}
                   icon={'file-document'}
                   bgColor={colorPallete.lightBlue}
                   iconColor={colorPallete.darkBlue}
-                  style={{ marginRight: 4 }}
+                  style={{ marginLeft: 5, top: 10, padding: 5 }}
                   onPress={handleContactPress}
                 />
+              </View>
+                <Text style={styles.causesContainer}>
+                  Causes:
+                  {selectedRecipient.causes.map((cause, index) => (
+                    <Text key={index}>{'\n'}{cause}</Text>
+                  ))}
+                </Text>
+                
+            </View>
+          </View>
+          <View style={styles.bottomContainer}>
+                
+              <IconButton
+                  title={'Accept'}
+                  icon={'check'}
+                  bgColor={colorPallete.lightBlue}
+                  iconColor={colorPallete.darkBlue}
+                  style={{ marginRight: 4 }}
+                  onPress={handleRemovePress}
+                />
+                
                 <IconButton
-                  title={'Contact'}
-                  icon={'gmail'}
+                  title={'Reject'}
+                  icon={'cancel'}
                   bgColor={colorPallete.lightBlue}
                   iconColor={colorPallete.darkBlue}
                   style={{ marginRight: 4 }}
@@ -93,16 +108,17 @@ export default function RecipientInfoModal(props) {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor:colorPallete.mediumBlue,
+    //backgroundColor:colorPallete.mediumBlue,
+    backgroundColor:'white',
     borderRadius: 16,
     paddingTop: 8,
     paddingHorizontal: 16,
-    top: '32%',
+    top: '15%',
     margin: 0,
   },
   container: {
     flex: 1,
-    backgroundColor:colorPallete.mediumBlue,
+    //backgroundColor:colorPallete.mediumBlue,
     alignItems: 'center',
   },
   image: {
@@ -115,25 +131,51 @@ const styles = StyleSheet.create({
   overlayContainer:{
       marginTop:280,
       textAlign: 'center',
-
   },
   textContainer: {
     fontSize: 15,
-    fontWeight:'300',
-    textAlign:'center',
+    fontWeight:'400',
     color:'white',
     lineHeight:20,
+    color:'black',
+    borderColor:'black'
   },
   nameContainer: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight:'bold',
     color:'white',
     textAlign:'center',
-    fontStyle:'italic'
+    fontStyle:'italic',
+    color:'black'
   },
   bottomContainer: {
     flexDirection: 'row',
     marginTop: 20,
     justifyContent: 'space-between',
 },
+causesContainer:{
+  fontSize: 20,
+  color:'white',
+  textAlign:'center',
+  lineHeight:20,
+  marginTop:10,
+  marginLeft:20,
+  borderWidth:1,
+  borderRadius:20,
+  backgroundColor:colorPallete.mediumBlue,
+  padding:10,
+  alignSelf: 'flex-start',
+},
+contactContainer:{
+  marginTop:17,
+  fontSize: 20,
+  color:'white',
+  fontWeight:'500',
+  fontStyle:'normal',
+  color:'black',
+  lineHeight:25
+},
+btmContainer:{
+  flexDirection:'row'
+}
 });

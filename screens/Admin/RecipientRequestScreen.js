@@ -4,7 +4,7 @@ import { NGOS } from '../../dummy_data/dummy_data';
 import InputBar from '../../components/InputBar';
 import RecipientCard from '../../components/RecipientCard';
 import React, { useState } from 'react';
-import RecipientInfoModal from '../../components/RecipientInfoModal';
+import RecipientRequestCard from '../../components/RecipientRequestCard';
 
 export default function SearchRecipientScreen({ navigation }) {
   const switchScreenHandler = (screen) => {
@@ -24,7 +24,7 @@ export default function SearchRecipientScreen({ navigation }) {
     setselectedRecipient(itemData.item)
     
     return (
-      <RecipientCard
+      <RecipientRequestCard
         id={itemData.item.id}
         title={itemData.item.title}
         logo={itemData.item.logo}

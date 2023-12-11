@@ -35,7 +35,7 @@ export default function AdminRecipientScreen({navigation}) {
               iconColor={colorPallete.darkBlue}
               style={{marginRight:4}}
               onPress={switchScreenHandler}
-              screen={'DonorRequestScreen'}
+              screen={'RecipientRequestScreen'}
             />
           </View>
 
