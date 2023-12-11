@@ -22,6 +22,7 @@ import PrivacyAndTerms from '../ProfileScreens/PrivacyAndTerms';
 import UpdatePassword from '../ProfileScreens/UpdatePassword';
 import Verification from '../ProfileScreens/Verification';
 import Congratulations from '../../components/Congratulations';
+import Feedback from '../../components/Feedback';
 
 
 
