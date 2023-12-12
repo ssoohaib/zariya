@@ -1,73 +1,81 @@
-import { useState } from "react";
+// ImprovInput.js
+
+import React from "react";
 import { TextInput, View, Text, StyleSheet, Platform } from "react-native";
 import ColorPallete from "../constants/ColorPallete";
 
-export default function ImprovInput(props) {    
+export default function ImprovInput(props) {
+  const { tag, value, onChange, inputMode, inputStyle, secureTextEntry, multiline, errorMessage } = props;
 
   return (
-    <View style={[styles.container, props.outerStyle]}>
-        {
-            props.tag &&
-            <View style={styles.tagContainer}>
-                <Text style={[styles.tag, props.tagStyle]}>{props.tag}</Text>
-            </View>
-        }
-        <TextInput 
-            placeholder={props.placeholder}
-            maxLength={props.maxLength}
-            value={props.value}
-            onChangeText={props.onChange}
-            numberOfLines={props.rows}
-            style={[styles.input, props.inputStyle]}
-            inputMode={props.inputMode}
-            secureTextEntry={props.secureTextEntry}
-            multiline={props.multiline}
-
-
+    <View style={styles.container}>
+      {tag && (
+        <View style={styles.tagContainer}>
+          <Text style={[styles.tag, props.tagStyle]}>{tag}</Text>
+        </View>
+      )}
+      <View style={[styles.inputContainer, { borderColor: errorMessage ? 'red' : ColorPallete.lightTextColor }]}>
+        <TextInput
+          placeholder={props.placeholder}
+          maxLength={props.maxLength}
+          value={value}
+          onChangeText={onChange}
+          numberOfLines={props.rows}
+          style={[styles.input, inputStyle, errorMessage && styles.inputError]}
+          inputMode={inputMode}
+          secureTextEntry={secureTextEntry}
+          multiline={multiline}
         />
-        {
-            props.liveLength &&
-            <Text style={[styles.correctionText, props.correctionTextStyle]}>{props.value.length}/{props.maxLength} characters</Text>
-        }
+      </View>
+      {errorMessage && (
+        <Text style={{ color: 'red', marginLeft: 8 }}>{errorMessage}</Text>
+      )}
+      {props.liveLength && (
+        <Text style={[styles.correctionText, props.correctionTextStyle]}>
+          {value.length}/{props.maxLength} characters
+        </Text>
+      )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-    container:{
-        marginTop:-16
-
-    },
-    tagContainer:{
-        alignItems:'flex-start',
-        zIndex:99,
-
-    },
-    tag:{
-        // color:ColorPallete.lightTextColor,
-        fontWeight:'bold',
-        marginBottom:8,   
-        paddingHorizontal:2,   
-        paddingRight:3,
-
-        position:'relative',
-        top:16,
-        left:8,
-        backgroundColor:ColorPallete.screenBg,
-
-    },
-    input:{
-
-        borderWidth:1,
-        padding: Platform.OS=='android' ? 10:16,
-        paddingLeft:10,
-        borderRadius:16,
-        borderColor:ColorPallete.lightTextColor,
-    },
-    correctionText:{
-        marginTop:4,
-        textAlign:'right',
-        color:ColorPallete.lightTextColor,
-        fontWeight:'bold'
-    }
-})
+  container: {
+    marginTop: -16,
+  },
+  tagContainer: {
+    alignItems: 'flex-start',
+    zIndex: 99,
+  },
+  tag: {
+    fontWeight: 'bold',
+    marginBottom: 8,
+    paddingHorizontal: 2,
+    paddingRight: 3,
+    position: 'relative',
+    top: 16,
+    left: 8,
+    backgroundColor: ColorPallete.screenBg,
+  },
+  inputContainer: {
+    borderWidth: 1,
+    borderRadius: 16,
+    borderColor: ColorPallete.lightTextColor,
+    marginBottom: 8,
+  },
+  input: {
+    padding: Platform.OS == 'android' ? 10 : 16,
+    paddingLeft: 10,
+    borderRadius: 16,
+    borderColor: ColorPallete.lightTextColor,
+  },
+  inputError: {
+    borderColor: 'red',
+  },
+  correctionText: {
+    marginTop: 4,
+    textAlign: 'right',
+    color: ColorPallete.lightTextColor,
+    fontWeight: 'bold',
+  },
+});
