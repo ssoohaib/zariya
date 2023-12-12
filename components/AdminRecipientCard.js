@@ -1,7 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import ColorPallete from '../constants/ColorPallete'
-import IconButton from './IconButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from "react";
 import RecipientInfoModal from "./RecipientInfoModal"

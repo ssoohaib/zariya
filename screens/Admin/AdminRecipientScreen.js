@@ -1,7 +1,6 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import AdminIconButton from '../../components/AdminIconButton';
+import AdminIconButton from '../../components/AdminsIconButton';
 import colorPallete from '../../constants/ColorPallete'
-import ImageButton from '../../components/ImageButton';
 
 export default function AdminRecipientScreen({navigation}) {
 

@@ -44,6 +44,7 @@ export default function RecipientInfoModal(props) {
 
   return (
     <Modal
+      // onSwipeCancel={toggleModal}
       isVisible={isModalVisible}
       style={styles.modalContainer}
       onBackdropPress={toggleModal}
@@ -59,26 +60,56 @@ export default function RecipientInfoModal(props) {
             <Text style={styles.nameContainer}>{selectedRecipient.title.toUpperCase()}</Text>
             <Text style={styles.textContainer}>{selectedRecipient.desc.slice(0,250)}</Text>
             <View style={styles.btmContainer}>
-              <View>
-                <Text style={styles.contactContainer}>☎ {selectedRecipient.contact.phone}</Text>
-                <Text style={styles.contactContainer}>📍 {selectedRecipient.contact.city}, {selectedRecipient.contact.country}</Text>
-                <IconButton
-                  title={'Documents'}
-                  icon={'file-document'}
-                  bgColor={colorPallete.lightBlue}
-                  iconColor={colorPallete.darkBlue}
-                  style={{ marginLeft: 5, top: 10, padding: 5 }}
-                  onPress={handleContactPress}
-                />
+              <View style={{flexDirection:"row", marginVertical:16, justifyContent:"space-between"}}>
+                <Text style={styles.contactContainer}>{selectedRecipient.contact.phone}</Text>
+                <Text style={styles.contactContainer}>{selectedRecipient.contact.city}, {selectedRecipient.contact.country}</Text>
+                
               </View>
-                <Text style={styles.causesContainer}>
-                  Causes:
-                  {selectedRecipient.causes.map((cause, index) => (
-                    <Text key={index}>{'\n'}{cause}</Text>
-                  ))}
-                </Text>
+              <View style={styles.causesContainer}>
+                <Text style={{color:colorPallete.screenBg, fontWeight:'bold', marginBottom:8}}>Causes</Text>
+                <View style={{flexDirection:'row', marginBottom:8}}>
+                  {
+                    selectedRecipient.causes.map((i, count)=>(
+                      count<3 &&
+                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.lightBlue,marginRight:4}}>
+                        <Text style={{color:colorPallete.mediumBlue}}>{i}</Text>
+                      </View>                   
+                    ))
+                  }
+                </View>
+                <View style={{flexDirection:'row'}}>
+                  {
+                    selectedRecipient.causes.map((i, count)=>(
+                      count>=3 && count<6 &&
+                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.lightBlue,marginRight:4}}>
+                        <Text style={{color:colorPallete.mediumBlue}}>{i}</Text>
+                      </View>                   
+                    ))
+                  }
+                </View>
+                <View style={{flexDirection:'row'}}>
+                  {
+                    selectedRecipient.causes.map((i, count)=>(
+                      count>=6 &&
+                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.lightBlue,marginRight:4}}>
+                        <Text style={{color:colorPallete.mediumBlue}}>{i}</Text>
+                      </View>                   
+                    ))
+                  }
+                </View>
+              </View>
                 
             </View>
+          </View>
+          <View style={[styles.bottomContainer, {margin:0, marginTop:16,}]}>  
+            <IconButton
+              title={'Documents'}
+              icon={'file-document'}
+              bgColor={colorPallete.lightBlue}
+              iconColor={colorPallete.darkBlue}
+              // style={{ marginLeft: 5, top: 10, padding: 5 }}
+              onPress={handleContactPress}
+            />
           </View>
           <View style={styles.bottomContainer}>
                 
@@ -87,7 +118,7 @@ export default function RecipientInfoModal(props) {
                   icon={'check'}
                   bgColor={colorPallete.lightBlue}
                   iconColor={colorPallete.darkBlue}
-                  style={{ marginRight: 4 }}
+                  style={{ marginRight: 8 }}
                   onPress={handleRemovePress}
                 />
                 
@@ -96,10 +127,12 @@ export default function RecipientInfoModal(props) {
                   icon={'cancel'}
                   bgColor={colorPallete.lightBlue}
                   iconColor={colorPallete.darkBlue}
-                  style={{ marginRight: 4 }}
+                  // style={{ marginRight: 4}}
                   onPress={handleContactPress}
                 />
           </View>
+
+          {/* <View style={{height:100,}}></View> */}
         </View>
       )}
     </Modal>
@@ -111,71 +144,71 @@ const styles = StyleSheet.create({
     //backgroundColor:colorPallete.mediumBlue,
     backgroundColor:'white',
     borderRadius: 16,
-    paddingTop: 8,
+    paddingTop: 16,
     paddingHorizontal: 16,
-    top: '15%',
+    top: '12%',
     margin: 0,
   },
   container: {
     flex: 1,
     //backgroundColor:colorPallete.mediumBlue,
     alignItems: 'center',
+
+    // borderWidth:1
   },
   image: {
-    width: '110%',
-    height: '35%',
+    width: '100%',
+    height: 200,
     borderRadius: 16,
-    position: 'absolute',
-    top:-10,
+    // position: 'absolute',
+    // top:-10,
   },
   overlayContainer:{
-      marginTop:280,
+      marginTop:16,
       textAlign: 'center',
+
+      // borderWidth:1
   },
   textContainer: {
-    fontSize: 15,
-    fontWeight:'400',
+    // fontSize: 15,
+    // fontWeight:'400',
     color:'white',
-    lineHeight:20,
+    lineHeight:18,
     color:'black',
-    borderColor:'black'
+    marginTop:16,
+
+    // borderColor:'black',
+    // borderWidth:1
+
   },
   nameContainer: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight:'bold',
     color:'white',
     textAlign:'center',
-    fontStyle:'italic',
     color:'black'
   },
   bottomContainer: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 8,
     justifyContent: 'space-between',
 },
 causesContainer:{
-  fontSize: 20,
-  color:'white',
-  textAlign:'center',
-  lineHeight:20,
-  marginTop:10,
-  marginLeft:20,
-  borderWidth:1,
-  borderRadius:20,
+  borderRadius:16,
+  overflow:'hidden',
   backgroundColor:colorPallete.mediumBlue,
-  padding:10,
-  alignSelf: 'flex-start',
+  padding:16,
 },
 contactContainer:{
-  marginTop:17,
-  fontSize: 20,
-  color:'white',
-  fontWeight:'500',
-  fontStyle:'normal',
-  color:'black',
-  lineHeight:25
+  // marginTop:17,
+  // fontSize: 20,
+  // color:'white',
+  fontWeight:'bold',
+  // fontStyle:'normal',
+  color:colorPallete.lightTextColor,
+  // lineHeight:25
 },
 btmContainer:{
-  flexDirection:'row'
+  // flexDirection:'row'
 }
 });
