@@ -1,5 +1,5 @@
 import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ColorPallete from "../../constants/ColorPallete";
 import ImprovInput from "../../components/ImprovInput";
 import AuthenticationModal from "../../components/AuthenticationModal"
@@ -25,6 +25,22 @@ export default function SigningScreen({navigation}) {
     const [causes, setCauses]=useState([])
     const [causeImages, setCauseImages]=useState([])
     const [verificationImages, setVerificationImages]=useState([])
+
+    useEffect(()=>{
+        console.log(Platform.OS)
+        const url = Platform.OS=='android'? 'http://10.0.2.2:5000/':'http://192.168.56.1:5000/' 
+        fetch(url,{
+            method:'GET',
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    },[mode])
+
 
     const modeHandler = (mode)=>{
         setMode(mode)
@@ -185,7 +201,7 @@ export default function SigningScreen({navigation}) {
 
                     {
                         mode == "SignIn" &&
-                        <Pressable onPress={()=>switchScreen('ForgotPassword')}>
+                        <Pressable>
                             <Text style={[styles.dividerText,{marginHorizontal:0, marginTop:8, marginBottom:16}]}>Forgot password?</Text>
                         </Pressable>
                     }
