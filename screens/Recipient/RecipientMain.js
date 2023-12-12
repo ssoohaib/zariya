@@ -102,6 +102,7 @@ function ProfileStack(){
       }
     }}>
       <Stack.Screen name="RecipientProfile" component={RecipientProfile} options={{headerShown:false}}  />
+      <Stack.Screen name="Feedback" component={Feedback} options={{headerShown:false}}  />
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
       <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReports} />

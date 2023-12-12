@@ -43,7 +43,7 @@ function RecipientProfile({navigation}) {
             leftIcon={"feedback"}
             rightIcon={"keyboard-arrow-right"}
             onPress={switchScreen}
-            screen={'FeedbackAndSupport'}
+            screen={'Feedback'}
           />
           <PressableOption 
             title={'Verification'}
