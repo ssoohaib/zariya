@@ -17,6 +17,7 @@ export default function SigningScreen({ navigation }) {
     const [password, setPassword] = useState('')
 
     const [errors, setErrors] = useState({});
+    const [causeError, setCauseError] = useState('');
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -67,10 +68,20 @@ export default function SigningScreen({ navigation }) {
 
     const addCauseHandler = () => {
         if (causes.length + 1 <= 10) {
-            setCauses(prev => [...prev, cause])
-            setCause('')
+            // Check if the cause already exists in the array
+            const trimmedCause = cause.trim();
+    
+            if (trimmedCause !== '' && !causes.includes(trimmedCause)) {
+                setCauses(prev => [...prev, trimmedCause]);
+                setCause('');
+                setCauseError(''); // Clear the cause error
+            } else {
+                // Cause already exists or is empty, set the error
+                setCauseError(trimmedCause === '' ? 'Cause cannot be empty' : 'Cause already exists');
+            }
         }
-    }
+    };
+    
 
     const removeCauseHandler = (index) => {
         setCauses(prev => prev.filter((i, count) => count != index))
@@ -99,53 +110,53 @@ export default function SigningScreen({ navigation }) {
 
     const validateFields = () => {
         const validationErrors = {};
-    
+
         if (email.trim() === '') {
             validationErrors.email = 'Email is required';
         }
-    
+
         if (password.trim() === '') {
             validationErrors.password = 'Password is required';
         }
-    
+
         if (mode === 'SignUp') {
             if (firstName.trim() === '') {
                 validationErrors.firstName = 'Field is required';
             }
-    
+
             if (lastName.trim() === '') {
                 validationErrors.lastName = 'Field is required';
             }
         }
-    
+
         if (mode === 'Org') {
             if (orgTitle.trim() === '') {
                 validationErrors.orgTitle = 'Field is required';
             } else if (orgTitle.length > 50) {
                 validationErrors.orgTitle = 'Title cannot be more than 50 characters';
             }
-    
+
             if (description.trim() === '') {
                 validationErrors.description = 'Field is required';
             } else if (description.length > 500) {
                 validationErrors.description = 'Description cannot be more than 500 characters';
             }
-    
+
             if (causes.length === 0) {
                 validationErrors.causes = 'At least one cause is required';
             } else if (causes.length > 10) {
                 validationErrors.causes = 'Maximum 10 causes allowed';
             }
-    
+
             if (verificationImages.length === 0) {
                 validationErrors.verificationImages = 'Verification images are required';
             }
-    
+
             if (causeImages.length === 0) {
                 validationErrors.causeImages = 'Cause images are required';
             }
         }
-    
+
         return validationErrors;
     };
 
@@ -153,6 +164,7 @@ export default function SigningScreen({ navigation }) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
+
 
     const signInHandler = () => {
         const validationErrors = validateFields();
@@ -164,8 +176,7 @@ export default function SigningScreen({ navigation }) {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
-            // Display errors, you can set state or display a modal
-            console.log(validationErrors);
+            // console.log(validationErrors);
             return;
         }
 
@@ -309,9 +320,12 @@ export default function SigningScreen({ navigation }) {
                                             value={cause}
                                             onChange={causeHandler}
                                             maxLength={20}
-                                            inputStyle={styles.inputStyle}
-                                            outerStyle={{ flex: 1, marginRight: 8, }}
-                                            errorMessage={errors.causes}
+                                            inputStyle={[
+                                                styles.inputStyle,
+                                                causeError && { borderColor: 'red' } // Change border color on error
+                                            ]}
+                                            outerStyle={{ flex: 1, marginRight: 8 }}
+                                            errorMessage={causeError} // Display the error message
                                         />
                                         <Pressable onPress={addCauseHandler} style={{ flex: .2, position: 'relative', top: 4 }}>
                                             <View style={[styles.btnContainer, { backgroundColor: ColorPallete.mediumBlue, paddingVertical: 20 }]}>
