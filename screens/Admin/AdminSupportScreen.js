@@ -51,7 +51,8 @@ export default function SearchRecipientScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'#eeeff3'
+    backgroundColor:'#eeeff3',
+    paddingTop:48
   },
   subtitle: {
     fontSize: 18,
