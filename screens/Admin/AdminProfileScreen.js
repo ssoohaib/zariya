@@ -1,5 +1,4 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import IconButton from '../../components/IconButton';
 import ColorPallete from '../../constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import PressableOption from '../../components/PressableOption';

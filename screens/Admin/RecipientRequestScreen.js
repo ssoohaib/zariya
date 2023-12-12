@@ -2,7 +2,6 @@ import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-nativ
 import colorPallete from '../../constants/ColorPallete';
 import { NGOS } from '../../dummy_data/dummy_data';
 import InputBar from '../../components/InputBar';
-import RecipientCard from '../../components/RecipientCard';
 import React, { useState } from 'react';
 import RecipientRequestCard from '../../components/RecipientRequestCard';
 

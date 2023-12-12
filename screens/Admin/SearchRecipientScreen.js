@@ -2,7 +2,7 @@ import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-nativ
 import colorPallete from '../../constants/ColorPallete';
 import { NGOS } from '../../dummy_data/dummy_data';
 import InputBar from '../../components/InputBar';
-import RecipientCard from '../../components/RecipientCard';
+import AdminRecipientCard from '../../components/AdminRecipientCard';
 import React, { useState } from 'react';
 import RecipientInfoModal from '../../components/RecipientInfoModal';
 
@@ -24,7 +24,7 @@ export default function SearchRecipientScreen({ navigation }) {
     setselectedRecipient(itemData.item)
     
     return (
-      <RecipientCard
+      <AdminRecipientCard
         id={itemData.item.id}
         title={itemData.item.title}
         logo={itemData.item.logo}

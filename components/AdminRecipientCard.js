@@ -4,9 +4,9 @@ import ColorPallete from '../constants/ColorPallete'
 import IconButton from './IconButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from "react";
-import RecipientInfoModal from "../components/RecipientInfoModal"
+import RecipientInfoModal from "./RecipientInfoModal"
 
-function RecipientCard(props) {
+function AdminRecipientCard(props) {
 
     const statusStyles = {
         color: props.status === 'Verified' ? 'green' : 'red',
@@ -46,7 +46,7 @@ function RecipientCard(props) {
     )
 }
 
-export default RecipientCard;
+export default AdminRecipientCard;
 
 const styles = StyleSheet.create({
     container: {

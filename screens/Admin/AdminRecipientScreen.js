@@ -1,5 +1,5 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import IconButton from '../../components/IconButton';
+import AdminIconButton from '../../components/AdminIconButton';
 import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
 
@@ -16,7 +16,7 @@ export default function AdminRecipientScreen({navigation}) {
         <View style={styles.categoryContainer}>
           <Text style={styles.subtitle}>Actions</Text>
           <View style={styles.buttonsContainer}>
-            <IconButton 
+            <AdminIconButton 
               title={'Search Recipients'} 
               icon={'magnify'} 
               bgColor={colorPallete.lightBlue} 
@@ -28,7 +28,7 @@ export default function AdminRecipientScreen({navigation}) {
           </View>
 
           <View style={styles.buttonsContainer}>
-            <IconButton 
+            <AdminIconButton 
               title={'Recipient Requests'} 
               icon={'account-check'} 
               bgColor={colorPallete.lightBlue} 
@@ -40,7 +40,7 @@ export default function AdminRecipientScreen({navigation}) {
           </View>
 
           <View style={styles.buttonsContainer}>
-            <IconButton 
+            <AdminIconButton 
               title={'Recipient Feedbacks'} 
               icon={'message-alert'} 
               bgColor={colorPallete.lightBlue} 

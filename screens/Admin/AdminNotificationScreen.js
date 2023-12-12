@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import RecipientNotificationCard from "../../components/NotificationCard";
+import RecipientNotificationCard from "../../components/RecipientNotificationCard";
 import { NOTIFICATIONS } from "../../dummy_data/dummy_data";
 import ColorPallete from "../../constants/ColorPallete";
 import { StatusBar } from "expo-status-bar";

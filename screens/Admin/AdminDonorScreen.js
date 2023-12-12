@@ -1,5 +1,5 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import IconButton from '../../components/IconButton';
+import AdminIconButton from '../../components/AdminIconButton';
 import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
 
@@ -16,7 +16,7 @@ export default function AdminDonorScreen({navigation}) {
         <View style={styles.categoryContainer}>
           <Text style={styles.subtitle}>Actions</Text>
           <View style={styles.buttonsContainer}>
-            <IconButton 
+            <AdminIconButton 
               title={'Search Donors'} 
               icon={'magnify'} 
               bgColor={colorPallete.lightBlue} 
@@ -28,7 +28,7 @@ export default function AdminDonorScreen({navigation}) {
           </View>
 
           <View style={styles.buttonsContainer}>
-            <IconButton 
+            <AdminIconButton 
               title={'Donor Feedbacks'} 
               icon={'message-alert'} 
               bgColor={colorPallete.lightBlue} 
