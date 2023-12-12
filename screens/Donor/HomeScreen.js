@@ -1,15 +1,21 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import IconButton from '../components/IconButton';
-import NgoCard from '../components/NgoCard';
-import colorPallete from '../constants/ColorPallete'
-import ImageButton from '../components/ImageButton';
-import InputBar from '../components/InputBar';
-import { NGOS } from '../dummy_data/dummy_data';
+import IconButton from '../../components/IconButton';
+import NgoCard from '../../components/NgoCard';
+import colorPallete from '../../constants/ColorPallete'
+import ImageButton from '../../components/ImageButton';
+import InputBar from '../../components/InputBar';
+import { NGOS } from '../../dummy_data/dummy_data';
 
 export default function HomeScreen({navigation}) {
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
+  }
+
+  const switchToDonation = (screen)=>{
+    navigation.navigate('DonationEnter',{
+      donationCategory:screen
+    })
   }
 
   const ngoScreenHandler = (id)=>{
@@ -34,7 +40,7 @@ export default function HomeScreen({navigation}) {
       <ScrollView style={styles.container}> 
         <View style={styles.headerContainer}>
           <View style={styles.headerUpper}>
-            <Image style={styles.logo} source={require('../assets/images/logo-white.png')} />
+            <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
             <View style={styles.userContainer}>
               <View style={styles.userTextContainer}>
                 <Text style={styles.userGreet}>Hi,</Text>
@@ -66,7 +72,7 @@ export default function HomeScreen({navigation}) {
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
               style={{marginRight:4}}
-              onPress={switchScreenHandler}
+              onPress={switchToDonation}
               screen={'Food'}
             />
             <IconButton 
@@ -75,7 +81,7 @@ export default function HomeScreen({navigation}) {
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
               style={{marginHorizontal:4}}  
-              onPress={switchScreenHandler}
+              onPress={switchToDonation}
               screen={'Clothes'}
             />
             <IconButton 
@@ -84,7 +90,7 @@ export default function HomeScreen({navigation}) {
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
               style={{marginHorizontal:4}}  
-              onPress={switchScreenHandler}
+              onPress={switchToDonation}
               screen={'Medicine'}
             />
             <IconButton 
@@ -93,7 +99,7 @@ export default function HomeScreen({navigation}) {
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
               style={{marginLeft:4}}
-              onPress={switchScreenHandler}
+              onPress={switchToDonation}
               screen={'Ration'}
             />
           </View>
@@ -127,7 +133,8 @@ const styles = StyleSheet.create({
     container: {
       // paddingTop:48,
       // paddingHorizontal:16,
-      backgroundColor:'white'
+      backgroundColor:'white',
+      
       
       // borderWidth:1,
       // borderColor:'red',
