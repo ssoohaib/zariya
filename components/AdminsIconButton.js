@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ColorPallete from "../constants/ColorPallete";
 
-export default function IconButton(props) {
+export default function AdminIconButton(props) {
 
     const pressHandler =()=>{
         props.screen &&
