@@ -23,6 +23,7 @@ import SearchDonorScreen from './screens/Admin/SearchDonorScreen';
 import SearchRecipientScreen from './screens/Admin/SearchRecipientScreen';
 import AdminReportScreen from './screens/Admin/AdminReportScreen';
 import RecipientRequestScreen from './screens/Admin/RecipientRequestScreen';
+import SupportTextScreen from './screens/Admin/SupportTextScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +44,7 @@ function HomeScreenStack() {
       <Stack.Screen name="SearchRecipientScreen" component={SearchRecipientScreen} options={{title:'Search Recipient', headerBackTitle: "Back"}}  />
       <Stack.Screen name="AdminReportScreen" component={AdminReportScreen} options={{title:'Reports', headerBackTitle: "Back"}}  />
       <Stack.Screen name="RecipientRequestScreen" component={RecipientRequestScreen} options={{title:'Requests', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="SupportTextScreen" component={SupportTextScreen} options={{title:'Support', headerBackTitle: "Back"}}  />
     </Stack.Navigator>
   );
 }

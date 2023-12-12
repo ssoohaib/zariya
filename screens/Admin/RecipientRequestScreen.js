@@ -38,7 +38,7 @@ export default function SearchRecipientScreen({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.heading}>
+      {/* <View style={styles.heading}>
         <View style={styles.buttonsContainer}></View>
         <View style={styles.inputBarcolour}>
           <InputBar
@@ -49,7 +49,7 @@ export default function SearchRecipientScreen({ navigation }) {
             onChangeText={textChangeHandler}
           />
         </View>
-      </View>
+      </View> */}
 
       <View style={styles.donorContainer}>
         <View style={styles.donorListContainer}>

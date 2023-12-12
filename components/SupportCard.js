@@ -1,39 +1,21 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
-import ColorPallete from '../constants/ColorPallete'
-import IconButton from './IconButton';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from "react";
-import RecipientInfoModal from "../components/RecipientInfoModal"
 
-function RecipientCard(props) {
-
-    const statusStyles = {
-        color: props.status === 'Verified' ? 'green' : 'red',
-    };
-    const [isModalVisible, setModalVisible] = useState(false);
-
-    const toggleModal = () => {
-      setModalVisible(!isModalVisible);
-    };
-
-    const switchWithPayload = (screen,screenName)=>{
-        navigation.navigate(screen,{
-          paymentType:screenName
-        })
-      }
+function SupportCard(props) {
 
     return (
         <View style={styles.container}>
-            <Pressable onPress={toggleModal}>
+            <Pressable onPress={()=>props.onPress(props.id)}>
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
                             <Image style={styles.image}
-                                source={{ uri: props.logo }} />
+                                source={{ uri: props.imageUrl }} />
                             <View style={styles.nameTimeDescContainer}>
                                 <View style={styles.nameContainer}>
-                                    <Text style={styles.name}>{props.title}</Text>
+                                    <Text style={styles.name}>{props.name}</Text>
+                                </View>
+                                <View style={styles.emailContainer}>
+                                    <Text style={styles.email}>Time: {props.time}</Text>
                                 </View>
                             </View>
                         </View>
@@ -41,22 +23,20 @@ function RecipientCard(props) {
 
                 </View>
             </Pressable>
-            <RecipientInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
         </View>
     )
 }
 
-export default RecipientCard;
+export default SupportCard;
 
 const styles = StyleSheet.create({
     container: {
         overflow: 'hidden',
-        marginBottom: 1,
+        marginBottom: 5,
         marginTop:6,
         backgroundColor: 'white',
-        width: '97%',
-        borderRadius:35,
-        marginLeft:7
+        width: '100%',
+        borderRadius:35
     },
     innerContainer: {
         margin: 10,

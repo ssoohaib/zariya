@@ -1,18 +1,66 @@
+import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Donors } from '../../dummy_data/donor_data';
+import React, { useState } from 'react';
+import { StatusBar } from "expo-status-bar";
+import SupportCard from '../../components/SupportCard';
 
-import { StyleSheet, Text, View } from 'react-native';
+export default function SearchRecipientScreen({ navigation }) {
+  const switchScreenHandler = (screen) => {
+    navigation.navigate(screen);
+  }
 
-export default function AdminSupportScreen() {
+  const supportScreenHandler = (id)=>{
+    navigation.navigate('SupportTextScreen',{
+      id:id
+    })
+  }
+
+  const [selectedRecipient, setselectedRecipient] = useState();
+
+  const renderFlatList = (itemData) => {
+
+    setselectedRecipient(itemData.item)
+    
     return (
-      <View style={styles.container}> 
-        <Text>AdminSupportScreen</Text>
-      </View>
+      <SupportCard
+        id={itemData.item.id}
+        name={itemData.item.name}
+        time={itemData.item.time}
+        imageUrl={itemData.item.images[0]}
+        onPress={supportScreenHandler}
+      />
     );
+  }
+  return (
+    <ScrollView style={styles.container}>
+          <View style={styles.headerContainer}>
+            <StatusBar style='dark' />
+            <Text style={styles.subtitle}>Support</Text>
+          </View>
+          
+        <View style={styles.donorListContainer}>
+          <FlatList
+            data={Donors}
+            keyExtractor={(item) => item.id}
+            renderItem={renderFlatList}
+          />
+        </View>
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+  container: {
+    backgroundColor:'#eeeff3'
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    marginTop: 10,
+    marginLeft: 16,
+    alignContent: 'center',
+    textAlign: 'center'
+  },
+  // Add any additional styles you need
 });

@@ -57,11 +57,20 @@ export default function DonorInfoModal(props) {
           />
           <View style={styles.overlayContainer}>
             <Text style={styles.nameContainer}>{selectedDonor.name.toUpperCase()}</Text>
-            <Text style={styles.textContainer}>✉ {selectedDonor.email}</Text>
+            <Text style={styles.textContainer}>{selectedDonor.email}</Text>
             <Text style={styles.textContainer}>☎ {selectedDonor.contact.phone}</Text>
             <Text style={styles.textContainer}>👤 {selectedDonor.status}</Text>
           </View>
           <View style={styles.bottomContainer}>
+
+                <IconButton
+                    title={'Suspend'}
+                    icon={'account-clock'}
+                    bgColor={colorPallete.lightBlue}
+                    iconColor={colorPallete.darkBlue}
+                    style={{ marginRight: 4 }}
+                    onPress={handleContactPress} 
+                  />
               <IconButton
                   title={'Remove'}
                   icon={'account-minus'}
@@ -70,14 +79,14 @@ export default function DonorInfoModal(props) {
                   style={{ marginRight: 4 }}
                   onPress={handleRemovePress}
                 />
+
                 <IconButton
                   title={'Contact'}
                   icon={'gmail'}
                   bgColor={colorPallete.lightBlue}
                   iconColor={colorPallete.darkBlue}
                   style={{ marginRight: 4 }}
-                  onPress={handleContactPress}
-                  
+                  onPress={handleContactPress} 
                 />
           </View>
         </View>

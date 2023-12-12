@@ -42,7 +42,7 @@ export default function HomeScreen({navigation}) {
               iconColor={colorPallete.darkBlue}
               style={{marginRight:4}}
               onPress={switchScreenHandler}
-              screen={'DonorDetailsScreen'}
+              screen={'SearchDonorScreen'}
             />
             <AdminHomebtn 
               title={'Recipient'} 

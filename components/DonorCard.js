@@ -54,13 +54,16 @@ export default DonorCard;
 const styles = StyleSheet.create({
     container: {
         overflow: 'hidden',
-        marginBottom: 5,
+        marginBottom: 1,
+        marginTop:6,
         backgroundColor: 'white',
-        width: '100%',
+        width: '97%',
+        borderRadius:35,
+        marginLeft:7
     },
     innerContainer: {
         margin: 10,
-        marginTop: 20
+        marginTop: 10
     },
     image: {
         width: 60,

@@ -40,20 +40,6 @@ export default function DonorProfileScreen({navigation}) {
             screen={'UpdatePassword'}
           />
           <PressableOption 
-            title={'Analytics & Reports'}
-            leftIcon={"analytics"}
-            rightIcon={"keyboard-arrow-right"}
-            onPress={switchScreen}
-            screen={'AnalyticsAndReports'}
-          />
-          <PressableOption 
-            title={'Verification'}
-            leftIcon={"verified"}
-            rightIcon={"keyboard-arrow-right"}
-            onPress={switchScreen}
-            screen={'Verification'}
-          />
-          <PressableOption 
             title={'Privacy & Terms'}
             leftIcon={"privacy-tip"}
             rightIcon={"keyboard-arrow-right"}
