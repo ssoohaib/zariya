@@ -2,9 +2,12 @@ import { FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity }
 import AdminHomebtn from '../../components/AdminHomebtn';
 import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
+import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
 //import 'graph' from '../../assets/images';
 
 export default function HomeScreen({navigation}) {
+  const {currentUser} = useContext(AuthContext);
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)

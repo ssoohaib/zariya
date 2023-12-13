@@ -42,12 +42,12 @@ export default function HistoryModal(props) {
 
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <MaterialCommunityIcons name={icon} size={24} color={ColorPallete.mediumBlue} />
+            <MaterialCommunityIcons name={icon} size={24} color={ColorPallete.screenBg} />
           </View>
           <Text style={styles.headerText}>{selectedHistory.puid}</Text>
           <View style={styles.headerRight}>
             <Pressable onPress={props.toggleModal}>
-              <MaterialIcons name={'cancel'} size={24} color={ColorPallete.lightBlueTwo} />
+              <MaterialIcons name={'cancel'} size={24} color={ColorPallete.mediumBlue} />
             </Pressable>
           </View>
         </View>
@@ -77,10 +77,10 @@ export default function HistoryModal(props) {
         <View style={styles.btn}>
           <ImprovButton
             icon={'delete'}
-            iconColor={'red'}
+            iconColor={ColorPallete.screenBg}
             style={{
               backgroundColor:ColorPallete.mediumBlue, 
-              borderWidth:1, 
+              // borderWidth:1, 
               marginRight:8,
               borderColor:'red',
               padding:11,
@@ -89,7 +89,10 @@ export default function HistoryModal(props) {
           <ImprovButton
             title={'Donate Again'}
             container={{flex:1, }}
-            titleStyle={{textAlign:'center', }}
+            titleStyle={{textAlign:'center', color:ColorPallete.screenBg,}}
+            style={{
+              backgroundColor:ColorPallete.mediumBlue
+            }}
           />
         </View>
       
@@ -103,7 +106,8 @@ const styles=StyleSheet.create({
   modalContainer:{ 
     flex:1,
     justifyContent:'flex-start',
-    backgroundColor:ColorPallete.mediumBlue,
+    backgroundColor:ColorPallete.screenBg,
+    // backgroundColor:ColorPallete.mediumBlue,
     borderRadius:16,
     paddingTop:16, 
     paddingHorizontal:16,
@@ -120,14 +124,14 @@ const styles=StyleSheet.create({
 
   },
   headerLeft:{
-    backgroundColor:ColorPallete.lightBlueTwo,
+    backgroundColor:ColorPallete.mediumBlue,
     padding:8,
     borderRadius:8,
   },
   headerText:{
     fontSize:18,
     fontWeight:'bold',
-    color:ColorPallete.lightBlueTwo,
+    color:ColorPallete.mediumBlue,
   },
   headerRight:{
 
@@ -135,7 +139,7 @@ const styles=StyleSheet.create({
   title:{
     fontSize:18,
     fontWeight:'bold',
-    color:ColorPallete.screenBg,
+    color:ColorPallete.mediumBlue,
     marginBottom:16,
 
   },
@@ -147,18 +151,18 @@ const styles=StyleSheet.create({
 
   },
   c1:{
-    color:ColorPallete.screenBgTwo,
+    color:ColorPallete.mediumBlue,
 
   },
   c2:{
     fontSize:16,
     fontWeight:'bold',
-    color:ColorPallete.lightBlueTwo,
+    color:ColorPallete.mediumBlue,
   },
   date:{
     fontWeight:'bold',
     textAlign:"right",
-    color:ColorPallete.screenBgTwo,
+    color:ColorPallete.mediumBlueTwo,
     marginBottom:8,
 
   },

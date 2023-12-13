@@ -1,12 +1,13 @@
 import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ColorPallete from "../../constants/ColorPallete";
 import ImprovInput from "../../components/ImprovInput";
 import AuthenticationModal from "../../components/AuthenticationModal"
 import { MaterialIcons } from '@expo/vector-icons';
 import ImagePickerComp from "../../components/ImagePickerComp";
 import * as ImagePicker from 'expo-image-picker';
-import { signUpDonor, signIn } from "../../utilities/AuthFetches";
+import { signUp, signIn } from "../../utilities/AuthFetches";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function SigningScreen({navigation}) {
     const [mode,setMode]=useState('SignIn')
@@ -25,6 +26,8 @@ export default function SigningScreen({navigation}) {
     const [causes, setCauses]=useState([])
     const [causeImages, setCauseImages]=useState([])
     const [verificationImages, setVerificationImages]=useState([])
+
+    const {setCurrentUserAndToken}=useContext(AuthContext)
 
     const modeHandler = (mode)=>{
         setMode(mode)
@@ -74,32 +77,35 @@ export default function SigningScreen({navigation}) {
         setCauses(prev=>prev.filter((i, count)=>count!=index))
     }
 
-    const switchScreen = (screen)=>{
+    const  switchScreen = async (screen)=>{
+        let payload={}
         if (mode=='SignUp'){
-            const payload={
+            payload={
                 userType:'donor',
                 email:email,
                 password:password,
                 firstName:firstName,
                 lastName:lastName,
             }
-            signUpDonor({...payload})
-        }else if (mode=='Org'){
-            const payload={
-                userType:'recepient',
-                email:email,
-                password:password,
-                title:orgTitle,
-                description:description,
-                causes:causes,
-                verificationImages:verificationImages,
-                causesImages:causeImages,
+            signUp({...payload})
+        } else if (mode == 'Org') {
+            payload = {
+                userType: 'recepient',
+                email: email,
+                password: password,
+                title: orgTitle,
+                description: description,
+                causes: causes,
+                verificationImages: verificationImages,
+                causesImages: causeImages,
             }
-            signUpDonor({...payload})
-        }else if (mode=='SignIn'){
-            signIn(email, password)
+            signUp({ ...payload })
+        } else if (mode == 'SignIn') {
+            const result = await signIn(email, password);
+            setCurrentUserAndToken(result.user, result.token)
+            console.log("return>>>",result);
         }
-        navigation.navigate(screen)
+        // navigation.navigate(screen)
     }
 
 

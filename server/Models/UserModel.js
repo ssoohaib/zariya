@@ -59,6 +59,11 @@ const UserSchema=new mongoose.Schema({
         type:Date,
         default:Date.now
     },
+    recipientApproval:{
+        type:Boolean,
+        default:false,
+        required:false
+    },
 })
 
 module.exports=mongoose.model('User',UserSchema)

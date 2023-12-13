@@ -8,8 +8,19 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import date from 'date-and-time';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { Platform } from "react-native";
 
 export default function DonationEnterScreen({navigation, route}) {
+
+    const [fromTimeVisible, setFromTimeVisible]=useState(false)
+    const [fromDateVisible, setFromDateVisible]=useState(false)
+    const [tillTimeVisible, setTillTimeVisible]=useState(false)
+    const [tillDateVisible, setTillDateVisible]=useState(false)
+
+    const [expDateVisible, setExpDateVisible]=useState(false)
+
+    // const []=useState()
+
     const [items,setItems]=useState([])
 
     const [title,setTitle]=useState('')
@@ -131,16 +142,21 @@ export default function DonationEnterScreen({navigation, route}) {
     };
 
     const onFromDateChange = (event, selectedDate) => {
+        setFromDateVisible(false);
+        setFromTimeVisible(false);
         const currentDate = selectedDate;
         setFromDate(currentDate);
     };
 
     const onTillDateChange = (event, selectedDate) => {
+        setTillDateVisible(false);
+        setTillTimeVisible(false);
         const currentDate = selectedDate;
         setTillDate(currentDate);
     };
 
     const onExpDateChange = (event, selectedDate) => {
+        setExpDateVisible(false);
         const currentDate = selectedDate;
         setMedicineExp(currentDate);
     };
@@ -301,16 +317,23 @@ export default function DonationEnterScreen({navigation, route}) {
                     overflow:'hidden',
 
                 }}>
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        value={medicineExp}
-                        mode={'date'}
-                        is24Hour={true}
-                        onChange={onExpDateChange}
-                        style={{
-                            backgroundColor:ColorPallete.screenBg,
-                        }}
-                    />
+                    {
+                        Platform.OS=='android' &&
+                        <Pressable style={{marginLeft:8}} onPress={()=>setExpDateVisible(true)}>
+                            <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
+                            <Text style={{color:'black', fontWeight:'bold'}}>{medicineExp.getDate()}-{medicineExp.getMonth()+1}-{medicineExp.getFullYear()}</Text>
+                            </View>
+                        </Pressable>
+                    }
+                    {(Platform.OS!='android' || expDateVisible) && 
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            value={medicineExp}
+                            mode={'date'}
+                            is24Hour={true}
+                            onChange={onExpDateChange}      
+                        />
+                    }
                 </View>
             </View>
         }
@@ -355,13 +378,23 @@ export default function DonationEnterScreen({navigation, route}) {
                             <MaterialIcons name="calendar-today" size={24} color={ColorPallete.screenBg} />
                         </View>
                         <View style={styles.dateTimeBtn}>
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={fromDate}
-                                mode={'date'}
-                                is24Hour={true}
-                                onChange={onFromDateChange}
-                            />
+                            {
+                                Platform.OS=='android' &&
+                                <Pressable style={{marginLeft:8}} onPress={()=>setFromDateVisible(true)}>
+                                    <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
+                                        <Text style={{color:'black', fontWeight:'bold'}}>{fromDate.getDate()}-{fromDate.getMonth()+1}-{fromDate.getFullYear()}</Text>
+                                    </View>
+                                </Pressable>
+                            }
+                            {(Platform.OS!='android' || fromDateVisible) && 
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={fromDate}
+                                    mode={'date'}
+                                    is24Hour={true}
+                                    onChange={onFromDateChange}
+                                />
+                            }
                         </View>                
                     </View>
                     <View style={styles.dateContainer}>
@@ -369,13 +402,23 @@ export default function DonationEnterScreen({navigation, route}) {
                             <MaterialIcons name="access-time" size={24} color={ColorPallete.screenBg} />
                         </View>
                         <View style={styles.dateTimeBtn}>
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={fromDate}
-                                mode={'time'}
-                                is24Hour={true}
-                                onChange={onFromDateChange}      
-                            />
+                            {
+                                Platform.OS=='android' &&
+                                <Pressable style={{marginLeft:8}} onPress={()=>setFromTimeVisible(true)}>
+                                    <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
+                                        <Text style={{color:'black', fontWeight:'bold'}}>{fromDate.getHours()<10 && 0}{fromDate.getHours()}:{fromDate.getMinutes()<10 && 0}{fromDate.getMinutes()}</Text>
+                                    </View>
+                                </Pressable>
+                            }
+                            {(Platform.OS!='android' || fromTimeVisible) && 
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={fromDate}
+                                    mode={'time'}
+                                    is24Hour={true}
+                                    onChange={onFromDateChange}      
+                                />
+                            }
                         </View>                
                     </View>
                 </View>
@@ -388,13 +431,24 @@ export default function DonationEnterScreen({navigation, route}) {
                             <MaterialIcons name="calendar-today" size={24} color={ColorPallete.screenBg} />
                         </View>
                         <View style={styles.dateTimeBtn}>
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={tillDate}
-                                mode={'date'}
-                                is24Hour={true}
-                                onChange={onTillDateChange}
-                            />
+                            {
+                                Platform.OS=='android' &&
+                                <Pressable style={{marginLeft:8}} onPress={()=>setTillDateVisible(true)}>
+                                    <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
+                                    <Text style={{color:'black', fontWeight:'bold'}}>{tillDate.getDate()}-{tillDate.getMonth()+1}-{tillDate.getFullYear()}</Text>
+                                    </View>
+                                </Pressable>
+                            }
+                            {(Platform.OS!='android' || tillDateVisible) && 
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={tillDate}
+                                    mode={'date'}
+                                    is24Hour={true}
+                                    onChange={onTillDateChange}      
+                                />
+                            }
+                            
                         </View>                
                     </View>
                     <View style={styles.dateContainer}>
@@ -402,14 +456,23 @@ export default function DonationEnterScreen({navigation, route}) {
                             <MaterialIcons name="access-time" size={24} color={ColorPallete.screenBg} />
                         </View>
                         <View style={styles.dateTimeBtn}>
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={tillDate}
-                                mode={'time'}
-                                is24Hour={true}
-                                onChange={onTillDateChange}
-                                
-                            />
+                            {
+                                Platform.OS=='android' &&
+                                <Pressable style={{marginLeft:8}} onPress={()=>setTillTimeVisible(true)}>
+                                    <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
+                                        <Text style={{color:'black', fontWeight:'bold'}}>{tillDate.getHours()<10 && 0}{tillDate.getHours()}:{tillDate.getMinutes()<10 && 0}{tillDate.getMinutes()}</Text>
+                                    </View>
+                                </Pressable>
+                            }
+                            {(Platform.OS!='android' || tillTimeVisible) && 
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={tillDate}
+                                    mode={'time'}
+                                    is24Hour={true}
+                                    onChange={onTillDateChange}      
+                                />
+                            }
                         </View>                
                     </View>
                 </View>

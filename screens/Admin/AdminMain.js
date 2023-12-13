@@ -17,6 +17,8 @@ import SearchRecipientScreen from './SearchRecipientScreen';
 import AdminReportScreen from './AdminReportScreen';
 import RecipientRequestScreen from './RecipientRequestScreen';
 import SupportTextScreen from './SupportTextScreen';
+import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -44,45 +46,51 @@ function HomeScreenStack() {
 
 
 export default function App() {
+  const {currentUser} = useContext(AuthContext);
 
   return (
-    <ToastProvider
-      duration={4000}
-      animationType='zoom-in'
-      offsetBottom={100}
-      warningColor={colorPallete.darkBlue}>
+    <>
+      {
+        currentUser && currentUser.userType == 'admin' &&
+        <ToastProvider
+          duration={4000}
+          animationType='zoom-in'
+          offsetBottom={100}
+          warningColor={colorPallete.darkBlue}>
 
-      <NavigationContainer>
-        <StatusBar style='light' />
-          <Tab.Navigator
-            screenOptions={{
-              headerShown: false,
-              tabBarActiveTintColor: colorPallete.mediumBlue,
-              tabBarStyle: {
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
-                overflow: 'hidden',
-              }
-            }}
-            sceneContainerStyle={{
-              backgroundColor: 'white'
-            }}
-            >
-              <Tab.Screen name="Home" component={HomeScreenStack} options={{
-                tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
-              }} />
-              <Tab.Screen name="Notifications" component={AdminNotificationScreen} options={{
-                tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
-              }} />
-              <Tab.Screen name="Support" component={AdminSupportScreen} options={{
-                tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
-              }} />
-              <Tab.Screen name="Profile" component={AdminProfileScreen} options={{
-                tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
-              }} />
-          </Tab.Navigator>
-      </NavigationContainer>
-    </ToastProvider>
+          <NavigationContainer>
+            <StatusBar style='light' />
+              <Tab.Navigator
+                screenOptions={{
+                  headerShown: false,
+                  tabBarActiveTintColor: colorPallete.mediumBlue,
+                  tabBarStyle: {
+                    borderTopLeftRadius: 8,
+                    borderTopRightRadius: 8,
+                    overflow: 'hidden',
+                  }
+                }}
+                sceneContainerStyle={{
+                  backgroundColor: 'white'
+                }}
+                >
+                  <Tab.Screen name="Home" component={HomeScreenStack} options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
+                  }} />
+                  <Tab.Screen name="Notifications" component={AdminNotificationScreen} options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
+                  }} />
+                  <Tab.Screen name="Support" component={AdminSupportScreen} options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
+                  }} />
+                  <Tab.Screen name="Profile" component={AdminProfileScreen} options={{
+                    tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
+                  }} />
+              </Tab.Navigator>
+          </NavigationContainer>
+        </ToastProvider>
+      }
+    </>
   );
 }
 
