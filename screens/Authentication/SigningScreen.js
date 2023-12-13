@@ -6,7 +6,7 @@ import AuthenticationModal from "../../components/AuthenticationModal"
 import { MaterialIcons } from '@expo/vector-icons';
 import ImagePickerComp from "../../components/ImagePickerComp";
 import * as ImagePicker from 'expo-image-picker';
-
+import { signUpDonor, signIn } from "../../utilities/AuthFetches";
 
 export default function SigningScreen({navigation}) {
     const [mode,setMode]=useState('SignIn')
@@ -25,22 +25,6 @@ export default function SigningScreen({navigation}) {
     const [causes, setCauses]=useState([])
     const [causeImages, setCauseImages]=useState([])
     const [verificationImages, setVerificationImages]=useState([])
-
-    useEffect(()=>{
-        console.log(Platform.OS)
-        const url = Platform.OS=='android'? 'http://10.0.2.2:5000/':'http://192.168.56.1:5000/' 
-        fetch(url,{
-            method:'GET',
-        })
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-    },[mode])
-
 
     const modeHandler = (mode)=>{
         setMode(mode)
@@ -91,25 +75,32 @@ export default function SigningScreen({navigation}) {
     }
 
     const switchScreen = (screen)=>{
-        console.log(screen)
+        if (mode=='SignUp'){
+            const payload={
+                userType:'donor',
+                email:email,
+                password:password,
+                firstName:firstName,
+                lastName:lastName,
+            }
+            signUpDonor({...payload})
+        }else if (mode=='Org'){
+            const payload={
+                userType:'recepient',
+                email:email,
+                password:password,
+                title:orgTitle,
+                description:description,
+                causes:causes,
+                verificationImages:verificationImages,
+                causesImages:causeImages,
+            }
+            signUpDonor({...payload})
+        }else if (mode=='SignIn'){
+            signIn(email, password)
+        }
         navigation.navigate(screen)
     }
-
-    const pickImage = async (forImage) => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-        if (!result.canceled) {
-            if (forImage=='Verification Images'){
-                setVerificationImages(prev=>[...prev,result.assets[0].uri])
-            }else{
-                setCauseImages(prev=>[...prev,result.assets[0].uri])
-            }
-        }
-    };
 
 
   return (
@@ -285,7 +276,7 @@ export default function SigningScreen({navigation}) {
                         </>
                     }
 
-                    <Pressable onPress={mode!="SignIn" ? ()=>switchScreen('Verification'):null } style={mode !='SignIn' && {marginTop:8}}>
+                    <Pressable onPress={mode!="SignIn" ? ()=>switchScreen('Verification'):()=>switchScreen('Verification') } style={mode !='SignIn' && {marginTop:8}}>
                         <View style={[styles.btnContainer, { backgroundColor:ColorPallete.mediumBlue, paddingVertical:20}]}>
                             {
                                 mode == 'SignIn' ?
