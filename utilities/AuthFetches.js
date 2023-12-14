@@ -37,6 +37,8 @@ export const signUp = ({email, password, firstName, lastName, userType, title, d
 }
 
 export const signIn = async (email, password) => {
+
+    console.log("signing in", email, password)
     
     try {
         const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';

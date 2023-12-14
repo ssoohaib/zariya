@@ -88,6 +88,7 @@ export default function SigningScreen({navigation}) {
                 lastName:lastName,
             }
             signUp({...payload})
+            goBackToSignIn()
         } else if (mode == 'Org') {
             payload = {
                 userType: 'recepient',
@@ -100,12 +101,19 @@ export default function SigningScreen({navigation}) {
                 causesImages: causeImages,
             }
             signUp({ ...payload })
+            goBackToSignIn()
         } else if (mode == 'SignIn') {
             const result = await signIn(email, password);
             setCurrentUserAndToken(result.user, result.token)
             console.log("return>>>",result);
         }
         // navigation.navigate(screen)
+    }
+
+    const goBackToSignIn = ()=>{
+        setEmail('')
+        setPassword('')
+        setMode('SignIn')
     }
 
 

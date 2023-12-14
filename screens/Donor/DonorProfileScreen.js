@@ -29,7 +29,7 @@ export default function DonorProfileScreen({navigation}) {
           <View style={styles.topRight}>
             <Text style={styles.userName}>{currentUser.firstName} {currentUser.lastName}</Text>
             <Text style={styles.subTitle}>{currentUser.city} Pakistan</Text>
-            <Text style={styles.subTitle}>{currentUser.contactNumber.slice(0,4)} {currentUser.contactNumber.slice(4)}</Text>
+            <Text style={styles.subTitle}>{currentUser.contactNumber && currentUser.contactNumber.slice(0,4)} {currentUser.contactNumber && currentUser.contactNumber.slice(4)}</Text>
           </View>
         </View>
         <View style={styles.bottom}>          
