@@ -4,6 +4,7 @@ export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
 
+    const [allUsers, setAllUsers]=useState(null);
     const [currentUser, setCurrentUser]=useState(null);
     const [token, setToken]=useState(null);
 
@@ -13,9 +14,14 @@ export default function AuthContextProvider({ children }) {
         setToken(token);
     }
 
+    const setAllUsersHandler=(users)=>{
+        console.log("setting all users", users)
+        setAllUsers(users);
+    }
+
 
     return (
-        <AuthContext.Provider value={{ currentUser, token, setCurrentUserAndToken}}>
+        <AuthContext.Provider value={{ currentUser, token, allUsers, setCurrentUserAndToken, setAllUsersHandler}}>
             {children}
         </AuthContext.Provider>
     )

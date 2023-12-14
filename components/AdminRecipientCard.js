@@ -40,7 +40,15 @@ function AdminRecipientCard(props) {
 
                 </View>
             </Pressable>
-            <RecipientInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
+            <RecipientInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload}
+                userData={{
+                    id: props.id,
+                    title: props.title,
+                    logo: props.logo,
+                    description: props.description,
+                    recipientApproval: props.recipientApproval,
+                }}
+             />
         </View>
     )
 }
@@ -49,13 +57,14 @@ export default AdminRecipientCard;
 
 const styles = StyleSheet.create({
     container: {
+        // borderWidth:1,
         overflow: 'hidden',
-        marginBottom: 1,
-        marginTop:6,
-        backgroundColor: 'white',
-        width: '97%',
-        borderRadius:35,
-        marginLeft:7
+        marginBottom: 8,
+        // marginTop:6,
+        backgroundColor: ColorPallete.fLightColor,
+        // width: '97%',
+        borderRadius:8,
+        // marginLeft:7
     },
     innerContainer: {
         margin: 10,

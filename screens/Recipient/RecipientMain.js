@@ -29,28 +29,6 @@ import { AuthContext } from '../../context/AuthContext';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const StackSplash = createNativeStackNavigator();
-
-function SplashStack({ handleSplashScreenPress }) {
-  return (
-    <StackSplash.Navigator screenOptions={{ headerShown: false }}>
-      <StackSplash.Screen name="SplashScreen1" component={SplashScreen1} />
-      <StackSplash.Screen name="SplashScreen2" component={SplashScreen2} />
-      <StackSplash.Screen
-        name="SplashScreen3"
-        options={{
-          animationEnabled: false,
-          headerShown: false,
-        }}
-      >
-        {(props) => (
-          <SplashScreen3 {...props} onButtonPress={handleSplashScreenPress} navigation={props.navigation} />
-        )}
-      </StackSplash.Screen>
-    </StackSplash.Navigator>
-  );
-}
-
 
 function MyStack() {
   return (
@@ -115,12 +93,7 @@ function ProfileStack(){
 
 export default function App() {
   const { currentUser } = useContext(AuthContext);
-  const [showSplash, setShowSplash] = useState(false);
-
-  useEffect(() => {
-    if (!showSplash) {
-    }
-  }, [showSplash]);
+  const [showSplash, setShowSplash] = useState(true);
 
   return (
     <>
@@ -134,9 +107,6 @@ export default function App() {
         >
         <NavigationContainer>
           <StatusBar style='light' />
-          {showSplash ? (
-            <SplashStack handleSplashScreenPress={() => setShowSplash(false)} />
-          ) : (
             <Tab.Navigator
               screenOptions={{
                 headerShown: false,
@@ -164,7 +134,6 @@ export default function App() {
                 tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
               }} />
             </Tab.Navigator>
-          )}
         </NavigationContainer>
         </ToastProvider>
       }

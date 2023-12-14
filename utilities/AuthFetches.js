@@ -61,7 +61,27 @@ export const signIn = async (email, password) => {
         console.error(error);
         return { error: 'Authentication error' };
     }
+}
 
+export const getAllUsers = async (token) => {
+    try {
+        const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';
+        const result = await fetch(url + 'all-users', {
+            method: 'GET',
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!result.ok) {
+            throw new Error('Could not fetch all users');
+        }
+
+        const data = await result.json();
+        return data;
+    }catch(err){
+        console.log(err)
+    }
 
 }
 
@@ -86,3 +106,4 @@ export const signOut = (bearerTokenToBlacklist) => {
         console.log(err)
     }
 }
+

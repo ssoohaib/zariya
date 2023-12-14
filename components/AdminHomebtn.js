@@ -19,11 +19,6 @@ export default function AdminHomebtn(props) {
         <Pressable onPress={props.validator ? pressWithValidator:pressHandler} android_ripple={{color:ColorPallete.darkBlue}}>
             <View style={[styles.innerContainer,props.styleInner]}>
                 {
-                    props.icon &&
-                    <MaterialCommunityIcons name={props.icon} size={100} 
-                    color={props.iconColor ? props.iconColor:'black'} />
-                }
-                {
                     props.title &&
                     <Text 
                     style={
@@ -33,6 +28,13 @@ export default function AdminHomebtn(props) {
                     }>
                     {props.title}</Text>
                 }
+                {
+                    props.icon &&
+                    <View style={{alignItems:'flex-end'}}>
+                        <MaterialCommunityIcons name={props.icon} size={32} 
+                        color={props.iconColor ? props.iconColor:'black'} />
+                    </View>
+                }
             </View>
         </Pressable>
     </View>    
@@ -41,12 +43,26 @@ export default function AdminHomebtn(props) {
 
 const styles=StyleSheet.create({
     container:{
+        flex:1,
         //position:'relative',
-        borderRadius:35,
+        borderRadius:16,
         //overflow:'hidden'
     },
     innerContainer:{
-        padding:30,
-        alignItems:'center',
+        height:120,
+        padding:10,
+        justifyContent:'space-between',
+        // paddingVertical:32,
+        // paddingHorizontal:16,
+        // flexDirection:"column-reverse",
+        // alignItems:'space-between',
+        // padding:16,
+        // alignItems:'center',
     },
+    text:{
+        fontSize:16,
+        fontWeight:'bold',
+        textAlign:'left',
+        // color:'white'
+    }
 })

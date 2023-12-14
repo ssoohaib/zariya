@@ -54,6 +54,8 @@ export default colorPallete = {
 //=======
     lightTextColor:'#8b8888',
     unselectedColor:'#E7E7E9',
+
+    fLightColor:'#f5f5f5'
 //>>>>>>> master
 };
 // export default colorPallete = {

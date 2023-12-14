@@ -3,10 +3,13 @@ import colorPallete from '../../constants/ColorPallete';
 import { NGOS } from '../../dummy_data/dummy_data';
 import InputBar from '../../components/InputBar';
 import AdminRecipientCard from '../../components/AdminRecipientCard';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import RecipientInfoModal from '../../components/RecipientInfoModal';
+import ColorPallete from '../../constants/ColorPallete';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function SearchRecipientScreen({ navigation }) {
+  const { allUsers } = useContext(AuthContext);
   const switchScreenHandler = (screen) => {
     navigation.navigate(screen);
   }
@@ -24,12 +27,18 @@ export default function SearchRecipientScreen({ navigation }) {
     setselectedRecipient(itemData.item)
     
     return (
-      <AdminRecipientCard
-        id={itemData.item.id}
-        title={itemData.item.title}
-        logo={itemData.item.logo}
-        phone={itemData.item.contact.phone}
-      />
+      <>
+        {
+          itemData.item.userType == 'recipient' &&
+          <AdminRecipientCard
+            id={itemData.item.id}
+            title={itemData.item.title}
+            logo={'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'}
+            description={itemData.item.description}
+            recipientApproval={itemData.item.recipientApproval ? 'Verified':'Not Verified'}
+          />
+        }
+      </>
     );
 
 
@@ -47,6 +56,8 @@ export default function SearchRecipientScreen({ navigation }) {
             icon={'magnify'}
             iconColor={'white'}
             onChangeText={textChangeHandler}
+            inputStyle={{ backgroundColor:ColorPallete.screenBg, borderColor:ColorPallete.darkBlue, color:ColorPallete.mediumBlue }}
+            placeholderTextColor={ColorPallete.darkBlue}
           />
         </View>
       </View>
@@ -54,9 +65,13 @@ export default function SearchRecipientScreen({ navigation }) {
       <View style={styles.donorContainer}>
         <View style={styles.donorListContainer}>
           <FlatList
-            data={NGOS.filter((ngo) =>
-                ngo.title.toLowerCase().includes(searchTerm.toLowerCase())
-            )}
+            // data={NGOS.filter((ngo) =>
+            //     ngo.title.toLowerCase().includes(searchTerm.toLowerCase())
+            // )}
+            data={
+              allUsers.filter((ngo)=>
+                ngo.userType == 'recipient' && ngo.title.toLowerCase().includes(searchTerm.toLowerCase()))
+            }
             keyExtractor={(item) => item.id}
             renderItem={renderFlatList}
           />
@@ -69,10 +84,12 @@ export default function SearchRecipientScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:ColorPallete.screenBg,
+    paddingHorizontal: 16,
     // container styles here
   },
   heading: {
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     paddingTop: 16,
   },
   subtitle: {
@@ -82,8 +99,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
   },
   inputBarcolour: {
-    backgroundColor: '#afafaf',
-    borderRadius: 20,
+    marginBottom:16
+    // backgroundColor: '#afafaf',
+    // borderRadius: 20,
   },
   // Add any additional styles you need
 });

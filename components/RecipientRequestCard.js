@@ -9,7 +9,7 @@ import RecipientRequestModal from "../components/RecipientRequestModal"
 function RecipientRequestCard(props) {
 
     const statusStyles = {
-        color: props.status === 'Verified' ? 'green' : 'red',
+        color: props.recipientApproval === 'Verified' ? 'green' : 'red',
     };
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -41,7 +41,16 @@ function RecipientRequestCard(props) {
 
                 </View>
             </Pressable>
-            <RecipientRequestModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
+            <RecipientRequestModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload}
+                userData={{
+                    title: props.title,
+                    logo: props.logo,
+                    description: props.description,
+                    recipientApproval: props.recipientApproval,
+                    city: props.city,
+                    causes: props.causes,
+                }}
+             />
         </View>
     )
 }

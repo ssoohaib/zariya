@@ -19,6 +19,8 @@ import RecipientRequestScreen from './RecipientRequestScreen';
 import SupportTextScreen from './SupportTextScreen';
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
+import { getAllUsers } from '../../utilities/AuthFetches';
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
