@@ -2,14 +2,25 @@ import { FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity }
 import AdminHomebtn from '../../components/AdminHomebtn';
 import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
-//import 'graph' from '../../assets/images';
+import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
+import { getAllUsers } from '../../utilities/AuthFetches';
 
 export default function HomeScreen({navigation}) {
+  const {currentUser, token, setAllUsersHandler} = useContext(AuthContext);
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
   }
   
+  const getAllUsersHandler= async (screen)=>{
+    console.log("getting all users")
+    const allUsers = await getAllUsers(token);
+    setAllUsersHandler(allUsers);
+    console.log("all users", allUsers)
+
+    switchScreenHandler(screen)
+  }
 
     return (
 
@@ -21,7 +32,7 @@ export default function HomeScreen({navigation}) {
             <View style={styles.userContainer}>
               <View style={styles.userTextContainer}>
                 <Text style={styles.userGreet}>Hi,</Text>
-                <Text style={styles.userName}>Admin</Text>
+                <Text style={styles.userName}>{currentUser.firstName} {currentUser.lastName}</Text>
               </View>
               <ImageButton
                 style={styles.userImage}
@@ -40,8 +51,8 @@ export default function HomeScreen({navigation}) {
               icon={'account-multiple'} 
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
-              style={{marginRight:4}}
-              onPress={switchScreenHandler}
+              style={{marginRight:8}}
+              onPress={getAllUsersHandler}
               screen={'SearchDonorScreen'}
             />
             <AdminHomebtn 
@@ -49,8 +60,8 @@ export default function HomeScreen({navigation}) {
               icon={'office-building'} 
               bgColor={colorPallete.lightBlue} 
               iconColor={colorPallete.darkBlue}
-              style={{marginRight:4}}
-              onPress={switchScreenHandler}
+              style={{marginRight:0}}
+              onPress={getAllUsersHandler}
               screen={'RecipientDetailsScreen'}
             />
           </View>
@@ -152,7 +163,9 @@ const styles = StyleSheet.create({
     },
     buttonsContainer:{ 
       flexDirection:'row',
-      justifyContent:'space-evenly'
+      justifyContent:'space-between',
+
+      // borderWidth:1
     },
     
 });

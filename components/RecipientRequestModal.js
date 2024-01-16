@@ -49,50 +49,49 @@ export default function RecipientInfoModal(props) {
       style={styles.modalContainer}
       onBackdropPress={toggleModal}
     >
-      {selectedRecipient && (
+      {(
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={{ uri: selectedRecipient.images[0] }}
+            source={{ uri: props.userData.logo }}
             resizeMode="cover"
           />
           <View style={styles.overlayContainer}>
-            <Text style={styles.nameContainer}>{selectedRecipient.title.toUpperCase()}</Text>
-            <Text style={styles.textContainer}>{selectedRecipient.desc.slice(0,250)}</Text>
+            <Text style={styles.nameContainer}>{props.userData.title.toUpperCase()}</Text>
+            <Text style={styles.textContainer}>{props.userData.description.slice(0,250)}</Text>
             <View style={styles.btmContainer}>
               <View style={{flexDirection:"row", marginVertical:16, justifyContent:"space-between"}}>
-                <Text style={styles.contactContainer}>{selectedRecipient.contact.phone}</Text>
-                <Text style={styles.contactContainer}>{selectedRecipient.contact.city}, {selectedRecipient.contact.country}</Text>
-                
+                <Text style={styles.contactContainer}>0300 14566432</Text>
+                <Text style={styles.contactContainer}>{props.userData.city}, Pakistan</Text>
               </View>
               <View style={styles.causesContainer}>
-                <Text style={{color:colorPallete.screenBg, fontWeight:'bold', marginBottom:8}}>Causes</Text>
+                <Text style={{color:colorPallete.mediumBlue, fontWeight:'bold', marginBottom:8}}>Causes</Text>
                 <View style={{flexDirection:'row', marginBottom:8}}>
                   {
-                    selectedRecipient.causes.map((i, count)=>(
+                    props.userData.causes.map((i, count)=>(
                       count<3 &&
-                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.lightBlue,marginRight:4}}>
-                        <Text style={{color:colorPallete.mediumBlue}}>{i}</Text>
+                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.mediumBlue,marginRight:4}}>
+                        <Text style={{color:colorPallete.screenBg}}>{i}</Text>
                       </View>                   
                     ))
                   }
                 </View>
                 <View style={{flexDirection:'row'}}>
                   {
-                    selectedRecipient.causes.map((i, count)=>(
+                    props.userData.causes.map((i, count)=>(
                       count>=3 && count<6 &&
-                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.lightBlue,marginRight:4}}>
-                        <Text style={{color:colorPallete.mediumBlue}}>{i}</Text>
+                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.mediumBlue,marginRight:4}}>
+                        <Text style={{color:colorPallete.screenBg}}>{i}</Text>
                       </View>                   
                     ))
                   }
                 </View>
                 <View style={{flexDirection:'row'}}>
                   {
-                    selectedRecipient.causes.map((i, count)=>(
+                    props.userData.causes.map((i, count)=>(
                       count>=6 &&
-                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.lightBlue,marginRight:4}}>
-                        <Text style={{color:colorPallete.mediumBlue}}>{i}</Text>
+                      <View style={{padding:8, borderRadius:8, backgroundColor:colorPallete.mediumBlue,marginRight:4}}>
+                        <Text style={{color:colorPallete.screenBg}}>{i}</Text>
                       </View>                   
                     ))
                   }
@@ -105,8 +104,8 @@ export default function RecipientInfoModal(props) {
             <IconButton
               title={'Documents'}
               icon={'file-document'}
-              bgColor={colorPallete.lightBlue}
-              iconColor={colorPallete.darkBlue}
+              bgColor={colorPallete.mediumBlue}
+              iconColor={colorPallete.screenBg}
               // style={{ marginLeft: 5, top: 10, padding: 5 }}
               onPress={handleContactPress}
             />
@@ -116,8 +115,8 @@ export default function RecipientInfoModal(props) {
               <IconButton
                   title={'Accept'}
                   icon={'check'}
-                  bgColor={colorPallete.lightBlue}
-                  iconColor={colorPallete.darkBlue}
+                  bgColor={colorPallete.mediumBlue}
+                  iconColor={colorPallete.screenBg}
                   style={{ marginRight: 8 }}
                   onPress={handleRemovePress}
                 />
@@ -125,8 +124,8 @@ export default function RecipientInfoModal(props) {
                 <IconButton
                   title={'Reject'}
                   icon={'cancel'}
-                  bgColor={colorPallete.lightBlue}
-                  iconColor={colorPallete.darkBlue}
+                  bgColor={colorPallete.mediumBlue}
+                  iconColor={colorPallete.screenBg}
                   // style={{ marginRight: 4}}
                   onPress={handleContactPress}
                 />
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
 causesContainer:{
   borderRadius:16,
   overflow:'hidden',
-  backgroundColor:colorPallete.mediumBlue,
+  backgroundColor:colorPallete.lightBlue,
   padding:16,
 },
 contactContainer:{

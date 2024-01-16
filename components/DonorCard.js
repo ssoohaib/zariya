@@ -33,10 +33,10 @@ function DonorCard(props) {
                                 source={{ uri: props.imageUrl }} />
                             <View style={styles.nameTimeDescContainer}>
                                 <View style={styles.nameContainer}>
-                                    <Text style={styles.name}>{props.name}</Text>
+                                    <Text style={styles.name}>{props.firstName} {props.lastName}</Text>
                                 </View>
                                 <View style={styles.emailContainer}>
-                                    <Text style={styles.email}>ID: {props.id}</Text>
+                                    <Text style={styles.email}>Email: {props.email}</Text>
                                 </View>
                             </View>
                         </View>
@@ -44,7 +44,16 @@ function DonorCard(props) {
 
                 </View>
             </Pressable>
-            <DonorInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
+            <DonorInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload}
+                userData={{
+                    firstName: props.firstName,
+                    lastName: props.lastName,
+                    email: props.email,
+                    contactNumber: props.contactNumber,
+                    imageUrl: props.imageUrl,
+                    status: props.status,
+                }}
+            />
         </View>
     )
 }
@@ -54,12 +63,12 @@ export default DonorCard;
 const styles = StyleSheet.create({
     container: {
         overflow: 'hidden',
-        marginBottom: 1,
-        marginTop:6,
-        backgroundColor: 'white',
-        width: '97%',
-        borderRadius:35,
-        marginLeft:7
+        marginBottom: 4,
+        // marginTop:6,
+        backgroundColor: '#f5f5f5',
+        // width: '97%',
+        borderRadius:8,
+        // marginLeft:7
     },
     innerContainer: {
         margin: 10,

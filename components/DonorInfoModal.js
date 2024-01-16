@@ -7,10 +7,7 @@ import { Donors } from '../dummy_data/donor_data';
 
 
 export default function DonorInfoModal(props) {
-
   const { isModalVisible, toggleModal, donor } = props;
-
-  const selectedDonor = Donors.find((i)=>i.id==props.id)
 
   const handleRemovePress = () => {
     console.log('remove pressed');
@@ -48,27 +45,28 @@ export default function DonorInfoModal(props) {
       style={styles.modalContainer}
       onBackdropPress={toggleModal}
     >
-      {selectedDonor && (
+      {(
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={{ uri: selectedDonor.images[0] }}
+            source={{ uri: 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png' }}
             resizeMode="cover"
           />
           <View style={styles.overlayContainer}>
-            <Text style={styles.nameContainer}>{selectedDonor.name.toUpperCase()}</Text>
-            <Text style={styles.textContainer}>{selectedDonor.email}</Text>
-            <Text style={styles.textContainer}>☎ {selectedDonor.contact.phone}</Text>
-            <Text style={styles.textContainer}>👤 {selectedDonor.status}</Text>
+            <Text style={[styles.nameContainer,]}>{props.userData.firstName} {props.userData.lastName}</Text>
+            <View style={{flexDirection:'row', justifyContent:"space-between", alignItems:"center"}}>
+              <Text style={[styles.textContainer,]}>{props.userData.email}</Text>
+              <Text style={[styles.textContainer, {padding:8, color:ColorPallete.mediumBlue, backgroundColor:ColorPallete.lightBlue, borderRadius:8}]}>{props.userData.status}</Text>
+            </View>
+            <Text style={[styles.textContainer, {fontWeight:'normal'}]}>{props.userData.contactNumber}</Text>
           </View>
           <View style={styles.bottomContainer}>
-
                 <IconButton
                     title={'Suspend'}
                     icon={'account-clock'}
                     bgColor={colorPallete.lightBlue}
                     iconColor={colorPallete.darkBlue}
-                    style={{ marginRight: 4 }}
+                    style={{ marginRight: 4, }}
                     onPress={handleContactPress} 
                   />
               <IconButton
@@ -99,41 +97,43 @@ const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor:colorPallete.mediumBlue,
     borderRadius: 16,
-    paddingTop: 8,
+    paddingTop: 16,
     paddingHorizontal: 16,
-    top: '32%',
+    top: '38%',
     margin: 0,
   },
   container: {
     flex: 1,
     backgroundColor:colorPallete.mediumBlue,
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   image: {
-    width: '110%',
-    height: '35%',
+    width: '100%',
+    height: 200,
     borderRadius: 16,
-    position: 'absolute',
-    top:-10,
+    objectFit: 'contain',
+    // position: 'absolute',
+    // top:-10,
   },
   overlayContainer:{
-      marginTop:280,
-      textAlign: 'center',
+      marginTop:16,
+      // textAlign: 'center',
 
   },
   textContainer: {
-    fontSize: 20,
-    fontWeight:'200',
-    textAlign:'center',
+    fontSize: 16,
+    fontWeight:'bold',
+    // textAlign:'center',
     color:'white',
-    lineHeight:40,
+    // lineHeight:40,
   },
   nameContainer: {
     fontSize: 20,
     fontWeight:'bold',
     color:'white',
     textAlign:'center',
-    fontStyle:'italic'
+    marginBottom:8,
+    // fontStyle:'italic'
   },
   bottomContainer: {
     flexDirection: 'row',

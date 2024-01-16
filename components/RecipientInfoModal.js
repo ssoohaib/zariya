@@ -48,16 +48,19 @@ export default function RecipientInfoModal(props) {
       style={styles.modalContainer}
       onBackdropPress={toggleModal}
     >
-      {selectedRecipient && (
+      {(
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={{ uri: selectedRecipient.images[0] }}
+            source={{ uri: props.userData.logo }}
             resizeMode="cover"
           />
           <View style={styles.overlayContainer}>
-            <Text style={styles.nameContainer}>{selectedRecipient.title.toUpperCase()}</Text>
-            <Text style={styles.textContainer}>{selectedRecipient.desc.slice(0,250)}</Text>
+            <Text style={styles.nameContainer}>{props.userData.title}</Text>
+            <Text style={styles.textContainer}>{props.userData.description.slice(0,200)}...</Text>
+            <View style={{alignItems:"center", marginTop:8}}>
+              <Text style={[styles.textContainer, { borderRadius:8, padding:4, paddingHorizontal:8, backgroundColor:ColorPallete.lightBlue, color:ColorPallete.darkBlue, fontWeight:'bold'}]}>{props.userData.recipientApproval}</Text>
+            </View>
           </View>
           <View style={styles.bottomContainer}>
               <IconButton

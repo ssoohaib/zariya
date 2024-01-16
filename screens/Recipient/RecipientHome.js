@@ -6,8 +6,12 @@ import { Analytics } from "../../dummy_data/recipient_analytics";
 import ReceiveDonationBtn from "../../components/ReceiveDonationBtn";
 import { useNavigation } from '@react-navigation/native';
 import DonationDetail from "./DonationDetail";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 function RecipientHome() {
+    const {currentUser} = useContext(AuthContext);
+
     const navigation = useNavigation();
     const switchScreenHandler = (screen) => {
         navigation.navigate(screen)
@@ -44,8 +48,8 @@ function RecipientHome() {
                     </View>
                     <View style={styles.userContainer}>
                         <View style={styles.userTextContainer}>
-                            <Text style={styles.userGreet}>Hi,</Text>
-                            <Text style={styles.userName}>Ligma</Text>
+                            <Text style={styles.userGreet}>Welcome,</Text>
+                            <Text style={styles.userName}>{currentUser.title}</Text>
                         </View>
                         <ImageButton
                             style={styles.userImage}

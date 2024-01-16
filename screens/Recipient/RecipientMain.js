@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import  { useState, useEffect, useContext } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -23,33 +23,12 @@ import UpdatePassword from '../ProfileScreens/UpdatePassword';
 import Verification from '../ProfileScreens/Verification';
 import Congratulations from '../../components/Congratulations';
 import Feedback from '../../components/Feedback';
+import { AuthContext } from '../../context/AuthContext';
 
 
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const StackSplash = createNativeStackNavigator();
-
-function SplashStack({ handleSplashScreenPress }) {
-  return (
-    <StackSplash.Navigator screenOptions={{ headerShown: false }}>
-      <StackSplash.Screen name="SplashScreen1" component={SplashScreen1} />
-      <StackSplash.Screen name="SplashScreen2" component={SplashScreen2} />
-      <StackSplash.Screen
-        name="SplashScreen3"
-        options={{
-          animationEnabled: false,
-          headerShown: false,
-        }}
-      >
-        {(props) => (
-          <SplashScreen3 {...props} onButtonPress={handleSplashScreenPress} navigation={props.navigation} />
-        )}
-      </StackSplash.Screen>
-    </StackSplash.Navigator>
-  );
-}
-
 
 function MyStack() {
   return (
@@ -113,55 +92,52 @@ function ProfileStack(){
 }
 
 export default function App() {
+  const { currentUser } = useContext(AuthContext);
   const [showSplash, setShowSplash] = useState(true);
 
-  useEffect(() => {
-    if (!showSplash) {
-    }
-  }, [showSplash]);
-
   return (
-    <ToastProvider
-      duration={4000}
-      animationType='zoom-in'
-      offsetBottom={100}
-      warningColor={colorPallete.darkBlue}
-    >
-    <NavigationContainer>
-      <StatusBar style='light' />
-      {showSplash ? (
-        <SplashStack handleSplashScreenPress={() => setShowSplash(false)} />
-      ) : (
-        <Tab.Navigator
-          screenOptions={{
-            headerShown: false,
-            tabBarActiveTintColor: colorPallete.mediumBlue,
-            tabBarStyle: {
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-              overflow: 'hidden',
-            }
-          }}
-          sceneContainerStyle={{
-            backgroundColor: 'white'
-          }}
+    <>
+      {
+        currentUser && currentUser.userType == 'recipient' &&
+        <ToastProvider
+          duration={4000}
+          animationType='zoom-in'
+          offsetBottom={100}
+          warningColor={colorPallete.darkBlue}
         >
-          <Tab.Screen name="Home" component={MyStack} options={{
-            tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
-          }} />
-          <Tab.Screen name="History" component={HistoryStack} options={{
-            tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
-          }} />
-          <Tab.Screen name="Notifications" component={Notificationstack} options={{
-            tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
-          }} />
-          <Tab.Screen name="Profile" component={ProfileStack} options={{
-            tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
-          }} />
-        </Tab.Navigator>
-      )}
-    </NavigationContainer>
-    </ToastProvider>
+        <NavigationContainer>
+          <StatusBar style='light' />
+            <Tab.Navigator
+              screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: colorPallete.mediumBlue,
+                tabBarStyle: {
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                  overflow: 'hidden',
+                }
+              }}
+              sceneContainerStyle={{
+                backgroundColor: 'white'
+              }}
+            >
+              <Tab.Screen name="Home" component={MyStack} options={{
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
+              }} />
+              <Tab.Screen name="History" component={HistoryStack} options={{
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
+              }} />
+              <Tab.Screen name="Notifications" component={Notificationstack} options={{
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
+              }} />
+              <Tab.Screen name="Profile" component={ProfileStack} options={{
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
+              }} />
+            </Tab.Navigator>
+        </NavigationContainer>
+        </ToastProvider>
+      }
+    </>
   );
 }
 

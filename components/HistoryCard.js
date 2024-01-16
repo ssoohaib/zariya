@@ -42,7 +42,7 @@ export default function HistoryCard(props) {
                 <View style={styles.top}>
                     <View style={styles.topLeft}>
                         <View style={styles.topLeftIcon}>
-                            <MaterialCommunityIcons name={icon} size={24} color={ColorPallete.darkBlue} />
+                            <MaterialCommunityIcons name={icon} size={24} color={ColorPallete.screenBg} />
                         </View>
                         <View>
                             <Text style={styles.title}>{props.title}</Text>
@@ -51,7 +51,7 @@ export default function HistoryCard(props) {
                         </View>
                     </View>
                     <View style={styles.topRight}>
-                        <MaterialIcons name={'keyboard-arrow-right'} size={24} color={ColorPallete.lightBlue} />
+                        <MaterialIcons name={'keyboard-arrow-right'} size={24} color={ColorPallete.darkBlue} />
                     </View>
                 </View>
                 <View style={styles.bottom}>
@@ -78,16 +78,16 @@ const styles=StyleSheet.create({
         padding:16,
         marginBottom:12,
 
-        backgroundColor:ColorPallete.mediumBlue,
-        // backgroundColor:'#E2DCE8',
+        // backgroundColor:ColorPallete.mediumBlue,
+        backgroundColor:'#F5F5F5',
 
     },
     top:{
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        borderBottomWidth:1,
-        borderColor:ColorPallete.lightBlue,
+        borderBottomWidth:.5,
+        borderColor:ColorPallete.lightTextColor,
         paddingBottom:12,
         
         
@@ -100,7 +100,7 @@ const styles=StyleSheet.create({
         
     },
     topLeftIcon:{
-        backgroundColor:ColorPallete.lightBlueTwo,
+        backgroundColor:ColorPallete.mediumBlue,
         padding:8,
         justifyContent:"center",
         alignItems:'center',
@@ -121,7 +121,7 @@ const styles=StyleSheet.create({
 
     },
     bottomRight:{
-        backgroundColor:ColorPallete.lightBlueTwo,
+        backgroundColor:ColorPallete.mediumBlue,
         padding:8,
         // paddingHorizontal:8,
         borderRadius:8,
@@ -130,22 +130,22 @@ const styles=StyleSheet.create({
         fontSize:16,
         fontWeight:'bold',
         marginBottom:4,
-        color:'white'
+        color:ColorPallete.darkBlue,
 
     },
     subtitle:{
         fontWeight:'bold',
-        color:ColorPallete.lightBlue,
+        color:ColorPallete.mediumBlue,
         fontSize:15,
 
     },
     subsubtitle:{
-        color:ColorPallete.lightBlue,
+        color:ColorPallete.lightTextColor,
         fontSize:14,
 
     },
     status:{
-        // color:'white',
+        color:ColorPallete.screenBg,
         fontWeight:'bold',
         
     }

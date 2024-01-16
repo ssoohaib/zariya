@@ -4,7 +4,7 @@ const URL='mongodb+srv://koreantunnel:ssRsIhXaUomeegll@cluster0.dpzezud.mongodb.
 const connectDB = async () => {
     try{
         await mongoose.connect(URL);
-        console.log('MongoDB connected!')
+        console.log('MongoDB Connection: SUCCESS')
     }catch(err){
         console.log(err);
     }

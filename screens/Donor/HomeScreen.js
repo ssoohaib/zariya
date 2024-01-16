@@ -5,8 +5,11 @@ import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
 import InputBar from '../../components/InputBar';
 import { NGOS } from '../../dummy_data/dummy_data';
+import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
 
 export default function HomeScreen({navigation}) {
+  const {currentUser} = useContext(AuthContext);
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
@@ -44,7 +47,7 @@ export default function HomeScreen({navigation}) {
             <View style={styles.userContainer}>
               <View style={styles.userTextContainer}>
                 <Text style={styles.userGreet}>Hi,</Text>
-                <Text style={styles.userName}>Ligma</Text>
+                <Text style={styles.userName}>{currentUser.firstName}</Text>
               </View>
               <ImageButton
                 style={styles.userImage}

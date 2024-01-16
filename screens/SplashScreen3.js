@@ -7,15 +7,20 @@ function SplashScreen3({ onButtonPress, navigation }) {
     return (
       <View style={styles.rootContainer}>
         <Image style={styles.image} source={require('../assets/images/splash-screen3.jpg')} />
-        <Text style={styles.mainText}>Preserving Tomorrow, One Plate at a Time</Text>
-        <Text style={styles.descriptionText}>Join our mission to nourish hope and sustain futures through the power 
-            of compassionate giving.</Text>
-        <TouchableOpacity style={styles.iconContainer} onPress={() => {
-          onButtonPress();
-          navigation.navigate('HomeScreen');
+        <View style={{
+          paddingHorizontal:16,
+          alignItems: 'center',
         }}>
-          <Ionicons name='arrow-forward-circle' size={50} color='#453953' />
-        </TouchableOpacity>
+          <Text style={styles.mainText}>Preserving Tomorrow, One Plate at a Time</Text>
+          <Text style={styles.descriptionText}>Join our mission to nourish hope and sustain futures through the power 
+              of compassionate giving.</Text>
+          <TouchableOpacity style={styles.iconContainer} onPress={() => {
+            onButtonPress();
+            navigation.navigate('HomeScreen');
+          }}>
+            <Ionicons name='arrow-forward-circle' size={50} color='#453953' />
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -42,13 +47,14 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
       fontSize: 13,
-      fontWeight: '100',
+      // fontWeight: '100',
+      lineHeight:18,
       textAlign: 'center',
-      color: ColorPallete.darkBlue,
+      color: ColorPallete.lightTextColor,
       padding: 12,
     },
     iconContainer: {
-      marginTop: 100,
-      marginLeft: 10,
+      marginTop: 70,
+      // marginLeft: 10,
     },
   });

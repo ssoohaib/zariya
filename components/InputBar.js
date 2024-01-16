@@ -8,9 +8,9 @@ export default function InputBar(props) {
   return (
     <View style={[styles.container, props.style]}>
       <TextInput
-        style={styles.input}
+        style={[styles.input, props.inputStyle]}
         placeholder={props.placeHolder}
-        placeholderTextColor={'white'}
+        placeholderTextColor={props.placeholderTextColor ? props.placeholderTextColor:'white'}
         value={props.searchTerm} 
         onChangeText={props.onChangeText} 
       />

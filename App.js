@@ -1,3 +1,5 @@
+import React, { useContext } from 'react';
+import AuthContextProvider, { AuthContext } from './context/AuthContext';
 import colorPallete from './constants/ColorPallete';
 import { ToastProvider } from 'react-native-toast-notifications';
 import AdminMain from './screens/Admin/AdminMain'
@@ -7,12 +9,22 @@ import AuthenticationMain from './screens/Authentication/AuthenticationMain'
 
 export default function App() {
 
+  const AppNav=()=>{
+    return(
+      <>
+        <AdminMain />
+        <AuthenticationMain />
+        <DonorMain />
+        <RecipientMain />
+      </>
+    )
+  }
+
   return (
     <ToastProvider duration={4000} animationType='zoom-in' offsetBottom={100} warningColor={colorPallete.darkBlue} >
-      <AdminMain />
-      {/* <RecipientMain /> */}
-      {/* <DonorMain /> */}
-      {/* <AuthenticationMain /> */}
+      <AuthContextProvider>
+        {AppNav()}
+      </AuthContextProvider>
     </ToastProvider>
   )
 }

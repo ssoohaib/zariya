@@ -79,7 +79,7 @@ export default function PaymentModal(props) {
               title={'One Time'}
               return={'One Time'}
               onPress={paymentTypeHandler}
-              btnStyle={{marginRight:4, padding:16,}}
+              btnStyle={{marginRight:4, padding:16, width:120}}
 
               selected={
                 paymentType === 'One Time' &&
@@ -90,7 +90,7 @@ export default function PaymentModal(props) {
               title={'Subscription'}
               return={'Subscription'}
               onPress={paymentTypeHandler}
-              btnStyle={{marginLeft:4, padding:16,}}
+              btnStyle={{marginLeft:4, padding:16, width:120}}
 
               selected={
                 paymentType === 'Subscription' &&
@@ -110,7 +110,7 @@ export default function PaymentModal(props) {
                   title={'Daily'}
                   return={'Daily'}
                   onPress={durationHandler}
-                  btnStyle={{marginRight:4, padding:16,}}
+                  btnStyle={{marginRight:4, padding:16,  width:95}}
 
                   selected={
                     duration === 'Daily' &&
@@ -121,7 +121,7 @@ export default function PaymentModal(props) {
                   title={'Weekly'}
                   return={'Weekly'}
                   onPress={durationHandler}
-                  btnStyle={{marginHorizontal:4, padding:16,}}
+                  btnStyle={{marginHorizontal:4, padding:16,  width:95}}
 
                   selected={
                     duration === 'Weekly' &&
@@ -132,7 +132,7 @@ export default function PaymentModal(props) {
                   title={'Monthy'}
                   return={'Monthly'}
                   onPress={durationHandler}
-                  btnStyle={{marginLeft:4, padding:16,}}
+                  btnStyle={{marginLeft:4, padding:16,  width:95}}
 
                   selected={
                     duration === 'Monthly' &&
@@ -202,7 +202,7 @@ const styles=StyleSheet.create({
     paddingTop:8,
     paddingHorizontal:16,
     position:'relative',
-    top:"32%",
+    top:"26%",
     margin:0,
 
   },

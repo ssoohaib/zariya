@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import ColorPallete from '../constants/ColorPallete';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 function RecipientNotificationCard(props) {
     const [isOptionsVisible, setOptionsVisible] = useState(false);
@@ -34,14 +36,19 @@ function RecipientNotificationCard(props) {
     };
 
   return (
-    <View style={[styles.container, isRead ? { backgroundColor: '#FFF3E8' } : null]}>
+    <View style={[styles.container, isRead ? { backgroundColor: '#FFF3E8' } : null, props.from=="donor" && {borderRadius:8}]}>
       <TouchableOpacity onPress={() => handleMoreOptionsPress()} style={styles.iconContainer}>
         <Ionicons name="options" size={24} color={ColorPallete.primary} />
       </TouchableOpacity>
-      <View style={styles.innerContainer}></View>
+      {!props.from=='donor'&&<View style={styles.innerContainer}></View>}
       <View style={styles.innerContainer}>
-        <View style={styles.imageContainer}>
+        <View style={[styles.imageContainer, props.from == 'donor' && {height:'auto', width:'auto', borderRadius:8, overflow:"hidden"}]}>
+        {
+          props.from === 'donor' ?
+          <MaterialCommunityIcons style={{backgroundColor:ColorPallete.mediumBlue, padding:8}} name={props.icon} size={20} color={'white'} />
+          :
           <Ionicons>{props.icon}</Ionicons>
+        }
         </View>
         <View style={styles.nameTimeDescContainer}>
           <View style={styles.nameTimeContainer}>
@@ -78,6 +85,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         width: '100%',
+
+        // borderWidth:1
     },
     innerContainer: {
         flexDirection: 'row',
@@ -132,12 +141,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 130,
         right: 20,
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        padding: 10,
+        backgroundColor: 'white',
+        padding: 12,
         flexDirection: 'column',
         alignItems: 'center',
         borderWidth: 1,
         borderColor: '#E0E0E0',
+        borderRadius:8,
     },
     modalOption: {
         fontSize: 12,

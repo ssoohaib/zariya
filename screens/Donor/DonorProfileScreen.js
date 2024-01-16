@@ -3,12 +3,20 @@ import IconButton from '../../components/IconButton';
 import ColorPallete from '../../constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import PressableOption from '../../components/PressableOption';
-
+import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
+import {signOut} from '../../utilities/AuthFetches';
 
 export default function DonorProfileScreen({navigation}) {
+  const { token, currentUser, setCurrentUserAndToken }=useContext(AuthContext);
 
   const switchScreen=(screen)=>{
     navigation.navigate(screen)
+  }
+
+  const signOutHandler=()=>{
+    signOut(token);
+    setCurrentUserAndToken(null, null);
   }
 
     return (
@@ -19,9 +27,9 @@ export default function DonorProfileScreen({navigation}) {
             <Image style={styles.image} source={require('../../assets/images/user2.png')} />
           </View>
           <View style={styles.topRight}>
-            <Text style={styles.userName}>Ligma Jones</Text>
-            <Text style={styles.subTitle}>Lahore Pakistan</Text>
-            <Text style={styles.subTitle}>+92 316 7865421</Text>
+            <Text style={styles.userName}>{currentUser.firstName} {currentUser.lastName}</Text>
+            <Text style={styles.subTitle}>{currentUser.city} Pakistan</Text>
+            <Text style={styles.subTitle}>{currentUser.contactNumber && currentUser.contactNumber.slice(0,4)} {currentUser.contactNumber && currentUser.contactNumber.slice(4)}</Text>
           </View>
         </View>
         <View style={styles.bottom}>          
@@ -67,6 +75,7 @@ export default function DonorProfileScreen({navigation}) {
             leftIconColor={'red'}
             rightIcon={"keyboard-arrow-right"}
             rightIconColor={'red'}
+            onPress={signOutHandler}
           />
         </View>
       </View>
@@ -83,7 +92,7 @@ const styles = StyleSheet.create({
     top:{
       flex:0.6,
       paddingHorizontal:16,
-      flexDirection:'row',
+      // flexDirection:'row',
       alignItems:'center',
       justifyContent:'center',
       backgroundColor:ColorPallete.mediumBlue,
@@ -93,13 +102,13 @@ const styles = StyleSheet.create({
 
     },
     topLeft:{
-      marginRight:16,
+      // marginRight:16,
 
     },
     image:{
       height:85,
       width:85,
-      borderRadius:8,
+      borderRadius:42,
       
     },
     topRight:{
@@ -108,19 +117,20 @@ const styles = StyleSheet.create({
     userName:{
       fontSize:20,
       fontWeight:'bold',
+      marginTop:8,
       marginBottom:4,
-      color:'white',
+      color:ColorPallete.screenBg,
       fontWeight:'bold',   
+      textAlign:"center"
 
     },
     subTitle:{
       color:ColorPallete.screenBgTwo,
       fontWeight:'bold',
       marginBottom:4,
+      textAlign:"center"
+
     },
-
-
-
     bottom:{
       borderTopLeftRadius:16,
       borderTopRightRadius:16,
