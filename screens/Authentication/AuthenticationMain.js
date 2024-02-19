@@ -1,14 +1,17 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import SigningScreen from './SigningScreen';
-import Verification from './Verification';
-import ForgotPassword from './ForgotPassword';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import SigningScreen from "./SigningScreen";
+import Verification from "./Verification";
+import ForgotPassword from "./ForgotPassword";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-import SplashScreen1 from '../SplashScreen1';
-import SplashScreen2 from '../SplashScreen2';
-import SplashScreen3 from '../SplashScreen3';
+import SplashScreen1 from "../SplashScreen1";
+import SplashScreen2 from "../SplashScreen2";
+import SplashScreen3 from "../SplashScreen3";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import SignUpR from "./SignUpR";
 
 const Stack = createNativeStackNavigator();
 const StackSplash = createNativeStackNavigator();
@@ -38,7 +41,7 @@ function SplashStack({ handleSplashScreenPress }) {
 export default function AuthenticationMain() {
   const { token } = useContext(AuthContext);
 
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
     if (!showSplash) {
@@ -47,26 +50,26 @@ export default function AuthenticationMain() {
 
   return (
     <>
-      {
-        !token && 
-        (
-          showSplash ? 
-          ( <SplashStack handleSplashScreenPress={() => setShowSplash(false)} /> ) 
-          :
-          (
-            <NavigationContainer>
-              <Stack.Navigator screenOptions={{
-                  headerShown:false
-              }}>
-                  <Stack.Screen name='SignIn' component={SigningScreen} />
-                  <Stack.Screen name='Verification' component={Verification} />
-                  <Stack.Screen name='ForgotPassword' component={ForgotPassword} />
-              </Stack.Navigator>
+      {!token &&
+        (showSplash ? (
+          <SplashStack handleSplashScreenPress={() => setShowSplash(false)} />
+        ) : (
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              {/* <Stack.Screen name='SignIn' component={SigningScreen} /> */}
+
+              <Stack.Screen name="SignIn" component={SignIn} />
+              <Stack.Screen name="SignUp" component={SignUp}/>
+              <Stack.Screen name="SignUpR" component={SignUpR}/>
+              <Stack.Screen name="Verification" component={Verification}  options={{animationEnabled:false}} />
+              <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            </Stack.Navigator>
           </NavigationContainer>
-          )
-        )
-        
-      }
+        ))}
     </>
-  )
+  );
 }

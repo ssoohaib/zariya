@@ -22,7 +22,7 @@ export default function HistoryModal(props) {
           </View>
         </View>      
         <View style={styles.btnContainer}>
-            <Pressable onPress={()=>props.modeHandler('SignUp')} style={[styles.btnPress,{marginRight:8}]}>
+            <Pressable onPress={()=>props.modeHandler('DONOR')} style={[styles.btnPress,{marginRight:8}]}>
                 <View style={[styles.btn]}>
                     <Text style={styles.btnText}>Donor</Text>
                     <View style={styles.iconContainer}>
@@ -30,7 +30,7 @@ export default function HistoryModal(props) {
                     </View>
                 </View>
             </Pressable>
-            <Pressable onPress={()=>props.modeHandler('Org')} style={styles.btnPress}>
+            <Pressable onPress={()=>props.modeHandler('RECIPIENT')} style={styles.btnPress}>
                 <View style={styles.btn}>
                     <Text style={styles.btnText}>Recipient</Text>
                     <View style={styles.iconContainer}>
