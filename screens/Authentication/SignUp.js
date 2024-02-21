@@ -19,6 +19,11 @@ export default function SigningScreen({ navigation }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
+  const [emailError, setEmailError]=useState(false)
+  const [passwordError, setPasswordError]=useState(false)
+  const [firstNameError, setFirstNameError]=useState(false)
+  const [lastNameError, setLastNameError]=useState(false)
+
   const { setCurrentUserAndToken } = useContext(AuthContext);
 
   const emailHandler = (email) => {
@@ -37,7 +42,37 @@ export default function SigningScreen({ navigation }) {
     setLastName(ln);
   };
 
+  const validator = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(email);
+    const isPasswordValid = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/.test(password);
+    const isFirstNameValid = firstName.length > 0;
+    const isLastNameValid = lastName.length > 0;
+
+    if (!isEmailValid)
+      setEmailError(true);
+    else
+      setEmailError(false);
+    if (!isPasswordValid) 
+      setPasswordError(true);
+    else
+      setPasswordError(false);
+    if (!isFirstNameValid)
+      setFirstNameError(true);
+    else
+      setFirstNameError(false);
+    if (!isLastNameValid)
+      setLastNameError(true);
+    else
+      setLastNameError(false);
+
+    return isEmailValid && isPasswordValid;
+  };
+
   const switchScreen = async () => {
+    if (!validator()) {
+      return;
+    }
     let payload = {
       userType: "donor",
       email: email,
@@ -47,8 +82,6 @@ export default function SigningScreen({ navigation }) {
     };
     signUp({ ...payload });
     navigation.goBack();
-
-    // navigation.navigate(screen)
   };
 
   return (
@@ -104,6 +137,7 @@ export default function SigningScreen({ navigation }) {
                 onChange={firstNameHandler}
                 inputStyle={[styles.inputStyle]}
                 outerStyle={{ flex: 1, marginRight: 8 }}
+                error={firstNameError}
               />
               <ImprovInput
                 tag={"Last Name"}
@@ -111,6 +145,7 @@ export default function SigningScreen({ navigation }) {
                 onChange={lastNameHandler}
                 inputStyle={[styles.inputStyle]}
                 outerStyle={{ flex: 1 }}
+                error={lastNameError}
               />
             </View>
 
@@ -120,6 +155,7 @@ export default function SigningScreen({ navigation }) {
               onChange={emailHandler}
               inputMode={"email"}
               inputStyle={styles.inputStyle}
+              error={emailError}
             />
             <ImprovInput
               tag={"Password"}
@@ -127,6 +163,8 @@ export default function SigningScreen({ navigation }) {
               onChange={passwordHandler}
               secureTextEntry={true}
               inputStyle={styles.inputStyle}
+              error={passwordError}
+              msg={"Must contain:\n-8 characters\n-1 number\n-1 !@#$%^&*."}
             />
 
             <Pressable onPress={switchScreen}>
@@ -163,6 +201,7 @@ export default function SigningScreen({ navigation }) {
                 <Text style={{ color: ColorPallete.mediumBlue }}>Sign In.</Text>
               </Text>
             </Pressable>
+            <View style={{ height: 50 }}></View>
           </View>
         </View>
       </View>
@@ -210,6 +249,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 8,
     marginBottom: 8,
+    marginTop: 8,
   },
   btnImg: {
     height: 20,

@@ -9,7 +9,7 @@ export default function ImprovInput(props) {
         {
             props.tag &&
             <View style={styles.tagContainer}>
-                <Text style={[styles.tag, props.tagStyle]}>{props.tag}</Text>
+                <Text style={[styles.tag, props.tagStyle, props.error && {color:'red'}]}>{props.tag}</Text>
             </View>
         }
         <TextInput 
@@ -18,7 +18,7 @@ export default function ImprovInput(props) {
             value={props.value}
             onChangeText={props.onChange}
             numberOfLines={props.rows}
-            style={[styles.input, props.inputStyle]}
+            style={[styles.input, props.inputStyle, props.error && {borderColor:'red'}]}
             inputMode={props.inputMode}
             secureTextEntry={props.secureTextEntry}
             multiline={props.multiline}
@@ -28,6 +28,10 @@ export default function ImprovInput(props) {
         {
             props.liveLength &&
             <Text style={[styles.correctionText, props.correctionTextStyle]}>{props.value.length}/{props.maxLength} characters</Text>
+        }
+        {
+            props.msg &&
+            <Text style={[styles.correctionText, {textAlign:'left'}, props.correctionTextStyle]}>{props.msg}</Text>
         }
     </View>
   )

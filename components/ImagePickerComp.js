@@ -21,7 +21,7 @@ export default function ImagePickerComp(props) {
 
   return (
     <View style={styles.imageContainerr}>
-        <Text style={styles.title}>{props.title} <Text style={{color:ColorPallete.lightTextColor}}>(1 Min)</Text></Text>
+        <Text style={styles.title}>{props.title} <Text style={{color: props.error ? 'red':ColorPallete.lightTextColor}}>(1 Min)</Text></Text>
         <View style={styles.imagesContainer}>
             {
                 arrayOfEmptyObjs.map((item,index)=>{

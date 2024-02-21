@@ -19,10 +19,12 @@ export default function SignIn({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [emailError, setEmailError]=useState(false)
+  const [passwordError, setPasswordError]=useState(false)
+
   const { setCurrentUserAndToken } = useContext(AuthContext);
 
   const modeHandler = (mode) => {
-    console.log(mode)
     toggleModal();
     if (mode==='DONOR')
       navigation.navigate('SignUp')
@@ -40,13 +42,35 @@ export default function SignIn({ navigation }) {
 
   const passwordHandler = (pass) => {
     setPassword(pass);
-  };  
+  };
+
+  const validator = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(email);
+    const isPasswordValid = password.length === 8;
+
+    if (!isEmailValid)
+      setEmailError(true);
+    else
+      setEmailError(false);
+    if (!isPasswordValid) 
+      setPasswordError(true);
+    else
+      setPasswordError(false);
+
+    return isEmailValid && isPasswordValid;
+  };
+  
 
   const switchScreen = async () => {
+    if (!validator()) {
+      return;
+    }
     const result = await signIn(email, password);
     setCurrentUserAndToken(result.user, result.token);
     console.log("return>>>", result);
   };
+  
 
   return (
     <ScrollView
@@ -101,6 +125,7 @@ export default function SignIn({ navigation }) {
               onChange={emailHandler}
               inputMode={"email"}
               inputStyle={styles.inputStyle}
+              error={emailError}
             />
             <ImprovInput
               tag={"Password"}
@@ -108,6 +133,7 @@ export default function SignIn({ navigation }) {
               onChange={passwordHandler}
               secureTextEntry={true}
               inputStyle={styles.inputStyle}
+              error={passwordError}
             />
             <Pressable>
               <Text

@@ -10,14 +10,13 @@ import {
 import { useContext, useState } from "react";
 import ColorPallete from "../../constants/ColorPallete";
 import ImprovInput from "../../components/ImprovInput";
-import { MaterialIcons } from "@expo/vector-icons";
-import ImagePickerComp from "../../components/ImagePickerComp";
-import { signUp } from "../../utilities/AuthFetches";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function SignUpR({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const { setCurrentUserAndToken } = useContext(AuthContext);
 
@@ -29,10 +28,27 @@ export default function SignUpR({ navigation }) {
     setPassword(pass);
   };
 
+  const validator = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(email);
+    const isPasswordValid =
+      /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/.test(password);
+
+    if (!isEmailValid) setEmailError(true);
+    else setEmailError(false);
+    if (!isPasswordValid) setPasswordError(true);
+    else setPasswordError(false);
+
+    return isEmailValid && isPasswordValid;
+  };
+
   const switchScreen = async () => {
-    navigation.navigate('SignUpRDetails',{
-      email:email,
-      password:password
+    if (!validator()) {
+      return;
+    }
+    navigation.navigate("SignUpRDetails", {
+      email: email,
+      password: password,
     });
   };
 
@@ -80,7 +96,7 @@ export default function SignUpR({ navigation }) {
             <Text style={styles.dividerText}>Or continue with</Text>
             <View style={styles.dividerRight}></View>
           </View>
-          
+
           <View>
             <ImprovInput
               tag={"Email"}
@@ -88,6 +104,7 @@ export default function SignUpR({ navigation }) {
               onChange={emailHandler}
               inputMode={"email"}
               inputStyle={styles.inputStyle}
+              error={emailError}
             />
             <ImprovInput
               tag={"Password"}
@@ -95,6 +112,8 @@ export default function SignUpR({ navigation }) {
               onChange={passwordHandler}
               secureTextEntry={true}
               inputStyle={styles.inputStyle}
+              error={passwordError}
+              msg={"Must contain:\n-8 characters\n-1 number\n-1 !@#$%^&*."}
             />
 
             <Pressable onPress={switchScreen}>
@@ -131,7 +150,6 @@ export default function SignUpR({ navigation }) {
                 <Text style={{ color: ColorPallete.mediumBlue }}>Sign In.</Text>
               </Text>
             </Pressable>
-            <View style={{ height: 40 }}></View>
           </View>
         </View>
       </View>
@@ -173,6 +191,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 8,
     marginBottom: 8,
+    marginTop: 8,
   },
   btnImg: {
     height: 20,

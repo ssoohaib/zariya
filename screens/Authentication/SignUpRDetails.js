@@ -23,6 +23,12 @@ export default function SignUpRDetails({ navigation, route }) {
   const [causeImages, setCauseImages] = useState([]);
   const [verificationImages, setVerificationImages] = useState([]);
 
+  const [orgTitleError, setOrgTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [causesError, setCausesError] = useState(false);
+  const [causeImagesError, setCauseImagesError] = useState(false);
+  const [verificationImagesError, setVerificationImagesError] = useState(false);
+
   const { setCurrentUserAndToken } = useContext(AuthContext);
 
   const orgTitleHandler = (title) => {
@@ -37,18 +43,43 @@ export default function SignUpRDetails({ navigation, route }) {
     setCause(cause);
   };
 
-  const addCauseHandler = () => {
-    if (causes.length + 1 <= 10) {
-      setCauses((prev) => [...prev, cause]);
-      setCause("");
+const addCauseHandler = () => {
+    if (causes.length + 1 <= 10 && cause.length > 0 && !causes.includes(cause)) {
+        setCausesError(false);
+        setCauses((prev) => [...prev, cause]);
+        setCause("");
     }
-  };
+};
 
   const removeCauseHandler = (index) => {
     setCauses((prev) => prev.filter((i, count) => count != index));
   };
 
+  const validator = () => {
+    const isOrgTitleValid = orgTitle.length > 0;
+    const isDescriptionValid = description.length > 0;
+    const isCausesValid = causes.length > 0;
+    const isCauseImagesValid = causeImages.length > 0;
+    const isVerificationImagesValid = verificationImages.length > 0;
+
+    if (!isOrgTitleValid) setOrgTitleError(true);
+    else setOrgTitleError(false);
+    if (!isDescriptionValid) setDescriptionError(true);
+    else setDescriptionError(false);
+    if (!isCausesValid) setCausesError(true);
+    else setCausesError(false);
+    if (!isCauseImagesValid) setCauseImagesError(true);
+    else setCauseImagesError(false);
+    if (!isVerificationImagesValid) setVerificationImagesError(true);
+    else setVerificationImagesError(false);
+
+    return isOrgTitleValid && isDescriptionValid && isCausesValid;
+  };
+
   const switchScreen = async () => {
+    if (!validator()) {
+      return;
+    }
     let payload = {
       userType: "recepient",
       email: route.params.email,
@@ -91,6 +122,7 @@ export default function SignUpRDetails({ navigation, route }) {
               liveLength={true}
               maxLength={50}
               inputStyle={styles.inputStyle}
+              error={orgTitleError}
             />
             <ImprovInput
               tag={"Description"}
@@ -100,6 +132,7 @@ export default function SignUpRDetails({ navigation, route }) {
               maxLength={500}
               multiline={true}
               inputStyle={[styles.inputStyle, { paddingVertical: 40 }]}
+              error={descriptionError}
             />
             <View style={styles.causesContainer}>
               <View style={styles.causesTop}>
@@ -107,7 +140,6 @@ export default function SignUpRDetails({ navigation, route }) {
                   tag={"Cause"}
                   value={cause}
                   onChange={causeHandler}
-                  maxLength={20}
                   inputStyle={styles.inputStyle}
                   outerStyle={{ flex: 1, marginRight: 8 }}
                 />
@@ -119,15 +151,14 @@ export default function SignUpRDetails({ navigation, route }) {
                     style={[
                       styles.btnContainer,
                       {
-                        backgroundColor: ColorPallete.mediumBlue,
-                        paddingVertical: 20,
+                        paddingVertical: 17,
                       },
                     ]}
                   >
                     <MaterialIcons
                       name="add-circle-outline"
                       size={24}
-                      color={ColorPallete.screenBg}
+                      color={ColorPallete.mediumBlue}
                     />
                   </View>
                 </Pressable>
@@ -139,6 +170,7 @@ export default function SignUpRDetails({ navigation, route }) {
                     alignItems: "center",
                     justifyContent: "center",
                   },
+                  causesError && { borderWidth: 1, borderColor: "red" },
                 ]}
               >
                 {!causes.length ? (
@@ -203,12 +235,14 @@ export default function SignUpRDetails({ navigation, route }) {
               images={verificationImages}
               setter={setVerificationImages}
               imageLimit={2}
+              error={verificationImagesError}
             />
             <ImagePickerComp
               title={"Causes Images"}
               images={causeImages}
               setter={setCauseImages}
               imageLimit={3}
+              error={causeImagesError}
             />
 
             <Pressable onPress={switchScreen}>
@@ -229,7 +263,7 @@ export default function SignUpRDetails({ navigation, route }) {
               </View>
             </Pressable>
 
-            <View style={{ height: 60 }}></View>
+            <View style={{ height: 70 }}></View>
           </View>
         </View>
       </View>
