@@ -15,15 +15,9 @@ import ImagePickerComp from "../../components/ImagePickerComp";
 import { signUp } from "../../utilities/AuthFetches";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function SigningScreen({ navigation }) {
+export default function SignUpR({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [orgTitle, setOrgTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [cause, setCause] = useState("");
-  const [causes, setCauses] = useState([]);
-  const [causeImages, setCauseImages] = useState([]);
-  const [verificationImages, setVerificationImages] = useState([]);
 
   const { setCurrentUserAndToken } = useContext(AuthContext);
 
@@ -35,43 +29,11 @@ export default function SigningScreen({ navigation }) {
     setPassword(pass);
   };
 
-
-  const orgTitleHandler = (title) => {
-    setOrgTitle(title);
-  };
-
-  const descriptionHandler = (desc) => {
-    setDescription(desc);
-  };
-
-  const causeHandler = (cause) => {
-    setCause(cause);
-  };
-
-  const addCauseHandler = () => {
-    if (causes.length + 1 <= 10) {
-      setCauses((prev) => [...prev, cause]);
-      setCause("");
-    }
-  };
-
-  const removeCauseHandler = (index) => {
-    setCauses((prev) => prev.filter((i, count) => count != index));
-  };
-
-  const switchScreen = async (screen) => {
-    let payload = {
-      userType: "recepient",
-      email: email,
-      password: password,
-      title: orgTitle,
-      description: description,
-      causes: causes,
-      verificationImages: verificationImages,
-      causesImages: causeImages,
-    };
-    signUp({ ...payload });
-    navigation.goBack();
+  const switchScreen = async () => {
+    navigation.navigate('SignUpRDetails',{
+      email:email,
+      password:password
+    });
   };
 
   return (
@@ -94,6 +56,31 @@ export default function SigningScreen({ navigation }) {
         </View>
 
         <View style={styles.bottom}>
+          <Pressable>
+            <View style={styles.btnContainer}>
+              <Image
+                style={styles.btnImg}
+                source={require("../../assets/images/google-logo.png")}
+              />
+              <Text style={styles.btnTitle}>Sign up with Google</Text>
+            </View>
+          </Pressable>
+          <Pressable>
+            <View style={styles.btnContainer}>
+              <Image
+                style={[styles.btnImg, {}]}
+                source={require("../../assets/images/apple-logo.png")}
+              />
+              <Text style={styles.btnTitle}>Sign up with Apple</Text>
+            </View>
+          </Pressable>
+
+          <View style={styles.divider}>
+            <View style={styles.dividerLeft}></View>
+            <Text style={styles.dividerText}>Or continue with</Text>
+            <View style={styles.dividerRight}></View>
+          </View>
+          
           <View>
             <ImprovInput
               tag={"Email"}
@@ -108,138 +95,6 @@ export default function SigningScreen({ navigation }) {
               onChange={passwordHandler}
               secureTextEntry={true}
               inputStyle={styles.inputStyle}
-            />
-
-            <View style={styles.divider}>
-              <View style={styles.dividerLeft}></View>
-              <Text style={styles.dividerText}>Fill following</Text>
-              <View style={styles.dividerRight}></View>
-            </View>
-            <ImprovInput
-              tag={"Title"}
-              value={orgTitle}
-              onChange={orgTitleHandler}
-              liveLength={true}
-              maxLength={50}
-              inputStyle={styles.inputStyle}
-            />
-            <ImprovInput
-              tag={"Description"}
-              value={description}
-              onChange={descriptionHandler}
-              liveLength={true}
-              maxLength={500}
-              multiline={true}
-              inputStyle={[styles.inputStyle, { paddingVertical: 40 }]}
-            />
-            <View style={styles.causesContainer}>
-              <View style={styles.causesTop}>
-                <ImprovInput
-                  tag={"Cause"}
-                  value={cause}
-                  onChange={causeHandler}
-                  maxLength={20}
-                  inputStyle={styles.inputStyle}
-                  outerStyle={{ flex: 1, marginRight: 8 }}
-                />
-                <Pressable
-                  onPress={addCauseHandler}
-                  style={{ flex: 0.2, position: "relative", top: 4 }}
-                >
-                  <View
-                    style={[
-                      styles.btnContainer,
-                      {
-                        backgroundColor: ColorPallete.mediumBlue,
-                        paddingVertical: 20,
-                      },
-                    ]}
-                  >
-                    <MaterialIcons
-                      name="add-circle-outline"
-                      size={24}
-                      color={ColorPallete.screenBg}
-                    />
-                  </View>
-                </Pressable>
-              </View>
-              <View
-                style={[
-                  styles.causesListContainer,
-                  !causes.length && {
-                    alignItems: "center",
-                    justifyContent: "center",
-                  },
-                ]}
-              >
-                {!causes.length ? (
-                  <>
-                    <Text style={[styles.subtitle, { marginBottom: 0 }]}>
-                      No causes added.
-                    </Text>
-                    <Text
-                      style={{
-                        marginTop: 4,
-                        fontWeight: "bold",
-                        color: ColorPallete.lightTextColor,
-                      }}
-                    >
-                      (Max 10)
-                    </Text>
-                  </>
-                ) : (
-                  causes.map((i, count) => (
-                    <View
-                      key={count}
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        marginBottom: 4,
-                      }}
-                    >
-                      <View style={{ flexDirection: "row" }}>
-                        <Text style={{ marginRight: 8 }}>{count + 1}</Text>
-                        <Text style={{ fontWeight: "bold" }}>{i}</Text>
-                      </View>
-                      <Pressable
-                        onPress={() => removeCauseHandler(count)}
-                        style={{
-                          padding: 4,
-                          backgroundColor: ColorPallete.mediumBlue,
-                          borderRadius: 8,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            color: ColorPallete.screenBg,
-                            fontSize: 12,
-                            fontWeight: "bold",
-                          }}
-                        >
-                          <MaterialIcons
-                            name="remove-circle-outline"
-                            size={24}
-                            color={ColorPallete.screenBg}
-                          />
-                        </Text>
-                      </Pressable>
-                    </View>
-                  ))
-                )}
-              </View>
-            </View>
-
-            <ImagePickerComp
-              title={"Verification Documents"}
-              images={verificationImages}
-              setter={setVerificationImages}
-              imageLimit={2}
-            />
-            <ImagePickerComp
-              title={"Causes Images"}
-              images={causeImages}
-              setter={setCauseImages}
-              imageLimit={3}
             />
 
             <Pressable onPress={switchScreen}>
@@ -276,7 +131,7 @@ export default function SigningScreen({ navigation }) {
                 <Text style={{ color: ColorPallete.mediumBlue }}>Sign In.</Text>
               </Text>
             </Pressable>
-            <View style={{height:40}}></View>
+            <View style={{ height: 40 }}></View>
           </View>
         </View>
       </View>
@@ -288,12 +143,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: ColorPallete.mediumBlue,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: ColorPallete.mediumBlue,
-    marginBottom: 8,
   },
   imageContainer: {
     flex: 1,
@@ -355,20 +204,6 @@ const styles = StyleSheet.create({
     borderColor: ColorPallete.lightTextColor,
     borderWidth: 1,
   },
-  causesContainer: {
-    marginBottom: 16,
-  },
-  causesTop: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  causesListContainer: {
-    minHeight: 100,
-    marginTop: 8,
-    backgroundColor: ColorPallete.lightBlue,
-    padding: 8,
-    borderRadius: 8,
-  },
   title: {
     marginBottom: 8,
     fontWeight: "bold",
@@ -376,22 +211,5 @@ const styles = StyleSheet.create({
   imageContainerr: {
     zIndex: -9,
     marginBottom: 16,
-  },
-  imagesContainer: {
-    flexDirection: "row",
-  },
-  singleImageContainer: {
-    height: 82,
-    width: 82,
-    borderWidth: 1,
-    borderStyle: "dashed",
-    marginRight: 8,
-
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  singleImage: {
-    height: 80,
-    width: 80,
   },
 });
