@@ -29,7 +29,7 @@ export default function SignUpRDetails({ navigation, route }) {
   const [causeImagesError, setCauseImagesError] = useState(false);
   const [verificationImagesError, setVerificationImagesError] = useState(false);
 
-  const { setCurrentUserAndToken } = useContext(AuthContext);
+  // const { AUTHCHECKENABLED } = useContext(AuthContext);
 
   const orgTitleHandler = (title) => {
     setOrgTitle(title);

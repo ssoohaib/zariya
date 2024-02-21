@@ -18,7 +18,7 @@ export default function SignUpR({ navigation }) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
-  const { setCurrentUserAndToken } = useContext(AuthContext);
+  // const { setCurrentUserAndToken } = useContext(AuthContext);
 
   const emailHandler = (email) => {
     setEmail(email);

@@ -24,7 +24,7 @@ export default function SigningScreen({ navigation }) {
   const [firstNameError, setFirstNameError]=useState(false)
   const [lastNameError, setLastNameError]=useState(false)
 
-  const { setCurrentUserAndToken } = useContext(AuthContext);
+  // const { AUTHCHECKENABLED } = useContext(AuthContext);
 
   const emailHandler = (email) => {
     setEmail(email);
