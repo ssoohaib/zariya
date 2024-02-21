@@ -29,7 +29,7 @@ export default function SignUpRDetails({ navigation, route }) {
   const [causeImagesError, setCauseImagesError] = useState(false);
   const [verificationImagesError, setVerificationImagesError] = useState(false);
 
-  // const { AUTHCHECKENABLED } = useContext(AuthContext);
+  const { AUTHCHECKENABLED } = useContext(AuthContext);
 
   const orgTitleHandler = (title) => {
     setOrgTitle(title);
@@ -77,7 +77,7 @@ const addCauseHandler = () => {
   };
 
   const switchScreen = async () => {
-    if (!validator()) {
+    if (AUTHCHECKENABLED && !validator()) {
       return;
     }
     let payload = {
@@ -235,6 +235,7 @@ const addCauseHandler = () => {
               images={verificationImages}
               setter={setVerificationImages}
               imageLimit={2}
+              minImages={1}
               error={verificationImagesError}
             />
             <ImagePickerComp
@@ -242,6 +243,7 @@ const addCauseHandler = () => {
               images={causeImages}
               setter={setCauseImages}
               imageLimit={3}
+              minImages={1}
               error={causeImagesError}
             />
 

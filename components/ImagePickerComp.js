@@ -19,9 +19,17 @@ export default function ImagePickerComp(props) {
         }
     };
 
+    const deleteImage = (index) => {
+        console.log(index)
+        // return
+        let newImages = props.images.filter((item, i)=>i!==index)
+        props.setter(newImages)
+
+    }
+
   return (
     <View style={styles.imageContainerr}>
-        <Text style={styles.title}>{props.title} <Text style={{color: props.error ? 'red':ColorPallete.lightTextColor}}>(1 Min)</Text></Text>
+        <Text style={styles.title}>{props.title} <Text style={{color: props.error ? 'red':ColorPallete.lightTextColor}}>({props.minImages} Min)</Text></Text>
         <View style={styles.imagesContainer}>
             {
                 arrayOfEmptyObjs.map((item,index)=>{
@@ -32,6 +40,14 @@ export default function ImagePickerComp(props) {
                                 <Image style={styles.singleImage} source={{uri:props.images[index]}} />
                                 :
                                 <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
+                            }
+                            {
+                                props.images[index] &&
+                                <View style={styles.bin}>
+                                    <Pressable onPress={()=>deleteImage(index)}>
+                                        <MaterialIcons name="delete" size={16} color={ColorPallete.mediumBlue} />
+                                    </Pressable>
+                                </View>
                             }
                         </Pressable>
                     )
@@ -71,4 +87,13 @@ const styles = StyleSheet.create({
         width:80,
         
     },
+    bin:{
+        position:'absolute',
+        top:-8,
+        right:-8,
+        backgroundColor:'white',
+        borderRadius:4,
+        padding:4,
+        elevation:5,
+    }
 })

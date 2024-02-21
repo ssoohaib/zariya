@@ -18,7 +18,7 @@ export default function SignUpR({ navigation }) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
-  // const { setCurrentUserAndToken } = useContext(AuthContext);
+  const { AUTHCHECKENABLED } = useContext(AuthContext);
 
   const emailHandler = (email) => {
     setEmail(email);
@@ -43,7 +43,7 @@ export default function SignUpR({ navigation }) {
   };
 
   const switchScreen = async () => {
-    if (!validator()) {
+    if (AUTHCHECKENABLED && !validator()) {
       return;
     }
     navigation.navigate("SignUpRDetails", {

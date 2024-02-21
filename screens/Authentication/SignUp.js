@@ -24,7 +24,7 @@ export default function SigningScreen({ navigation }) {
   const [firstNameError, setFirstNameError]=useState(false)
   const [lastNameError, setLastNameError]=useState(false)
 
-  // const { AUTHCHECKENABLED } = useContext(AuthContext);
+  const { AUTHCHECKENABLED } = useContext(AuthContext);
 
   const emailHandler = (email) => {
     setEmail(email);
@@ -70,7 +70,7 @@ export default function SigningScreen({ navigation }) {
   };
 
   const switchScreen = async () => {
-    if (!validator()) {
+    if (AUTHCHECKENABLED && !validator()) {
       return;
     }
     let payload = {
