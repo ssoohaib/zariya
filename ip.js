@@ -1,0 +1,1 @@
+export default MyIP="192.168.18.75";

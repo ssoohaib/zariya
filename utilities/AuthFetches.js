@@ -1,5 +1,9 @@
+import MyIP from '../ip';
+
 export const signUp = ({email, password, firstName, lastName, userType, title, description, causes, verificationImages, causesImages}) => {
-    const url = Platform.OS=='android'? 'http://10.0.2.2:5000/':'http://192.168.56.1:5000/' 
+    // const url = Platform.OS=='android'? 'http://10.0.2.2:5000/':'http://192.168.56.1:5000/' 
+    const url = `http://${MyIP}:5000/`
+    
     fetch(url+'signup',{
         method:'POST',
         headers:{
@@ -41,7 +45,9 @@ export const signIn = async (email, password) => {
     console.log("signing in", email, password)
     
     try {
-        const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';
+        // const url = Platform.OS === 'android' ? 'http://192.168.18.75:5000/' : 'http://192.168.18.75:5000/';
+        const url = `http://${MyIP}:5000/`
+
         const response = await fetch(url + 'signin', {
             method: 'POST',
             headers: {
@@ -67,7 +73,9 @@ export const signIn = async (email, password) => {
 
 export const getAllUsers = async (token) => {
     try {
-        const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';
+        // const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';
+        const url = `http://${MyIP}:5000/`
+        
         const result = await fetch(url + 'all-users', {
             method: 'GET',
             headers:{
@@ -90,7 +98,9 @@ export const getAllUsers = async (token) => {
 export const signOut = (bearerTokenToBlacklist) => {
     console.log("signing out - token", bearerTokenToBlacklist)
     try{
-        const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';
+        // const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';
+        const url = `http://${MyIP}:5000/`
+
         fetch(url+'signout',{
             method:'GET',
             headers:{
