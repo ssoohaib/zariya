@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Image, Modal, TextInput, TouchableOpacity } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
-import AcceptDonationBtn from '../../components/AcceptDonationBtn';
+import { useRef } from 'react';
+import AcceptBtn from '../../components/AcceptBtn';
 import ColorPallete from '../../constants/ColorPallete';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,12 +18,12 @@ function DonationDetail(props) {
   const [isContactValid, setIsContactValid] = useState(true);
   const [nameError, setNameError] = useState('');
   const [contactError, setContactError] = useState('');
+  const slider = useRef(null);
 
   const navigation = useNavigation();
   const switchScreenHandler = (screen) => {
     navigation.navigate(screen)
   }
-  
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -42,11 +43,7 @@ function DonationDetail(props) {
   };
 
   useEffect(() => {
-    if (contactError !== '') {
-
-      console.log(contactError);
-    } else {
-
+    if (contactError === '') {
       toggleModal();
     }
   }, [contactError]);
@@ -76,14 +73,13 @@ function DonationDetail(props) {
     }
   };
 
-
-  const image = [require('../../assets/images/biryani.png')]
+  const image = [require('../../assets/images/biryani.png')];
 
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={require('../../assets/images/biryani.png')} />
-      </View>
+      <View style={styles.imageContainer}> 
+        <Image style={styles.image} source={require('../../assets/images/biryani.png')} /> 
+      </View> 
       <View style={styles.dataContainer}>
         <Text style={styles.data}>800g</Text>
         <Text style={styles.data}>7per</Text>
@@ -103,60 +99,63 @@ function DonationDetail(props) {
           essentially unchanged. </Text>
       </View>
       <View style={styles.btn}>
-        <AcceptDonationBtn onPress={() => handleAccept(props.id)}>Accept</AcceptDonationBtn>
+        <AcceptBtn onPress={() => handleAccept(props.id)}>Accept Donation</AcceptBtn>
       </View>
 
       {/* Rider Details Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={toggleModal}
-      >
-        <View style={styles.modalContainer}>
-          <TouchableOpacity style={styles.closeIcon} onPress={handleClose}>
-            <Ionicons name="close" size={30} color={ColorPallete.darkBlue} />
-          </TouchableOpacity>
-          <Text style={styles.modalHeading}>Fill Rider's Details</Text>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Name</Text>
-            <TextInput
-              style={[styles.input, !isNameValid && styles.inputError]}
-              placeholder="Ligma"
-              placeholderTextColor={'#B2B1B0'}
-              onChangeText={(text) => setRiderName(text)}
-            />
-            {!isNameValid && <Text style={styles.errorText}>{nameError}</Text>}
-          </View>
+      {isModalVisible && (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={toggleModal}
+        >
+          <View style={styles.modalContainer}>
+            <TouchableOpacity style={styles.closeIcon} onPress={handleClose}>
+              <Ionicons name="close" size={30} color={ColorPallete.darkBlue} />
+            </TouchableOpacity>
+            <Text style={styles.modalHeading}>Fill Rider's Details</Text>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Name</Text>
+              <TextInput
+                style={[styles.input, !isNameValid && styles.inputError]}
+                placeholder="Ligma"
+                placeholderTextColor={'#B2B1B0'}
+                onChangeText={(text) => setRiderName(text)}
+              />
+              {!isNameValid && <Text style={styles.errorText}>{nameError}</Text>}
+            </View>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Phone No.</Text>
-            <TextInput
-              style={[styles.input, !isContactValid && styles.inputError]}
-              placeholder="+923055178654"
-              placeholderTextColor={'#B2B1B0'}
-              onChangeText={(text) => setRiderContact(text)}
-            />
-            {!isContactValid && (
-              <Text style={[styles.errorText, styles.inputError]}>
-                {contactError !== '' ? contactError : 'Phone number is incorrect.'}
-              </Text>
-            )}
-          </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Phone No.</Text>
+              <TextInput
+                style={[styles.input, !isContactValid && styles.inputError]}
+                placeholder="+923055178654"
+                placeholderTextColor={'#B2B1B0'}
+                onChangeText={(text) => setRiderContact(text)}
+              />
+              {!isContactValid && (
+                <Text style={[styles.errorText, styles.inputError]}>
+                  {contactError !== '' ? contactError : 'Phone number is incorrect.'}
+                </Text>
+              )}
+            </View>
 
-          <TouchableOpacity
-            style={styles.modalButton}
-            onPress={handleSubmit}
-          >
-            <Text style={styles.modalButtonText}>Submit</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleSubmit}
+            >
+              <Text style={styles.modalButtonText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      )}
     </View>
   )
 }
 
 export default DonationDetail;
+
 
 const styles = StyleSheet.create({
   container: {

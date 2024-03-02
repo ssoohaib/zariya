@@ -27,12 +27,10 @@ function RecipientCard(props) {
                                     <Text style={styles.time}>{props.time}</Text>
                                 </View>
                                 <Text style={styles.category}>{props.category}</Text>
-                                <Text style={styles.desc}>{props.desc.slice(0,90)}...</Text>
                             </View>
                         </View>
                     </View>
                     <View style={styles.btnContainer}>
-                        <Text style={styles.quantityText}>5 person</Text>
                         <View style={styles.call}>
                             <Ionicons
                                 name='call' size={20}
@@ -86,8 +84,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     time: {
-        fontWeight: 'bold',
-        marginLeft: 140, 
+        fontWeight: '400',
+        marginLeft: 180, 
     },
     category: {
         fontWeight: '400',
@@ -98,12 +96,13 @@ const styles = StyleSheet.create({
         lineHeight: 15,
         marginTop: 5,
         fontWeight: '200',
-        marginBottom: 5,
+        //marginBottom: 5,
     },
     btnContainer: {
         flexDirection: 'row',
-        marginTop: 10,
-        alignItems: 'center', 
+        //marginTop: 5,
+        //alignItems: 'center', 
+        marginLeft: 100,
     },
     call: {
         borderRadius: 5,

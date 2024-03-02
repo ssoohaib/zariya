@@ -11,6 +11,7 @@ function RecipientMain() {
     navigation.navigate(screen)
 }
 
+
 const donationdetail = (id) => {
   navigation.navigate('donationDetail', {
       id: id

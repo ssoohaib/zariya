@@ -47,7 +47,7 @@ export default function SignIn({ navigation }) {
   const validator = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(email);
-    const isPasswordValid = password.length === 8;
+    const isPasswordValid = password.length >= 8;
 
     if (!isEmailValid)
       setEmailError(true);
