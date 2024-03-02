@@ -3,7 +3,7 @@ import ColorPallete from "../../constants/ColorPallete";
 import { useState } from "react";
 import ImprovInput from "../../components/ImprovInput";
 
-export default function Verification() {
+export default function Verification({route}) {
   const [code, setCode] =useState(0)
 
   const codeHandler=(code)=>{
@@ -31,7 +31,7 @@ export default function Verification() {
               <View style={styles.bottomInnerContainer}>
                 <Text style={styles.title}>Verify Your Account</Text>
                 <Text style={styles.p}>Verification code has been sent to your Email Address</Text>
-                <Text style={[styles.p, {fontWeight:'bold',marginVertical:4}]}>ligmajones@gmail.com</Text>
+                <Text style={[styles.p, {fontWeight:'bold',marginVertical:4}]}>{route.params.email || ''}</Text>
                 <Text style={styles.p}>Verify your account by entering the code</Text>
                 <View style={styles.inputContainer}>
                   <ImprovInput

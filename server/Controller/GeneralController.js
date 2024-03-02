@@ -12,6 +12,19 @@ async function getAllUsers(req,res){
     }
 }
 
+async function getAllNgos(req,res){
+    console.log('------------------------')
+    console.log("GET - /all-ngos")
+    try{
+        const ngos = await UserModel.find({ userType: 'recipient' }, '-password -recipientApproval -verificationImages -donationsReceived -subscribedUsers -subscribedNgos -donationsMade -favouriteNgos');
+        res.status(200).send(ngos)
+    }catch(error){
+        console.error(error)
+        res.status(500).send({error})
+    }
+}
+
 module.exports={
-    getAllUsers
+    getAllUsers,
+    getAllNgos
 }

@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Platform,
   Pressable,
@@ -22,6 +23,8 @@ export default function SignIn({ navigation }) {
   const [emailError, setEmailError]=useState(false)
   const [passwordError, setPasswordError]=useState(false)
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { setCurrentUserAndToken } = useContext(AuthContext);
 
   const modeHandler = (mode) => {
@@ -44,10 +47,14 @@ export default function SignIn({ navigation }) {
     setPassword(pass);
   };
 
+  const handleLoading = () => {
+    setIsLoading(!isLoading);
+  }
+
   const validator = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(email);
-    const isPasswordValid = password.length === 8;
+    const isPasswordValid = password.length >= 8;
 
     if (!isEmailValid)
       setEmailError(true);
@@ -66,9 +73,11 @@ export default function SignIn({ navigation }) {
     if (!validator()) {
       return;
     }
+    handleLoading();
     const result = await signIn(email, password);
     setCurrentUserAndToken(result.user, result.token);
     console.log("return>>>", result);
+    handleLoading();
   };
   
 
@@ -159,8 +168,9 @@ export default function SignIn({ navigation }) {
                 <Text
                   style={[styles.btnTitle, { color: ColorPallete.screenBg }]}
                 >
-                  Sign In
+                  Sign In{' '}
                 </Text>
+                {isLoading && <ActivityIndicator size="small" color={'white'} />}
               </View>
             </Pressable>
 

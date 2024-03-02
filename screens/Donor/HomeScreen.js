@@ -39,6 +39,12 @@ export default function HomeScreen({navigation}) {
     )
   }
 
+  const renderFavNgoFlatList = (itemData) =>{
+    return(
+      <Text>lol</Text>
+    )
+  }
+
     return (
       <ScrollView style={styles.container}> 
         <View style={styles.headerContainer}>
@@ -107,6 +113,16 @@ export default function HomeScreen({navigation}) {
             />
           </View>
         </View>
+        {
+          currentUser.favouriteNgos.length >= 1 && 
+          <View>
+            <FlatList
+              data={currentUser.favouriteNgos}
+              keyExtractor={(item)=>item.id}
+              renderItem={renderFavNgoFlatList}
+            />
+          </View>
+        }
         <View style={styles.ngoContainer}>
           <View style={styles.ngoSearchContainer}>
             <Text style={styles.subtitle}>Browse</Text>

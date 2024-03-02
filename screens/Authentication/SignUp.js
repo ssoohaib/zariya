@@ -80,8 +80,11 @@ export default function SigningScreen({ navigation }) {
       firstName: firstName,
       lastName: lastName,
     };
-    signUp({ ...payload });
-    navigation.goBack();
+    
+    navigation.navigate('Verification',{
+      email: email,
+    });
+    // signUp({ ...payload });
   };
 
   return (
