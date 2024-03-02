@@ -25,7 +25,7 @@ export default function SignIn({ navigation }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setCurrentUserAndToken } = useContext(AuthContext);
+  const { setCurrentUserAndToken, AUTHCHECKENABLED } = useContext(AuthContext);
 
   const modeHandler = (mode) => {
     toggleModal();
@@ -70,13 +70,14 @@ export default function SignIn({ navigation }) {
   
 
   const switchScreen = async () => {
-    if (!validator()) {
+    if (AUTHCHECKENABLED && !validator()) {
       return;
     }
     handleLoading();
     const result = await signIn(email, password);
     setCurrentUserAndToken(result.user, result.token);
-    console.log("return>>>", result);
+    console.log(`[SignIn - ${result.user.email} - ${result.user.id}]`)
+    // console.log("return>>>", result);
     handleLoading();
   };
   

@@ -35,14 +35,27 @@ export default function HomeScreen({navigation}) {
         onPress={ngoScreenHandler}
         desc={itemData.item.desc}
         imageUrl={itemData.item.images[0]}
+        descLength={68}
+
       />
     )
   }
 
   const renderFavNgoFlatList = (itemData) =>{
-    return(
-      <Text>lol</Text>
+    const ngo = NGOS.find(ngo=>ngo.id===itemData.item)
+    return (
+      <NgoCard 
+        id={ngo.id}
+        title={ngo.title}
+        onPress={ngoScreenHandler}
+        desc={ngo.desc}
+        imageUrl={ngo.images[0]}
+        containerStyle={{height:240, width:240, marginRight:8, marginBottom:-16}}
+        imageStyle={{height:150}}
+        descLength={30}
+      />     
     )
+    
   }
 
     return (
@@ -51,10 +64,10 @@ export default function HomeScreen({navigation}) {
           <View style={styles.headerUpper}>
             <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
             <View style={styles.userContainer}>
-              <View style={styles.userTextContainer}>
+              {/* <View style={styles.userTextContainer}>
                 <Text style={styles.userGreet}>Hi,</Text>
                 <Text style={styles.userName}>{currentUser.firstName}</Text>
-              </View>
+              </View> */}
               <ImageButton
                 style={styles.userImage}
                 onPress={switchScreenHandler}
@@ -62,7 +75,7 @@ export default function HomeScreen({navigation}) {
               />
             </View>
           </View>
-          <View style={styles.lowerHeader}>
+          {/* <View style={styles.lowerHeader}>
             <InputBar 
               placeHolder={'Search NGOs, Causes'}
               bgColor={colorPallete.mediumBlue}
@@ -70,7 +83,7 @@ export default function HomeScreen({navigation}) {
               iconColor={'white'}
 
             />
-          </View>
+          </View> */}
         </View>
         <View style={styles.categoryContainer}>
           <Text style={styles.subtitle}>Donate</Text>
@@ -115,13 +128,19 @@ export default function HomeScreen({navigation}) {
         </View>
         {
           currentUser.favouriteNgos.length >= 1 && 
-          <View>
-            <FlatList
-              data={currentUser.favouriteNgos}
-              keyExtractor={(item)=>item.id}
-              renderItem={renderFavNgoFlatList}
-            />
-          </View>
+          <>
+            <View style={[styles.ngoSearchContainer, {paddingHorizontal:16}]}>
+              <Text style={styles.subtitle}>Favourite</Text>
+            </View>
+            <View style={styles.favContainer}>
+              <FlatList
+                data={currentUser.favouriteNgos}
+                keyExtractor={(item)=>item.id}
+                renderItem={renderFavNgoFlatList}
+                horizontal={true}
+              />
+            </View>
+          </>
         }
         <View style={styles.ngoContainer}>
           <View style={styles.ngoSearchContainer}>
@@ -150,26 +169,15 @@ export default function HomeScreen({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-      // paddingTop:48,
-      // paddingHorizontal:16,
       backgroundColor:'white',
-      
-      
-      // borderWidth:1,
-      // borderColor:'red',
     },
     headerContainer:{
-      // paddingVertical:48,
       paddingTop:48,
       paddingBottom:32,
       paddingHorizontal:16,
-
-      // flexDirection:'row',
-      // justifyContent:'space-between',
-      // alignItems:'center',
       backgroundColor:colorPallete.mediumBlue,
-      borderBottomStartRadius:16,
-      borderBottomEndRadius:16,
+      // borderBottomStartRadius:16,
+      // borderBottomEndRadius:16,
 
       // borderWidth:1,
       // borderColor:'red',
@@ -242,6 +250,13 @@ const styles = StyleSheet.create({
       paddingHorizontal:16,
 
 
+    },
+    favContainer:{
+      paddingHorizontal:16,
+      flexDirection:'row',
+
+
+      // borderWidth:1
     },
     subtitle:{
       fontSize:18,
