@@ -14,7 +14,8 @@ async function getAllUsers(req,res){
 
 async function getAllNgos(req,res){
     console.log('------------------------')
-    console.log("GET - /all-ngos")
+    console.log(`[GET] -> /all-ngos/${req.params.id}`)
+    // console.log(req.params.id)
     try{
         const ngos = await UserModel.find({ userType: 'recipient' }, '-password -recipientApproval -verificationImages -donationsReceived -subscribedUsers -subscribedNgos -donationsMade -favouriteNgos');
         res.status(200).send(ngos)

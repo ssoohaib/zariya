@@ -81,10 +81,11 @@ export default function SigningScreen({ navigation }) {
       lastName: lastName,
     };
     
-    navigation.navigate('Verification',{
-      email: email,
-    });
-    // signUp({ ...payload });
+    // navigation.navigate('Verification',{
+    //   email: email,
+    // });
+    signUp({ ...payload });
+    navigation.goBack();
   };
 
   return (

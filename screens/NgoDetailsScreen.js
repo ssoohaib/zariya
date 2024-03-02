@@ -4,11 +4,13 @@ import { NGOS } from "../dummy_data/dummy_data";
 import ColorPallete from "../constants/ColorPallete";
 import IconButton from "../components/IconButton";
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PaymentModal from "../components/PaymentModal";
+import { AuthContext } from "../context/AuthContext";
 
 
 export default function NgoDetailsScreen({navigation, route}) {
+  const {allDonors} = useContext(AuthContext);
   const [selectedCauses, setSelectedCauses] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -17,7 +19,7 @@ export default function NgoDetailsScreen({navigation, route}) {
     setModalVisible(!isModalVisible);
   };
 
-  const selectedNgo = NGOS.find(i=>i.id===route.params.id)
+  const selectedNgo = allDonors.find(i=>i.id===route.params.id)
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
@@ -33,7 +35,7 @@ export default function NgoDetailsScreen({navigation, route}) {
     <ScrollView style={styles.container}>
       <View style={styles.sliderContainer}>
         <SliderBox 
-          images={selectedNgo.images} 
+          images={selectedNgo.causesImages} 
           disableOnPress={true}  
           sliderBoxHeight={260}
           dotColor={ColorPallete.mediumBlue}
@@ -50,7 +52,7 @@ export default function NgoDetailsScreen({navigation, route}) {
         <View style={styles.titleContainer}>
           <View style={styles.titleLeftContainer}>
             <Text style={styles.title}>{selectedNgo.title}</Text>
-            <Text style={styles.address}>{selectedNgo.contact.city}, {selectedNgo.contact.country}</Text>
+            <Text style={styles.address}>{selectedNgo.city}</Text>
             
           </View>
           <IconButton 
@@ -60,7 +62,7 @@ export default function NgoDetailsScreen({navigation, route}) {
         />
         </View>
         <Text style={styles.subtitle}>Description</Text>
-        <Text style={styles.desc}>{selectedNgo.desc}</Text>
+        <Text style={styles.desc}>{selectedNgo.description}</Text>
         <View style={styles.causes}>
           <MultipleSelectList 
             setSelected={(val) => setSelectedCauses(val)} 

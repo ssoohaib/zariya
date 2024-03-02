@@ -12,8 +12,8 @@ export default function App() {
   const AppNav=()=>{
     return(
       <>
-        <AdminMain />
         <AuthenticationMain />
+        <AdminMain />
         <DonorMain />
         <RecipientMain />
       </>

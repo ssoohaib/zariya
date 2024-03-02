@@ -81,7 +81,7 @@ const addCauseHandler = () => {
       return;
     }
     let payload = {
-      userType: "recepient",
+      userType: "recipient",
       email: route.params.email,
       password: route.params.password,
       title: orgTitle,

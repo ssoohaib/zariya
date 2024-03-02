@@ -5,6 +5,6 @@ const {getAllUsers, getAllNgos}=require('../Controller/GeneralController')
 
 // router.get('/all-users', authMiddleware, getAllUsers)
 router.get('/all-users', getAllUsers)
-router.get('/all-ngos', getAllNgos)
+router.get('/all-ngos/:id',authMiddleware, getAllNgos)
 
 module.exports = router;

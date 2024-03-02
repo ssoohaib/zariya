@@ -9,7 +9,9 @@ import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 
 export default function HomeScreen({navigation}) {
-  const {currentUser} = useContext(AuthContext);
+  const {currentUser, allDonors} = useContext(AuthContext);
+
+  // console.log('--()-',allDonors.length)
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
@@ -33,8 +35,8 @@ export default function HomeScreen({navigation}) {
         id={itemData.item.id}
         title={itemData.item.title}
         onPress={ngoScreenHandler}
-        desc={itemData.item.desc}
-        imageUrl={itemData.item.images[0]}
+        desc={itemData.item.description}
+        imageUrl={itemData.item.causesImages[0]}
         descLength={68}
 
       />
@@ -42,14 +44,15 @@ export default function HomeScreen({navigation}) {
   }
 
   const renderFavNgoFlatList = (itemData) =>{
-    const ngo = NGOS.find(ngo=>ngo.id===itemData.item)
+    console.log('[]------------',itemData.item)
+    const ngo = allDonors.find(ngo=>ngo.id===itemData.item)
     return (
       <NgoCard 
         id={ngo.id}
         title={ngo.title}
         onPress={ngoScreenHandler}
-        desc={ngo.desc}
-        imageUrl={ngo.images[0]}
+        desc={ngo.description}
+        imageUrl={ngo.causesImages[0]}
         containerStyle={{height:240, width:240, marginRight:8, marginBottom:-16}}
         imageStyle={{height:150}}
         descLength={30}
@@ -59,7 +62,7 @@ export default function HomeScreen({navigation}) {
   }
 
     return (
-      <ScrollView style={styles.container}> 
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}> 
         <View style={styles.headerContainer}>
           <View style={styles.headerUpper}>
             <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
@@ -138,6 +141,7 @@ export default function HomeScreen({navigation}) {
                 keyExtractor={(item)=>item.id}
                 renderItem={renderFavNgoFlatList}
                 horizontal={true}
+                showsHorizontalScrollIndicator={false}
               />
             </View>
           </>
@@ -157,7 +161,7 @@ export default function HomeScreen({navigation}) {
           </View>
           <View style={styles.ngoListContainer}>
             <FlatList
-              data={NGOS}
+              data={allDonors}
               keyExtractor={(item)=>item.id}
               renderItem={renderFlatList}
             />

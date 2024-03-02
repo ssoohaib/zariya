@@ -12,7 +12,7 @@ import { useContext,  useState } from "react";
 import ColorPallete from "../../constants/ColorPallete";
 import ImprovInput from "../../components/ImprovInput";
 import AuthenticationModal from "../../components/AuthenticationModal";
-import { signIn } from "../../utilities/AuthFetches";
+import { signIn, getAllNgos } from "../../utilities/AuthFetches";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function SignIn({ navigation }) {
@@ -25,7 +25,7 @@ export default function SignIn({ navigation }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setCurrentUserAndToken, AUTHCHECKENABLED } = useContext(AuthContext);
+  const { AUTHCHECKENABLED, setCurrentUserAndToken, setAllDonorsHandler } = useContext(AuthContext);
 
   const modeHandler = (mode) => {
     toggleModal();
@@ -76,8 +76,12 @@ export default function SignIn({ navigation }) {
     handleLoading();
     const result = await signIn(email, password);
     setCurrentUserAndToken(result.user, result.token);
-    console.log(`[SignIn - ${result.user.email} - ${result.user.id}]`)
-    // console.log("return>>>", result);
+    console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
+
+    const allDonors = await getAllNgos(result.token, result.user.id);
+    setAllDonorsHandler(allDonors);
+    console.log(`[SignIn] -> ${allDonors.length} donors fetched`)
+
     handleLoading();
   };
   
