@@ -44,7 +44,9 @@ export default function HomeScreen({navigation}) {
   }
 
   const renderFavNgoFlatList = (itemData) =>{
-    console.log('[]------------',itemData.item)
+    if (!allDonors)
+      return
+
     const ngo = allDonors.find(ngo=>ngo.id===itemData.item)
     return (
       <NgoCard 

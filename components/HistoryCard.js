@@ -5,6 +5,7 @@ import ColorPallete from "../constants/ColorPallete";
 import { useState } from "react";
 import HistoryModal from "./HistoryModal";
 
+
 export default function HistoryCard(props) {
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -14,23 +15,23 @@ export default function HistoryCard(props) {
 
     let icon='';
     let desc=''
-    if (props.donationType=="Food"){
+    if (props.category=="Food"){
         icon = "food-fork-drink"
-        desc="Servings: "
+        desc="Items: "
     }
-    else if (props.donationType=="Medicine"){
+    else if (props.category=="Medicine"){
         icon = "medical-bag"
-        desc="Quantity: "
+        desc="Items: "
     }
-    else if (props.donationType=="Ration"){
+    else if (props.category=="Ration"){
         icon = "food-variant"
-        desc="Weight: "
+        desc="Items: "
     }
-    else if (props.donationType=="Clothes"){
+    else if (props.category=="Clothes"){
         icon = "tshirt-crew"
         desc="Items: "
     }
-    else if (props.donationType=="Monetary"){
+    else if (props.category=="Monetary"){
         icon = "cash"
         desc="Amount: "
     }
@@ -45,9 +46,15 @@ export default function HistoryCard(props) {
                             <MaterialCommunityIcons name={icon} size={24} color={ColorPallete.screenBg} />
                         </View>
                         <View>
-                            <Text style={styles.title}>{props.title}</Text>
-                            <Text style={styles.subtitle}>{props.puid}</Text>
-                            <Text style={styles.subsubtitle}>{desc} 3</Text>
+                            <Text style={styles.title}>{props.title.slice(0,26)}...</Text>
+                            {
+                                props.category==='Monetary' && 
+                                <>
+                                    <Text style={styles.subtitle}><Text style={styles.subsubtitle}>Rs. </Text>{props.donation.amount}</Text>
+                                    <Text style={styles.subsubtitle}>{props.donation.type}</Text>
+                                </>
+                            }
+                            {props.category!=='Monetary' && <Text style={styles.subtitle}><Text style={styles.subsubtitle}>Items. </Text>{props.donation.items.length}</Text>}
                         </View>
                     </View>
                     <View style={styles.topRight}>
@@ -57,7 +64,7 @@ export default function HistoryCard(props) {
                 <View style={styles.bottom}>
                     <View style={styles.bottomLeft}>
                         <Text style={styles.subsubtitle}>Donation date</Text>
-                        <Text style={styles.subtitle}>{props.date}</Text>
+                        <Text style={styles.subtitle}>{props.date.slice(0,10)}</Text>
                     </View>
                     <View style={styles.bottomRight}>
                         <Text style={styles.status}>{props.status}</Text>
@@ -74,13 +81,12 @@ const styles=StyleSheet.create({
     container:{
         // borderWidth:1,
         borderColor:ColorPallete.lightTextColor,
-        borderRadius:8,
+        borderRadius:16,
         padding:16,
         marginBottom:12,
 
-        // backgroundColor:ColorPallete.mediumBlue,
-        backgroundColor:'#F5F5F5',
-
+        // backgroundColor:'#F5F5F5',
+        backgroundColor:ColorPallete.fLightColor,
     },
     top:{
         flexDirection:'row',
@@ -105,7 +111,7 @@ const styles=StyleSheet.create({
         justifyContent:"center",
         alignItems:'center',
         marginRight:8,
-        borderRadius:4,
+        borderRadius:8,
     },
     topRight:{
 

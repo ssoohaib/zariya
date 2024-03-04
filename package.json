@@ -17,6 +17,8 @@
     "@react-navigation/stack": "^6.3.20",
     "axios": "^1.6.2",
     "date-and-time": "^3.0.3",
+    "date-fns": "^3.3.1",
+    "date-format": "^4.0.14",
     "expo": "~49.0.15",
     "expo-document-picker": "^11.10.1",
     "expo-image-picker": "~14.3.2",
