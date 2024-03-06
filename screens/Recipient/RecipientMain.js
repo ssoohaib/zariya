@@ -24,6 +24,7 @@ import Verification from '../ProfileScreens/Verification';
 import Congratulations from '../../components/Congratulations';
 import Feedback from '../../components/Feedback';
 import { AuthContext } from '../../context/AuthContext';
+import DonationsList from './DonationsList';
 
 
 
@@ -42,6 +43,7 @@ function MyStack() {
       <Stack.Screen name="RecieveDonation" component={RecieveDonation} options={{headerShown:false}}  />
       <Stack.Screen name="DonationDetail" component={DonationDetail} options={{headerShown:false}}  />
       <Stack.Screen name="Congratulations" component={Congratulations} options={{headerShown:false}}  />
+      <Stack.Screen name="DonationsList" component={DonationsList} options={{headerShown:false}} />
     </Stack.Navigator>
   );
 }

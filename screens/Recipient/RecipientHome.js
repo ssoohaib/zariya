@@ -42,12 +42,6 @@ function RecipientHome() {
         navigation.navigate(screen)
     }
 
-    const recipientMainScreenHandler = (id) => {
-        navigation.navigate('RecieveDonation', {
-            id: id
-        })
-    }
-
 
     const renderFlatList = (itemData) => {
         return (

@@ -13,7 +13,7 @@ function AcceptDonationBtn({ onPress, children }) {
       onPress(); // Call the onPress prop if it's provided
     } else {
       // If onPress is not provided, navigate to the default screen (DonationDetail)
-      navigation.navigate('DonationDetail');
+      navigation.navigate('DonationsList');
     }
   };
 
