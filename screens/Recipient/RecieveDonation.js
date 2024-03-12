@@ -9,17 +9,18 @@ function RecipientMain() {
 
   const switchScreenHandler = (screen) => {
     navigation.navigate(screen)
-}
+  }
 
-const donationdetail = (id) => {
-  navigation.navigate('donationDetail', {
+
+  const donationslist = (id) => {
+    navigation.navigate('donationsList', {
       id: id
-  })
-}
+    })
+  }
 
-  const renderFlatList = (itemData) =>{
-    return(
-      <RecipientCard 
+  const renderFlatList = (itemData) => {
+    return (
+      <RecipientCard
         id={itemData.item.id}
         name={itemData.item.name}
         //onPress={donationDetail}
@@ -31,108 +32,108 @@ const donationdetail = (id) => {
     )
   }
 
-    return (
-      <ScrollView style={styles.container}> 
-        <View style={styles.headerContainer}>
-          <View style={styles.headerUpper}>
-            <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
-            <View style={styles.userContainer}>
-              <View style={styles.userTextContainer}>
-                <Text style={styles.userGreet}>Hi,</Text>
-                <Text style={styles.userName}>Ligma</Text>
-              </View>
-              <ImageButton
-                style={styles.userImage}
-                onPress={switchScreenHandler}
-                screen={'Profile'}
-              />
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <View style={styles.headerUpper}>
+          <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
+          <View style={styles.userContainer}>
+            <View style={styles.userTextContainer}>
+              <Text style={styles.userGreet}>Hi,</Text>
+              <Text style={styles.userName}>Ligma</Text>
             </View>
-          </View>
-        </View>
-        <View style={styles.ngoContainer}>
-          <View style={styles.ngoListContainer}>
-            <FlatList
-              data={Donors}
-              keyExtractor={(item)=>item.id}
-              renderItem={renderFlatList}
+            <ImageButton
+              style={styles.userImage}
+              onPress={switchScreenHandler}
+              screen={'Profile'}
             />
           </View>
         </View>
-      </ScrollView>
-    );
+      </View>
+      <View style={styles.ngoContainer}>
+        <View style={styles.ngoListContainer}>
+          <FlatList
+            data={Donors}
+            keyExtractor={(item) => item.id}
+            renderItem={renderFlatList}
+          />
+        </View>
+      </View>
+    </ScrollView>
+  );
 }
 
 export default RecipientMain;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'#DEE1E0',
+    backgroundColor: '#DEE1E0',
   },
-  headerContainer:{
-    paddingTop:48,
-    paddingBottom:32,
-    paddingHorizontal:16,
-    backgroundColor:colorPallete.mediumBlue,
-    borderBottomStartRadius:16,
-    borderBottomEndRadius:16,
+  headerContainer: {
+    paddingTop: 48,
+    paddingBottom: 32,
+    paddingHorizontal: 16,
+    backgroundColor: colorPallete.mediumBlue,
+    borderBottomStartRadius: 16,
+    borderBottomEndRadius: 16,
   },
-  headerUpper:{
-    flexDirection:'row',
-    width:'100%',
-    justifyContent:'space-between',
-    alignItems:'center',
+  headerUpper: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  logo:{
-    width:70,
-    height:'100%',
+  logo: {
+    width: 70,
+    height: '100%',
   },
-  userContainer:{
-    flexDirection:"row",
+  userContainer: {
+    flexDirection: "row",
   },
-  userTextContainer:{
-    marginRight:8,
-    justifyContent:'center',
+  userTextContainer: {
+    marginRight: 8,
+    justifyContent: 'center',
   },
-  userGreet:{
-    color:colorPallete.screenBg,
-    textAlign:'right',
+  userGreet: {
+    color: colorPallete.screenBg,
+    textAlign: 'right',
   },
-  userName:{
-    fontSize:16,
-    fontWeight:'bold',
-    color:colorPallete.screenBg,
+  userName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colorPallete.screenBg,
   },
-  userImage:{
-    height:40,
-    width:40,
-    borderRadius:20,
-    borderWidth:4,
-    borderColor:colorPallete.lightBlue,
+  userImage: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    borderWidth: 4,
+    borderColor: colorPallete.lightBlue,
 
   },
-  subtitle:{
+  subtitle: {
     //fontSize:18,
-    fontWeight:'bold',
+    fontWeight: 'bold',
     //marginVertical:16,
     marginTop: 10,
     marginLeft: 10,
   },
-  buttonsContainer:{
-    flexDirection:'row',
+  buttonsContainer: {
+    flexDirection: 'row',
 
   },
-  ngoContainer:{
+  ngoContainer: {
     //paddingHorizontal:16,
-    
+
   },
-  ngoSearchContainer:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
+  ngoSearchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     // marginVertical:8,
 
   },
-  ngoListContainer:{
+  ngoListContainer: {
 
   }
 });
