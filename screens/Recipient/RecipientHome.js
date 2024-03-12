@@ -1,5 +1,5 @@
 import RecipientAnalyticCard from "../../components/RecipientAnalyticCard";
-import { FlatList, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { FlatList, StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import ImageButton from '../../components/ImageButton';
 import ColorPallete from "../../constants/ColorPallete";
 import { useNavigation } from '@react-navigation/native';
@@ -22,6 +22,10 @@ function RecipientHome() {
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
+    };
+
+    const goToSubscribers = () => {
+        navigation.navigate('Subscribers'); // Navigate to the Subscribers screen
     };
 
     const handleFilterOption = (filter) => {
@@ -87,10 +91,10 @@ function RecipientHome() {
                     <Text style={styles.addresedText}>Addressed Requests</Text>
                     <Text style={styles.addressedData}>143</Text>
                 </View>
-                <View style={styles.subscriptionView}>
-                    <Text style={styles.buttonsText}>Subscriptions</Text>
+                <TouchableOpacity onPress={goToSubscribers} style={styles.subscriptionView}>
+                    <Text style={styles.buttonsText}>Subscribers</Text>
                     <Text style={styles.dataText}>7</Text>
-                </View>
+                </TouchableOpacity>
             </View>
             <View style={styles.headingView}>
                 <Text style={styles.requestHeading}>Requests</Text>
@@ -129,18 +133,24 @@ function RecipientHome() {
                     </TouchableOpacity>
 
                 </View>
+
             )}
 
-            <ScrollView>
-                <View style={styles.ngoContainer}>
-                    <View style={styles.ngoListContainer}>
-                        <FlatList
-                            data={filteredRequests}
-                            keyExtractor={(item) => item.id}
-                            renderItem={renderFlatList} />
-                    </View>
+            {/* Render requests or "No current requests" image and text */}
+            {filteredRequests.length > 0 ? (
+                <FlatList
+                    data={filteredRequests}
+                    keyExtractor={(item) => item.id}
+                    renderItem={renderFlatList}
+                    contentContainerStyle={styles.flatListContentContainer}
+                />
+            ) : (
+                <View style={styles.noRequestsContainer}>
+                    <Image source={require('../../assets/images/no-data.png')} style={styles.noRequestsImage} />
+                    <Text style={styles.noRequestsText}>No current requests</Text>
                 </View>
-            </ScrollView>
+            )}
+
         </View>
     )
 }
@@ -150,6 +160,10 @@ export default RecipientHome;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#DEE1E0',
+        flex: 1,
+    },
+    flatListContentContainer: {
+        flexGrow: 1, // Allow the FlatList content to grow and scroll
     },
     headerContainer: {
         paddingTop: 48,
@@ -167,6 +181,20 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    noRequestsContainer: {
+        //flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    noRequestsImage: {
+        width: 200,
+        height: 200,
+        resizeMode: 'contain',
+    },
+    noRequestsText: {
+        fontSize: 14,
+        color: '#999999'
     },
     userContainer: {
         flexDirection: "row",
