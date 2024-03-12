@@ -12,24 +12,27 @@ export default function NgoCard(props) {
                 <View style={styles.infoContainer}>
                     <Text style={styles.title}>{props.title}</Text>
                     <Text style={styles.desc}>{props.desc.slice(0,props.descLength)}...</Text>
-                    {
-                        !props.imageStyle &&
+                    {/* { */}
+                        {/* !props.imageStyle && */}
                         <View style={styles.btnContainer}>
-                            <IconButton 
-                                icon={'star'} 
-                                // bgColor={ColorPallete.lightBlue} 
-                                iconColor={ColorPallete.mediumBlue}
-                                style={{flex:0,marginRight:8,borderWidth:1,borderColor:ColorPallete.mediumBlue}}
-                            />
-                            <IconButton 
+                            <View style={[styles.favContainer, props.imageStyle && {top:-210, left:190}]}>
+                                <IconButton 
+                                    icon={'star-outline'} 
+                                    // bgColor={ColorPallete.lightBlue} 
+                                    iconColor={ColorPallete.mediumBlue}
+                                    style={{flex:0}}
+                                    size={18}
+                                />
+                            </View>
+                            {/* <IconButton 
                                 title={'Donate'} 
                                 bgColor={ColorPallete.mediumBlue} 
                                 iconColor={ColorPallete.screenBg}
                                 style={{flex:1,}}
                                 textStyle={{fontSize:18}}
-                            />
+                            /> */}
                         </View>
-                    }
+                    {/* } */}
                 </View>
             </View>
         </Pressable>
@@ -41,7 +44,7 @@ const styles=StyleSheet.create({
     container:{
         // backgroundColor:'white',
         borderRadius:8,
-        overflow:'hidden',
+        // overflow:'hidden',
         marginBottom:16,     
 
         // borderColor:'#8b8888',
@@ -82,5 +85,13 @@ const styles=StyleSheet.create({
         alignItems:'center',
         marginTop:12,
 
+    },
+    favContainer:{
+        backgroundColor:ColorPallete.screenBg,
+        borderRadius:'100%',
+        position:'absolute',
+        top:-275,
+        left:292,
+        
     }
 })

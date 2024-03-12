@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     },
     headerContainer:{
       paddingTop:48,
-      paddingBottom:32,
+      paddingBottom:24,
       paddingHorizontal:16,
       backgroundColor:colorPallete.mediumBlue,
       // borderBottomStartRadius:16,

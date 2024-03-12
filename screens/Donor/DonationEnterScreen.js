@@ -9,6 +9,8 @@ import date from 'date-and-time';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from "react-native";
+import ImagePickerComp from "../../components/ImagePickerComp";
+import Cart from "../../components/Cart";
 
 export default function DonationEnterScreen({navigation, route}) {
 
@@ -18,8 +20,6 @@ export default function DonationEnterScreen({navigation, route}) {
     const [tillDateVisible, setTillDateVisible]=useState(false)
 
     const [expDateVisible, setExpDateVisible]=useState(false)
-
-    // const []=useState()
 
     const [items,setItems]=useState([])
 
@@ -51,7 +51,6 @@ export default function DonationEnterScreen({navigation, route}) {
     },[])
 
     const mealsTypeList=['Produce', 'Dairy', 'Non-Perishable', 'Beverages', 'Meat', 'Desserts']
-
     const clothesSeasonList=['Summer', 'Winter', 'Rainy', 'Spring', 'Autumn', 'All']
     const genderList = ['Male', 'Female', 'Unisex']
     const sizeList = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
@@ -194,43 +193,12 @@ export default function DonationEnterScreen({navigation, route}) {
 
   return (
     <ScrollView style={styles.container}>
-        <View style={styles.cartContainer}>
-            {
-                !items.length ?
-                <View style={styles.emptyCartContainer}>
-                    <View style={styles.emptyCart}>
-                        <MaterialIcons style={{marginBottom:8}} name="add-shopping-cart" size={24} color="black" />
-                        <Text style={[styles.title, {textAlign:"center"}]}>No items added</Text>
-                        <Text style={[{textAlign:'center'}]}>Start adding some items to donate.</Text>
-                    </View>
-                </View>
-                :
-                <View style={styles.nonEmptyCart}>
-                    {
-                        items.map((i, count)=>(
-                            <View key={count} style={styles.cartRow}>
-                                <View style={{flexDirection:"row"}}>
-                                    <Text style={{marginRight:8,}}>{count+1}.</Text>
-                                    <Text style={{fontWeight:'bold',}}>{i.title}</Text>
-                                </View>
-                                <Pressable 
-                                    onPress={()=>removeItem(i.id)}
-                                    style={{borderRadius:8, overflow:'hidden'}}>
-                                    <Text style={{
-                                        color:ColorPallete.screenBg,
-                                        padding:4,
-                                        paddingHorizontal:8,
-                                        backgroundColor:ColorPallete.mediumBlue,
-                                        fontWeight:'bold',
-                                        fontSize:12,
-                                    }}>Remove</Text>
-                                </Pressable>                                
-                            </View>
-                        ))
-                    }
-                </View>
-            }
-        </View>
+        <Cart
+            items={items}
+            removeItem={removeItem}
+
+        />
+        
         <View style={styles.inputContainer}>
             <ImprovInput
                 tag={'Title'}
@@ -340,33 +308,14 @@ export default function DonationEnterScreen({navigation, route}) {
         {
             category != 'Medicine' &&
             <View style={styles.imageContainer}>
-                <Text style={styles.title}>Images <Text style={{color:ColorPallete.lightTextColor}}>(1 Min)</Text></Text>
-                <View style={styles.imagesContainer}>
-                    <Pressable onPress={pickImage} style={styles.singleImageContainer}>
-                        {
-                            images[0] ? 
-                            <Image style={styles.singleImage} source={{uri:images[0]}} />
-                            :
-                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
-                        }
-                    </Pressable>
-                    <Pressable onPress={pickImage} style={styles.singleImageContainer}>
-                        {
-                            images[1] ? 
-                            <Image style={styles.singleImage} source={{uri:images[1]}} />
-                            :
-                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
-                        }
-                    </Pressable>
-                    <Pressable onPress={pickImage} style={styles.singleImageContainer}>
-                        {
-                            images[2] ? 
-                            <Image style={styles.singleImage} source={{uri:images[2]}} />
-                            :
-                            <MaterialIcons name="add-circle-outline" size={32} color={ColorPallete.mediumBlue} />
-                        }
-                    </Pressable>
-                </View>
+                <ImagePickerComp
+                    title={"Images"}
+                    images={images}
+                    setter={setImages}
+                    imageLimit={3}
+                    minImages={1}
+                    // error={verificationImagesError}
+                />
             </View>
         }
         <View style={styles.dateTimeConatiner}>
@@ -512,33 +461,6 @@ const styles=StyleSheet.create({
         paddingHorizontal:16,
         paddingTop:16,    
     },
-    cartContainer:{
-        minHeight:140,
-        marginBottom:24,
-        backgroundColor:ColorPallete.lightBlue,
-        borderRadius:16,
-        
-
-    },
-    nonEmptyCart:{
-        padding:16
-    },
-    emptyCartContainer:{
-        minHeight:140,
-        alignItems:'center',
-        justifyContent:'center',
-    },
-    emptyCart:{
-        width:'60%',
-        alignItems:'center'
-
-    },
-    cartRow:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        marginBottom:8,
-    },
     title:{
         marginBottom:8,
         fontWeight:'bold',
@@ -615,24 +537,6 @@ const styles=StyleSheet.create({
         zIndex:-9,
         marginBottom:16,
 
-    },
-    imagesContainer:{
-        flexDirection:'row',
-    },
-    singleImageContainer:{
-        height:82,
-        width:82,
-        borderWidth:1,
-        borderStyle:'dashed',
-        marginRight:8,
-
-        alignItems:'center',
-        justifyContent:"center"
-    },
-    singleImage:{
-        height:80,
-        width:80,
-        
     },
     addItemBtn:{
         padding:16,
