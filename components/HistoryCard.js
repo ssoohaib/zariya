@@ -46,7 +46,7 @@ export default function HistoryCard(props) {
                             <MaterialCommunityIcons name={icon} size={24} color={ColorPallete.screenBg} />
                         </View>
                         <View>
-                            <Text style={styles.title}>{props.title.slice(0,26)}...</Text>
+                            <Text style={styles.title}>{props.title}...</Text>
                             {
                                 props.category==='Monetary' && 
                                 <>
