@@ -46,12 +46,12 @@ export default function HistoryCard(props) {
                             <MaterialCommunityIcons name={icon} size={24} color={ColorPallete.screenBg} />
                         </View>
                         <View>
-                            <Text style={styles.title}>{props.title}...</Text>
+                            <Text style={styles.title}>{props.title.slice(0,27)}...</Text>
                             {
                                 props.category==='Monetary' && 
                                 <>
                                     <Text style={styles.subtitle}><Text style={styles.subsubtitle}>Rs. </Text>{props.donation.amount}</Text>
-                                    <Text style={styles.subsubtitle}>{props.donation.type}</Text>
+                                    <Text style={[styles.subsubtitle, {marginTop:4}]}>{props.donation.type}</Text>
                                 </>
                             }
                             {props.category!=='Monetary' && <Text style={styles.subtitle}><Text style={styles.subsubtitle}>Items. </Text>{props.donation.items.length}</Text>}

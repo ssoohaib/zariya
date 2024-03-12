@@ -10,7 +10,6 @@ export default function DonorHistoryScreen({navigation}) {
 
   const {currentUser} = useContext(AuthContext);
 
-  console.log(currentUser.donationsMade.length)
 
   const switchScreen = (screen)=>{
     navigation.navigate(screen)
@@ -19,19 +18,29 @@ export default function DonorHistoryScreen({navigation}) {
   const renderHistory = itemData => {
     if (!currentUser)
       return
+    
 
-    // extracting except pending
     if (itemData.item.donationStatus!=='Pending')
+    {
+      let title = itemData.item.donationCategory === "Monetary"?
+        "Money"
+        :
+        itemData.item.donationCategory
+
+      title+=" donated to "+itemData.item.ngoName
+      
       return (
-      <HistoryCard
-        id={itemData.item.id}
-        category={itemData.item.donationCategory}
-        title={itemData.item.donationCategory+' donated to '+itemData.item.ngoName}
-        status={itemData.item.donationStatus}
-        date={itemData.item.donationDate}
-        donation={itemData.item.donation}
-      />
-    )}
+        <HistoryCard
+          id={itemData.item.id}
+          category={itemData.item.donationCategory}
+          title={title}
+          status={itemData.item.donationStatus}
+          date={itemData.item.donationDate}
+          donation={itemData.item.donation}
+        />
+      )
+    }
+  }
 
     return (
       <>
