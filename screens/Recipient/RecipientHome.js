@@ -1,12 +1,9 @@
-import RecipientAnalyticCard from "../../components/RecipientAnalyticCard";
 import { FlatList, StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import ImageButton from '../../components/ImageButton';
 import ColorPallete from "../../constants/ColorPallete";
 import { useNavigation } from '@react-navigation/native';
-import DonationDetail from "./DonationDetail";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
-import { Donors } from '../../dummy_data/recipient_data';
 import RecipientCard from '../../components/RecipientCard';
 import { TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
@@ -15,10 +12,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 function RecipientHome() {
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, allDonors } = useContext(AuthContext);
     const [selectedFilter, setSelectedFilter] = useState(null);
     const [isModalVisible, setModalVisible] = useState(false);
-    const [filteredRequests, setFilteredRequests] = useState(Donors); // Default to all requests
+    const [filteredRequests, setFilteredRequests] = useState(allDonors); // Default to all requests
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
@@ -33,9 +30,9 @@ function RecipientHome() {
         toggleModal(); // Close the modal after selecting the filter
         // Filter requests based on selected filter
         if (filter === 'All') {
-            setFilteredRequests(Donors); // Show all requests
+            setFilteredRequests(allDonors); // Show all requests
         } else {
-            const filteredData = Donors.filter(request => request.category === filter);
+            const filteredData = allDonors.filter(request => request.category === filter);
             setFilteredRequests(filteredData);
         }
     };
@@ -137,7 +134,7 @@ function RecipientHome() {
             )}
 
             {/* Render requests or "No current requests" image and text */}
-            {filteredRequests.length > 0 ? (
+            {filteredRequests && filteredRequests.length > 0 ? (
                 <FlatList
                     data={filteredRequests}
                     keyExtractor={(item) => item.id}
@@ -150,6 +147,7 @@ function RecipientHome() {
                     <Text style={styles.noRequestsText}>No current requests</Text>
                 </View>
             )}
+
 
         </View>
     )
