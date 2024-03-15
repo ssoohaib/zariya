@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
-import * as ImagePicker from 'expo-image-picker';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, Text, View, Image, TextInput, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker'; // Import ImagePicker
 import ColorPallete from '../../constants/ColorPallete';
 import AcceptDonationBtn from '../../components/AcceptDonationBtn';
 
 export default function EditProfile() {
-  const [image, setImage] = useState(null);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [description, setDescription] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [location, setLocation] = useState('');
-  const [emailError, setEmailError] = useState(null);
-  const [phoneError, setPhoneError] = useState(null);
+  const [newCause, setNewCause] = useState('');
+  const [causes, setCauses] = useState(['Education', 'Healthcare', 'Environment']); // Initial causes
+  const [pictures, setPictures] = useState([]); // Array of picture URIs
+  const [changes, setChanges] = useState({
+    email: '',
+    password: '',
+    description: '',
+    phoneNumber: '',
+    location: '',
+    causes: [],
+    pictures: [],
+  });
 
-  const handleChoosePhoto = async () => {
+  useEffect(() => {
+    // Request permission to access the device's gallery
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission denied', 'Sorry, we need camera roll permissions to make this work!');
+      }
+    })();
+  }, []);
+
+  const handleAddPicture = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -23,172 +44,294 @@ export default function EditProfile() {
       });
 
       if (!result.cancelled) {
-        setImage(result.uri);
+        if (pictures.length < 3) {
+          setPictures([...pictures, result.uri]);
+        } else {
+          Alert.alert('Limit Exceeded', 'You can only add up to three images.');
+        }
       }
     } catch (error) {
       console.error('Error choosing photo:', error);
     }
   };
 
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+  const handleDeletePicture = (index) => {
+    const updatedPictures = [...pictures];
+    updatedPictures.splice(index, 1);
+    setPictures(updatedPictures);
   };
 
-  const validatePhoneNumber = (phoneNumber) => {
-    const regex = /^\+?\d{1,4}?[-. ]?\d{6,}$/;
-    return regex.test(phoneNumber);
+  const handleAddCause = () => {
+    if (newCause.trim() !== '') {
+      setCauses([...causes, newCause.trim()]);
+      setNewCause('');
+    }
+  };
+
+  const handleRemoveCause = (index) => {
+    const updatedCauses = causes.filter((_, i) => i !== index);
+    setCauses(updatedCauses);
+  };
+
+  const [emailError, setEmailError] = useState('');
+  const [phoneNumberError, setPhoneNumberError] = useState('');
+
+  const isEmailValid = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const isPhoneNumberValid = (phoneNumber) => {
+    return /^\+92\d{10}$/.test(phoneNumber);
   };
 
   const handleSavePress = () => {
-    let hasError = false;
-  
-    // Validate email
-    if (email && !validateEmail(email)) {
-      setEmailError('Invalid email format');
-      hasError = true;
+    let isValid = true;
+
+    // Validation for email
+    if (!isEmailValid(changes.email)) {
+      setEmailError('Please enter a valid email address.');
+      isValid = false;
     } else {
-      setEmailError(null);
+      setEmailError('');
     }
-  
-    // Validate phone number
-    if (phoneNumber && !validatePhoneNumber(phoneNumber)) {
-      setPhoneError('Invalid phone number');
-      hasError = true;
+
+    // Validation for phone number
+    if (!isPhoneNumberValid(changes.phoneNumber)) {
+      setPhoneNumberError('Please enter a valid phone number starting with +92.');
+      isValid = false;
     } else {
-      setPhoneError(null);
+      setPhoneNumberError('');
     }
-  
-    if (!email && !phoneNumber && !location) {
-      setEmailError('Field is empty');
-      setPhoneError('Field is empty');
-      hasError = true;
+
+    if (isValid) {
+      // Save changes logic here
+      Alert.alert('Success', 'Your changes have been saved successfully');
     }
-  
-    if (hasError) {
-      return;
-    }
-    Alert.alert('Success', 'Your profile has been updated successfully');
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.iconContainer} onTouchEnd={handleChoosePhoto}>
-        <Ionicons style={styles.icon} name="ios-camera-outline" size={24} color="white" />
-      </View>
-      <View style={styles.imgContainer}>
-        <Image style={styles.img} source={image ? { uri: image } :
-          require('../../assets/images/user2.png')} />
-      </View>
-      <View style={styles.mailContainer}>
+
+  const handleUndoPress = () => {
+    // Reset changes logic here
+    setChanges({
+      email: '',
+      password: '',
+      description: '',
+      phoneNumber: '',
+      location: '',
+      causes: [],
+      pictures: [],
+    });
+    Alert.alert('Undo', 'All changes have been undone');
+  };
+
+
+return (
+  <ScrollView contentContainerStyle={styles.container}>
+     <View style={styles.inputContainer}>
         <Text style={styles.title}>Email</Text>
         <TextInput
-          style={[styles.input, emailError && { borderColor: 'red' }]}
+          style={[styles.input, emailError ? styles.errorInput : null]}
           placeholder="abc@gmail.com"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={(text) => {
-            setEmail(text);
-            setEmailError(null); 
-          }}
+          value={changes.email || email}
+          onChangeText={(text) => setChanges({ ...changes, email: text })}
         />
-        {emailError && <Text style={styles.errorText}>{emailError}</Text>}
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
       </View>
-      <View style={styles.phoneContainer}>
-        <Text style={styles.title}>Phone Number</Text>
+    <View style={styles.inputContainer}>
+      <Text style={styles.title}>Description</Text>
+      <TextInput
+        style={[styles.input, styles.multilineInput]}
+        placeholder="Enter new description"
+        value={changes.description || description}
+        onChangeText={(text) => setChanges({ ...changes, description: text })}
+        multiline
+      />
+    </View>
+    <View style={styles.inputContainer}>
+        <Text style={styles.title}>Contact Number</Text>
         <TextInput
-          style={[styles.input, phoneError && { borderColor: 'red' }]}
-          placeholder="+92 609 456 567 4"
+          style={[styles.input, phoneNumberError ? styles.errorInput : null]}
+          placeholder="+92 303 6547839"
+          value={changes.phoneNumber || phoneNumber}
+          onChangeText={(text) => setChanges({ ...changes, phoneNumber: text })}
           keyboardType="phone-pad"
-          value={phoneNumber}
-          onChangeText={(text) => {
-            setPhoneNumber(text);
-            setPhoneError(null); 
-          }}
         />
-        {phoneError && <Text style={styles.errorText}>{phoneError}</Text>}
+        {phoneNumberError ? <Text style={styles.errorText}>{phoneNumberError}</Text> : null}
       </View>
-      <View style={styles.locContainer}>
-        <Text style={styles.title}>Location</Text>
+    <View style={styles.inputContainer}>
+      <Text style={styles.title}>City</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Lahore"
+        value={changes.location || location}
+        onChangeText={(text) => setChanges({ ...changes, location: text })}
+      />
+    </View>
+    <View style={styles.inputContainer}>
+      <Text style={styles.title}>Causes</Text>
+      <View style={styles.addCauseContainer}>
         <TextInput
           style={styles.input}
-          placeholder="XXXX Twin Willow Lane, City"
-          value={location}
-          onChangeText={(text) => setLocation(text)}
+          placeholder="Add new cause"
+          value={newCause}
+          onChangeText={(text) => setNewCause(text)}
+          onSubmitEditing={handleAddCause}
         />
-      </View>
-      <View style={styles.btnContainer}>
-        <AcceptDonationBtn onPress={handleSavePress}>Save</AcceptDonationBtn>
+        <TouchableOpacity onPress={handleAddCause}>
+          <Ionicons name="add-circle" size={30} color="green" />
+        </TouchableOpacity>
       </View>
     </View>
-  );
+    <View style={styles.inputContainer}>
+      <View style={styles.causesContainer}>
+        {causes.map((cause, index) => (
+          <View key={index} style={styles.causeItem}>
+            <Text>{cause}</Text>
+            <TouchableOpacity onPress={() => handleRemoveCause(index)}>
+              <Ionicons name="close-circle" size={20} color="red" />
+            </TouchableOpacity>
+          </View>
+        ))}
+      </View>
+    </View>
+    <View style={styles.inputContainer}>
+      <Text style={styles.title}>Pictures</Text>
+      <View style={styles.picturesContainer}>
+        {pictures.map((uri, index) => (
+          <TouchableOpacity key={index} onPress={() => handleDeletePicture(index)} style={styles.pictureWrapper}>
+            <Image source={{ uri }} style={styles.pictureItem} />
+            <TouchableOpacity onPress={() => handleDeletePicture(index)} style={styles.deleteIcon}>
+              <Ionicons name="trash-bin" size={20} color="red" />
+            </TouchableOpacity>
+          </TouchableOpacity>
+        ))}
+        {pictures.length < 3 && (
+          <TouchableOpacity onPress={handleAddPicture} style={[styles.pictureWrapper, styles.addPictureWrapper]}>
+            <Ionicons name="add-circle" size={50} color="green" />
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+    <View style={styles.btnContainer}>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity onPress={handleUndoPress} style={[styles.undoButton, styles.button]}>
+          <Text style={[styles.buttonText, { color: ColorPallete.mediumBlue }]}>Undo Changes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleSavePress} style={[styles.saveButton, styles.button]}>
+          <Text style={[styles.buttonText, { color: 'white' }]}>Save Changes</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </ScrollView>
+);
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 16,
     backgroundColor: 'white',
   },
-  imgContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
-  img: {
-    marginTop: 50,
-    borderRadius: 100,
-    height: 200,
-    width: 200,
-  },
-  iconContainer: {
-    position: 'absolute',
-    top: 60,
-    zIndex: 1,
-    right: 100,
-    height: 50,
-    width: 50,
-    borderRadius: 25,
-    borderColor: 'white',
-    borderWidth: 2,
-    backgroundColor: ColorPallete.darkBlue,
-  },
-  icon: {
-    padding: 10,
+  inputContainer: {
+    marginBottom: 20,
   },
   input: {
+    flex: 1, // Take up remaining space
     height: 40,
     borderColor: '#DCDCDC',
     borderWidth: 1,
-    marginBottom: 16,
-    paddingLeft: 8,
     borderRadius: 8,
-    marginLeft: 16,
-    marginRight: 16,
-  },
-  mailContainer: {
-    marginTop: 30,
-
-  },
-  phoneContainer: {
-    marginTop: 10,
-
-  },
-  locContainer: {
-    marginTop: 10,
+    paddingLeft: 8,
+    marginRight: 10, // Add margin to the right
   },
   title: {
-    marginLeft: 20,
+    marginBottom: 5,
     color: '#B2B0AF',
   },
+  multilineInput: {
+    height: 80,
+    paddingTop: 8, // Adjust padding for multiline input
+  },
+  causesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 10,
+  },
+  causeItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#453953',
+    borderWidth: 1,
+    padding: 5,
+    marginRight: 10,
+    marginBottom: 5,
+    borderRadius: 5,
+  },
+  addCauseContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    width: '100%',
+  },
+  picturesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 10,
+  },
+  pictureWrapper: {
+    position: 'relative',
+    marginRight: 10,
+    marginBottom: 10,
+  },
+  pictureItem: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+  },
+  addPictureWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#DCDCDC',
+    borderStyle: 'dashed',
+  },
+  deleteIcon: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: 10,
+    padding: 2,
+  },
   btnContainer: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 30,
+    marginTop: 20,
+    //alignItems: 'center',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+  },
+  saveButton: {
+    backgroundColor: ColorPallete.mediumBlue,
+  },
+  undoButton: {
+    borderColor: ColorPallete.mediumBlue,
+    borderWidth: 1,
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  errorInput: {
+    borderColor: 'red',
   },
   errorText: {
-    color: 'red',
-    marginLeft: 16,
-    //marginTop: 3,
+    color: 'red', 
+    marginTop: 5, 
   },
 });
