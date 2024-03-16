@@ -1,28 +1,124 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, TextInput, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker'; // Import ImagePicker
 import ColorPallete from '../../constants/ColorPallete';
-import AcceptDonationBtn from '../../components/AcceptDonationBtn';
+import { AuthContext } from "../../context/AuthContext";
 
 export default function EditProfile() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [description, setDescription] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [location, setLocation] = useState('');
-  const [newCause, setNewCause] = useState('');
-  const [causes, setCauses] = useState(['Education', 'Healthcare', 'Environment']); // Initial causes
-  const [pictures, setPictures] = useState([]); // Array of picture URIs
+  const { userId, userToken } = useContext(AuthContext);
+  const [userData, setUserData] = useState(null);
   const [changes, setChanges] = useState({
     email: '',
-    password: '',
     description: '',
     phoneNumber: '',
     location: '',
     causes: [],
     pictures: [],
   });
+  const [emailError, setEmailError] = useState('');
+  const [phoneNumberError, setPhoneNumberError] = useState('');
+  const [newCause, setNewCause] = useState(''); // Add newCause state variable
+
+  // Destructure state variables
+  const { email, description, phoneNumber, location, causes, pictures } = changes;
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`mongodb+srv://koreantunnel:ssRsIhXaUomeegll@cluster0.dpzezud.mongodb.net/test/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const userData = await response.json();
+        setUserData(userData);
+        // Populate the changes state with fetched data
+        setChanges({
+          email: userData.email,
+          description: userData.description,
+          phoneNumber: userData.phoneNumber,
+          location: userData.location,
+          causes: userData.causes,
+          pictures: userData.pictures,
+        });
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    if (userId && userToken) {
+      fetchUserData();
+    }
+  }, [userId, userToken]);
+
+  const isEmailValid = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const isPhoneNumberValid = (phoneNumber) => {
+    return /^\+92\d{10}$/.test(phoneNumber);
+  };
+
+  const handleSavePress = async () => {
+    let isValid = true;
+  
+    // Validation for email
+    if (!isEmailValid(email)) {
+      setEmailError('Please enter a valid email address.');
+      isValid = false;
+    } else {
+      setEmailError('');
+    }
+  
+    // Validation for phone number
+    if (!isPhoneNumberValid(phoneNumber)) {
+      setPhoneNumberError('Please enter a valid phone number starting with +92.');
+      isValid = false;
+    } else {
+      setPhoneNumberError('');
+    }
+  
+    if (isValid) {
+      // Print the changes object
+      console.log('Changes:', changes);
+  
+      try {
+        // Send the updated profile data to the backend
+        const response = await fetch(`mongodb+srv://koreantunnel:ssRsIhXaUomeegll@cluster0.dpzezud.mongodb.net/test/${userId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify(changes),
+        });
+  
+        // Print the response
+        console.log('Response:', response);
+  
+        if (!response.ok) {
+          throw new Error('Failed to update profile');
+        }
+  
+        // Profile updated successfully
+        Alert.alert('Success', 'Your changes have been saved successfully');
+      } catch (error) {
+        console.log('Response:', error.response);
+        
+  
+        console.error('Error updating profile:', error);
+        Alert.alert('Error', 'Failed to update profile. Please try again later.');
+      }
+    }
+  };
+  
+  
 
   useEffect(() => {
     // Request permission to access the device's gallery
@@ -45,7 +141,7 @@ export default function EditProfile() {
 
       if (!result.cancelled) {
         if (pictures.length < 3) {
-          setPictures([...pictures, result.uri]);
+          setChanges({ ...changes, pictures: [...pictures, result.uri] });
         } else {
           Alert.alert('Limit Exceeded', 'You can only add up to three images.');
         }
@@ -58,63 +154,27 @@ export default function EditProfile() {
   const handleDeletePicture = (index) => {
     const updatedPictures = [...pictures];
     updatedPictures.splice(index, 1);
-    setPictures(updatedPictures);
+    setChanges({ ...changes, pictures: updatedPictures });
   };
 
   const handleAddCause = () => {
     if (newCause.trim() !== '') {
-      setCauses([...causes, newCause.trim()]);
+      setChanges({ ...changes, causes: [...causes, newCause.trim()] });
       setNewCause('');
     }
   };
 
   const handleRemoveCause = (index) => {
     const updatedCauses = causes.filter((_, i) => i !== index);
-    setCauses(updatedCauses);
+    setChanges({ ...changes, causes: updatedCauses });
   };
 
-  const [emailError, setEmailError] = useState('');
-  const [phoneNumberError, setPhoneNumberError] = useState('');
-
-  const isEmailValid = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const isPhoneNumberValid = (phoneNumber) => {
-    return /^\+92\d{10}$/.test(phoneNumber);
-  };
-
-  const handleSavePress = () => {
-    let isValid = true;
-
-    // Validation for email
-    if (!isEmailValid(changes.email)) {
-      setEmailError('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError('');
-    }
-
-    // Validation for phone number
-    if (!isPhoneNumberValid(changes.phoneNumber)) {
-      setPhoneNumberError('Please enter a valid phone number starting with +92.');
-      isValid = false;
-    } else {
-      setPhoneNumberError('');
-    }
-
-    if (isValid) {
-      // Save changes logic here
-      Alert.alert('Success', 'Your changes have been saved successfully');
-    }
-  };
-
+  
 
   const handleUndoPress = () => {
     // Reset changes logic here
     setChanges({
       email: '',
-      password: '',
       description: '',
       phoneNumber: '',
       location: '',
@@ -124,106 +184,105 @@ export default function EditProfile() {
     Alert.alert('Undo', 'All changes have been undone');
   };
 
-
-return (
-  <ScrollView contentContainerStyle={styles.container}>
-     <View style={styles.inputContainer}>
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.inputContainer}>
         <Text style={styles.title}>Email</Text>
         <TextInput
           style={[styles.input, emailError ? styles.errorInput : null]}
           placeholder="abc@gmail.com"
-          value={changes.email || email}
+          value={email}
           onChangeText={(text) => setChanges({ ...changes, email: text })}
         />
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
       </View>
-    <View style={styles.inputContainer}>
-      <Text style={styles.title}>Description</Text>
-      <TextInput
-        style={[styles.input, styles.multilineInput]}
-        placeholder="Enter new description"
-        value={changes.description || description}
-        onChangeText={(text) => setChanges({ ...changes, description: text })}
-        multiline
-      />
-    </View>
-    <View style={styles.inputContainer}>
+      <View style={styles.inputContainer}>
+        <Text style={styles.title}>Description</Text>
+        <TextInput
+          style={[styles.input, styles.multilineInput]}
+          placeholder="Enter new description"
+          value={description}
+          onChangeText={(text) => setChanges({ ...changes, description: text })}
+          multiline
+        />
+      </View>
+      <View style={styles.inputContainer}>
         <Text style={styles.title}>Contact Number</Text>
         <TextInput
           style={[styles.input, phoneNumberError ? styles.errorInput : null]}
           placeholder="+92 303 6547839"
-          value={changes.phoneNumber || phoneNumber}
+          value={phoneNumber}
           onChangeText={(text) => setChanges({ ...changes, phoneNumber: text })}
           keyboardType="phone-pad"
         />
         {phoneNumberError ? <Text style={styles.errorText}>{phoneNumberError}</Text> : null}
       </View>
-    <View style={styles.inputContainer}>
-      <Text style={styles.title}>City</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Lahore"
-        value={changes.location || location}
-        onChangeText={(text) => setChanges({ ...changes, location: text })}
-      />
-    </View>
-    <View style={styles.inputContainer}>
-      <Text style={styles.title}>Causes</Text>
-      <View style={styles.addCauseContainer}>
+      <View style={styles.inputContainer}>
+        <Text style={styles.title}>City</Text>
         <TextInput
           style={styles.input}
-          placeholder="Add new cause"
-          value={newCause}
-          onChangeText={(text) => setNewCause(text)}
-          onSubmitEditing={handleAddCause}
+          placeholder="Lahore"
+          value={location}
+          onChangeText={(text) => setChanges({ ...changes, location: text })}
         />
-        <TouchableOpacity onPress={handleAddCause}>
-          <Ionicons name="add-circle" size={30} color="green" />
-        </TouchableOpacity>
       </View>
-    </View>
-    <View style={styles.inputContainer}>
-      <View style={styles.causesContainer}>
-        {causes.map((cause, index) => (
-          <View key={index} style={styles.causeItem}>
-            <Text>{cause}</Text>
-            <TouchableOpacity onPress={() => handleRemoveCause(index)}>
-              <Ionicons name="close-circle" size={20} color="red" />
-            </TouchableOpacity>
-          </View>
-        ))}
-      </View>
-    </View>
-    <View style={styles.inputContainer}>
-      <Text style={styles.title}>Pictures</Text>
-      <View style={styles.picturesContainer}>
-        {pictures.map((uri, index) => (
-          <TouchableOpacity key={index} onPress={() => handleDeletePicture(index)} style={styles.pictureWrapper}>
-            <Image source={{ uri }} style={styles.pictureItem} />
-            <TouchableOpacity onPress={() => handleDeletePicture(index)} style={styles.deleteIcon}>
-              <Ionicons name="trash-bin" size={20} color="red" />
-            </TouchableOpacity>
+      <View style={styles.inputContainer}>
+        <Text style={styles.title}>Causes</Text>
+        <View style={styles.addCauseContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Add new cause"
+            value={newCause}
+            onChangeText={(text) => setNewCause(text)}
+            onSubmitEditing={handleAddCause}
+          />
+          <TouchableOpacity onPress={handleAddCause}>
+            <Ionicons name="add-circle" size={30} color="green" />
           </TouchableOpacity>
-        ))}
-        {pictures.length < 3 && (
-          <TouchableOpacity onPress={handleAddPicture} style={[styles.pictureWrapper, styles.addPictureWrapper]}>
-            <Ionicons name="add-circle" size={50} color="green" />
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <View style={styles.causesContainer}>
+          {causes.map((cause, index) => (
+            <View key={index} style={styles.causeItem}>
+              <Text>{cause}</Text>
+              <TouchableOpacity onPress={() => handleRemoveCause(index)}>
+                <Ionicons name="close-circle" size={20} color="red" />
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.title}>Pictures</Text>
+        <View style={styles.picturesContainer}>
+          {pictures.map((uri, index) => (
+            <TouchableOpacity key={index} onPress={() => handleDeletePicture(index)} style={styles.pictureWrapper}>
+              <Image source={{ uri }} style={styles.pictureItem} />
+              <TouchableOpacity onPress={() => handleDeletePicture(index)} style={styles.deleteIcon}>
+                <Ionicons name="trash-bin" size={20} color="red" />
+              </TouchableOpacity>
+            </TouchableOpacity>
+          ))}
+          {pictures.length < 3 && (
+            <TouchableOpacity onPress={handleAddPicture} style={[styles.pictureWrapper, styles.addPictureWrapper]}>
+              <Ionicons name="add-circle" size={50} color="green" />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+      <View style={styles.btnContainer}>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity onPress={handleUndoPress} style={[styles.undoButton, styles.button]}>
+            <Text style={[styles.buttonText, { color: ColorPallete.mediumBlue }]}>Undo Changes</Text>
           </TouchableOpacity>
-        )}
+          <TouchableOpacity onPress={handleSavePress} style={[styles.saveButton, styles.button]}>
+            <Text style={[styles.buttonText, { color: 'white' }]}>Save Changes</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-    <View style={styles.btnContainer}>
-      <View style={styles.buttonRow}>
-        <TouchableOpacity onPress={handleUndoPress} style={[styles.undoButton, styles.button]}>
-          <Text style={[styles.buttonText, { color: ColorPallete.mediumBlue }]}>Undo Changes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleSavePress} style={[styles.saveButton, styles.button]}>
-          <Text style={[styles.buttonText, { color: 'white' }]}>Save Changes</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  </ScrollView>
-);
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -37,9 +37,29 @@ async function getAllDonors(req, res) {
     }
 }
 
+async function updateProfile(req, res) {
+    const userId = req.params.id;
+    const updates = req.body;
+  
+    try {
+      // Find the user by ID and update the profile fields
+      const updatedUser = await UserModel.findByIdAndUpdate(userId, updates, { new: true });
+  
+      if (!updatedUser) {
+        return res.status(404).send({ error: 'User not found' });
+      }
+  
+      res.status(200).send(updatedUser);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: 'Internal Server Error' });
+    }
+  }
+
 
 module.exports={
     getAllUsers,
     getAllNgos,
     getAllDonors,
+    updateProfile,
 }

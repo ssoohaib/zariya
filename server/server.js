@@ -7,6 +7,7 @@ const app=express()
 app.use(bodyParser.json())
 app.use(cors({origin:'*'}))
 
+
 const PORT=5000;
 (
     async ()=>{
