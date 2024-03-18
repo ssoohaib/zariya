@@ -17,8 +17,7 @@ export default function HomeScreen({navigation}) {
     console.log("getting all users")
     const allUsers = await getAllUsers(token);
     setAllUsersHandler(allUsers);
-    console.log("all users", allUsers)
-
+    console.log("all users")
     switchScreenHandler(screen)
   }
 

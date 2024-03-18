@@ -42,6 +42,7 @@ function HomeScreenStack() {
       <Stack.Screen name="AdminReportScreen" component={AdminReportScreen} options={{title:'Reports', headerBackTitle: "Back"}}  />
       <Stack.Screen name="RecipientRequestScreen" component={RecipientRequestScreen} options={{title:'Requests', headerBackTitle: "Back"}}  />
       <Stack.Screen name="SupportTextScreen" component={SupportTextScreen} options={{title:'Support', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="AdminDonorScreen" component={AdminDonorScreen} options={{title:'', headerBackTitle: "Back"}}  />
     </Stack.Navigator>
   );
 }

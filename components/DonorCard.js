@@ -1,42 +1,33 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
-import ColorPallete from '../constants/ColorPallete'
-import IconButton from './IconButton';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from "react";
-import DonorInfoModal from "../components/DonorInfoModal"
 
-function DonorCard(props) {
+function DonorCard({navigation, id, firstName, lastName, contactNumber, email}) {
 
-    const statusStyles = {
-        color: props.status === 'Verified' ? 'green' : 'red',
-    };
-    const [isModalVisible, setModalVisible] = useState(false);
-
-    const toggleModal = () => {
-      setModalVisible(!isModalVisible);
-    };
-
-    const switchWithPayload = (screen,screenName)=>{
-        navigation.navigate(screen,{
-          paymentType:screenName
-        })
-      }
+    const switchScreenHandler = () =>{
+        navigation.navigate("AdminDonorScreen", {
+            id: id,
+            firstName: firstName,
+            lastName: lastName,
+            // photo: props.imageUrl,
+            email: email,
+            contactNumber: contactNumber,
+            // donationsMade: props.donationsMade
+        });
+    }
+    
 
     return (
         <View style={styles.container}>
-            <Pressable onPress={toggleModal}>
+            <Pressable onPress={switchScreenHandler}>
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
-                            <Image style={styles.image}
-                                source={{ uri: props.imageUrl }} />
+                            {/* <Image style={styles.image} source={{ uri: props.imageUrl }} /> */}
                             <View style={styles.nameTimeDescContainer}>
                                 <View style={styles.nameContainer}>
-                                    <Text style={styles.name}>{props.firstName} {props.lastName}</Text>
+                                    <Text style={styles.name}>{firstName} {lastName}</Text>
                                 </View>
                                 <View style={styles.emailContainer}>
-                                    <Text style={styles.email}>Email: {props.email}</Text>
+                                    <Text style={styles.email}>Email: {email}</Text>
                                 </View>
                             </View>
                         </View>
@@ -44,7 +35,7 @@ function DonorCard(props) {
 
                 </View>
             </Pressable>
-            <DonorInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload}
+            {/* <DonorInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload}
                 userData={{
                     firstName: props.firstName,
                     lastName: props.lastName,
@@ -53,7 +44,7 @@ function DonorCard(props) {
                     imageUrl: props.imageUrl,
                     status: props.status,
                 }}
-            />
+            /> */}
         </View>
     )
 }

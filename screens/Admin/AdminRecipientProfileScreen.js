@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, FlatList, Linking, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import ColorPallete from '../../constants/ColorPallete';
-import DonationsCard from '../../components/DonationsCard';
-import { AuthContext } from '../../context/AuthContext';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function AdminDonorScreen({ route }) {
-  const { id, firstName, lastName, email, contactNumber } = route.params;
+export default function AdminRecipientProfileScreen({ route }) {
+  const { id, firstName, lastName, photo, email, contactNumber, donationsMade } = route.params;
   const [showProfileModal, setShowProfileModal] = useState(false);
 
   const handleContactPress = () => {
@@ -52,18 +50,17 @@ export default function AdminDonorScreen({ route }) {
   };
 
   useEffect(() => {
-    console.log('Donation Made:');
+    console.log('Donation Made:', donationsMade);
   });
 
-  
-  const renderDonations = ( itemData ) => (
+  const renderDonations = ({ item }) => (
     <DonationsCard
-      id={itemData.item.id}
-      ngoID={itemData.item.ngoId}
-      ngoName={itemData.item.ngoName}
-      category={itemData.item.donationCategory}
-      status={itemData.item.donationStatus}
-      date={itemData.item.donationDate}
+      id={item.id}
+      ngoID={item.ngoId}
+      ngoName={item.ngoName}
+      category={item.donationCategory}
+      status={item.donationStatus}
+      date={item.donationDate}
     />
   );
 
@@ -89,12 +86,12 @@ export default function AdminDonorScreen({ route }) {
       </LinearGradient>
       <View style={styles.additionalView}>
         <Text style={{fontWeight: 'bold', fontSize: 18, margin: 15, color: ColorPallete.darkBlue}}>Donations Made</Text>
-        {/* <FlatList
+        <FlatList
           data={donationsMade}
           renderItem={renderDonations}
           keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={true}
-        /> */}
+        />
       </View>
       {/* Profile Modal */}
       <Modal visible={showProfileModal} transparent={true} animationType="fade">

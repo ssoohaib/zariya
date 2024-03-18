@@ -7,6 +7,7 @@ import { Donors } from '../dummy_data/donor_data';
 
 
 export default function DonorInfoModal(props) {
+  
   const { isModalVisible, toggleModal, donor } = props;
 
   const handleRemovePress = () => {
