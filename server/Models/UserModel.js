@@ -52,8 +52,6 @@ const UserSchema=new mongoose.Schema({
         type:Array,
         required:false
     },
-
-
     title: {
         type: String,
         required: false,
