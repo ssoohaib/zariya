@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, TextInput, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker'; // Import ImagePicker
+import * as ImagePicker from 'expo-image-picker';
 import ColorPallete from '../../constants/ColorPallete';
 import { AuthContext } from "../../context/AuthContext";
+import {setDataForUpdate} from "../../utilities/RecipientFetches"
 
 export default function EditProfile() {
-  const { userId, userToken } = useContext(AuthContext);
-  const [userData, setUserData] = useState(null);
+  const { currentUser } = useContext(AuthContext); 
   const [changes, setChanges] = useState({
     email: '',
     description: '',
@@ -18,44 +18,9 @@ export default function EditProfile() {
   });
   const [emailError, setEmailError] = useState('');
   const [phoneNumberError, setPhoneNumberError] = useState('');
-  const [newCause, setNewCause] = useState(''); // Add newCause state variable
+  const [newCause, setNewCause] = useState('');
 
-  // Destructure state variables
   const { email, description, phoneNumber, location, causes, pictures } = changes;
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`mongodb+srv://koreantunnel:ssRsIhXaUomeegll@cluster0.dpzezud.mongodb.net/test/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-
-        const userData = await response.json();
-        setUserData(userData);
-        // Populate the changes state with fetched data
-        setChanges({
-          email: userData.email,
-          description: userData.description,
-          phoneNumber: userData.phoneNumber,
-          location: userData.location,
-          causes: userData.causes,
-          pictures: userData.pictures,
-        });
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    if (userId && userToken) {
-      fetchUserData();
-    }
-  }, [userId, userToken]);
 
   const isEmailValid = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -68,7 +33,6 @@ export default function EditProfile() {
   const handleSavePress = async () => {
     let isValid = true;
   
-    // Validation for email
     if (!isEmailValid(email)) {
       setEmailError('Please enter a valid email address.');
       isValid = false;
@@ -76,7 +40,6 @@ export default function EditProfile() {
       setEmailError('');
     }
   
-    // Validation for phone number
     if (!isPhoneNumberValid(phoneNumber)) {
       setPhoneNumberError('Please enter a valid phone number starting with +92.');
       isValid = false;
@@ -85,41 +48,22 @@ export default function EditProfile() {
     }
   
     if (isValid) {
-      // Print the changes object
-      console.log('Changes:', changes);
-  
-      try {
-        // Send the updated profile data to the backend
-        const response = await fetch(`mongodb+srv://koreantunnel:ssRsIhXaUomeegll@cluster0.dpzezud.mongodb.net/test/${userId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify(changes),
-        });
-  
-        // Print the response
-        console.log('Response:', response);
-  
-        if (!response.ok) {
-          throw new Error('Failed to update profile');
-        }
-  
-        // Profile updated successfully
-        Alert.alert('Success', 'Your changes have been saved successfully');
-      } catch (error) {
-        console.log('Response:', error.response);
-        
-  
-        console.error('Error updating profile:', error);
-        Alert.alert('Error', 'Failed to update profile. Please try again later.');
-      }
+      let payload = {
+        userType: "recipient",
+        id: currentUser._id,
+        email: email,
+        description: description,
+        contactNumber: phoneNumber,
+        city: location,
+        causes: causes,
+        causesImages: pictures,
+      };
+      
+      setDataForUpdate({ ...payload });
     }
   };
   
   
-
   useEffect(() => {
     // Request permission to access the device's gallery
     (async () => {
