@@ -33,14 +33,14 @@ export default function EditProfile() {
   const handleSavePress = async () => {
     let isValid = true;
   
-    if (!isEmailValid(email)) {
+    if (email.trim() !== '' && !isEmailValid(email)) {
       setEmailError('Please enter a valid email address.');
       isValid = false;
     } else {
       setEmailError('');
     }
   
-    if (!isPhoneNumberValid(phoneNumber)) {
+    if (phoneNumber.trim() !== '' && !isPhoneNumberValid(phoneNumber)) {
       setPhoneNumberError('Please enter a valid phone number starting with +92.');
       isValid = false;
     } else {
@@ -58,10 +58,11 @@ export default function EditProfile() {
         causes: causes,
         causesImages: pictures,
       };
-      
+  
       setDataForUpdate({ ...payload });
     }
   };
+  
   
   
   useEffect(() => {
