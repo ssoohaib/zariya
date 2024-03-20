@@ -7,11 +7,12 @@ import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import ColorPallete from "../../constants/ColorPallete";
 import ImprovInput from "../../components/ImprovInput";
-import { signUp } from "../../utilities/AuthFetches";
+import { getAllNgos, signIn, signUp } from "../../utilities/AuthFetches";
 import { AuthContext } from "../../context/AuthContext";
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from "expo-auth-session/providers/google";
@@ -21,11 +22,11 @@ import ip from "../../ip";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function SigningScreen({ navigation }) {
-  const [token, setToken] = useState("");
-  const [userInfo, setUserInfo] = useState(null);
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: "835480477309-71pg627eilk2sg8ksbmdiju39jf94d68.apps.googleusercontent.com"
-  });
+  // const [token, setToken] = useState("");
+  // const [userInfo, setUserInfo] = useState(null);
+  // const [request, response, promptAsync] = Google.useAuthRequest({
+  //   androidClientId: "835480477309-71pg627eilk2sg8ksbmdiju39jf94d68.apps.googleusercontent.com"
+  // });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +38,9 @@ export default function SigningScreen({ navigation }) {
   const [firstNameError, setFirstNameError]=useState(false)
   const [lastNameError, setLastNameError]=useState(false)
 
-  const { AUTHCHECKENABLED } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { AUTHCHECKENABLED, setAllDonorsHandler, setAllRecipientsHandler, setCurrentUserAndToken } = useContext(AuthContext);
 
   const emailHandler = (email) => {
     setEmail(email);
@@ -82,6 +85,10 @@ export default function SigningScreen({ navigation }) {
     return isEmailValid && isPasswordValid;
   };
 
+  const handleLoading = () => {
+    setIsLoading(!isLoading);
+  }
+
   const switchScreen = async () => {
     if (AUTHCHECKENABLED && !validator()) {
       return;
@@ -97,51 +104,66 @@ export default function SigningScreen({ navigation }) {
     // navigation.navigate('Verification',{
     //   email: email,
     // });
-    signUp({ ...payload });
-    navigation.goBack();
+
+    handleLoading();
+
+    await signUp({ ...payload });
+
+    const result = await signIn(email, password);
+    setCurrentUserAndToken(result.user, result.token);
+    console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
+
+    const allDonors = await getAllNgos(result.token, result.user.id);
+    setAllRecipientsHandler(allDonors);
+    setAllDonorsHandler(allDonors);
+    console.log(`[SignIn] -> ${allDonors.length} donors fetched`)
+
+    handleLoading();
+
+    // navigation.goBack();
   };
 
-  useEffect(() => {
-    handleEffect();
-  }, [response, token]);
+  // useEffect(() => {
+  //   handleEffect();
+  // }, [response, token]);
 
-  async function handleEffect() {
-    const user = await getLocalUser();
-    console.log("user", user);
-    if (!user) {
-      if (response?.type === "success") {
-        // setToken(response.authentication.accessToken);
-        getUserInfo(response.authentication.accessToken);
-      }
-    } else {
-      setUserInfo(user);
-      console.log("loaded locally", user);
-    }
-  }
+  // async function handleEffect() {
+  //   const user = await getLocalUser();
+  //   console.log("user", user);
+  //   if (!user) {
+  //     if (response?.type === "success") {
+  //       // setToken(response.authentication.accessToken);
+  //       getUserInfo(response.authentication.accessToken);
+  //     }
+  //   } else {
+  //     setUserInfo(user);
+  //     console.log("loaded locally", user);
+  //   }
+  // }
 
-  const getLocalUser = async () => {
-    const data = await AsyncStorage.getItem("@user");
-    if (!data) return null;
-    return JSON.parse(data);
-  };
+  // const getLocalUser = async () => {
+  //   const data = await AsyncStorage.getItem("@user");
+  //   if (!data) return null;
+  //   return JSON.parse(data);
+  // };
 
-  const getUserInfo = async (token) => {
-    if (!token) return;
-    try {
-      const response = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+  // const getUserInfo = async (token) => {
+  //   if (!token) return;
+  //   try {
+  //     const response = await fetch(
+  //       "https://www.googleapis.com/userinfo/v2/me",
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     );
 
-      const user = await response.json();
-      await AsyncStorage.setItem("@user", JSON.stringify(user));
-      setUserInfo(user);
-    } catch (error) {
-      // Add your own error handler here
-    }
-  };
+  //     const user = await response.json();
+  //     await AsyncStorage.setItem("@user", JSON.stringify(user));
+  //     setUserInfo(user);
+  //   } catch (error) {
+  //     // Add your own error handler here
+  //   }
+  // };
  
   
 
@@ -165,7 +187,7 @@ export default function SigningScreen({ navigation }) {
         </View>
 
         <View style={styles.bottom}>
-          <Pressable onPress={()=>{promptAsync()}}>
+          <Pressable>
             <View style={styles.btnContainer}>
               <Image
                 style={styles.btnImg}
@@ -243,6 +265,7 @@ export default function SigningScreen({ navigation }) {
                 >
                   Sign Up
                 </Text>
+                {isLoading && <ActivityIndicator size="small" color={'white'} />}
               </View>
             </Pressable>
 

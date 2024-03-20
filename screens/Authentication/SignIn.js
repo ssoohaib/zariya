@@ -25,7 +25,7 @@ export default function SignIn({ navigation }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { AUTHCHECKENABLED, setCurrentUserAndToken, setAllDonorsHandler } = useContext(AuthContext);
+  const { AUTHCHECKENABLED, setCurrentUserAndToken, setAllDonorsHandler, setAllRecipientsHandler } = useContext(AuthContext);
 
   const modeHandler = (mode) => {
     toggleModal();
@@ -79,6 +79,7 @@ export default function SignIn({ navigation }) {
     console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
 
     const allDonors = await getAllNgos(result.token, result.user.id);
+    setAllRecipientsHandler(allDonors);
     setAllDonorsHandler(allDonors);
     console.log(`[SignIn] -> ${allDonors.length} donors fetched`)
 

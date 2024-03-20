@@ -10,7 +10,7 @@ import { AuthContext } from "../context/AuthContext";
 
 
 export default function NgoDetailsScreen({navigation, route}) {
-  const {allDonors} = useContext(AuthContext);
+  const {allRecipients} = useContext(AuthContext);
   const [selectedCauses, setSelectedCauses] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -19,7 +19,7 @@ export default function NgoDetailsScreen({navigation, route}) {
     setModalVisible(!isModalVisible);
   };
 
-  const selectedNgo = allDonors.find(i=>i.id===route.params.id)
+  const selectedNgo = allRecipients.find(i=>i._id===route.params.id)
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)

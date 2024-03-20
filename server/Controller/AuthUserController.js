@@ -3,10 +3,43 @@ const bcrypt = require('bcrypt');
 const { generateToken } = require('../utils/jwt');
 const uid=require('uid')
 
+async function signUpDonor(req,res){
+    console.log('------------------------')
+    console.log("POST - /signupd")
+
+    const payload=req.body
+    const hashedPassword = await bcrypt.hash(payload.password, 10);
+
+    const tempUser={
+        id:uid.uid(11),
+        userType:payload.userType,
+        email:payload.email,
+        password:hashedPassword,
+        firstName:payload.firstName,
+        lastName:payload.lastName,
+    }
+
+    const user= new UserModel(tempUser)
+
+    try{
+        await user.save()
+        res.status(200).send({message:`User Created(${payload.userType}): ${tempUser.email}`})
+    }catch (error){
+        console.error(error)
+        res.status(500).send({error:'Email Already In Use'})
+    }
+}
+
 async function signUpUser(req,res){
     console.log('------------------------')
     console.log("POST - /signup")
-    const payload=req.body
+    const payload=JSON.parse(req.body.payload)
+    console.log(req.files)
+
+    const causesImages  = req.files.filter(file=>file.filename.slice(0,3)=='cau')
+    const verificationImages  = req.files.filter(file=>file.filename.slice(0,3)=='ver')
+    const logo = req.files.filter(file=>file.filename.slice(0,3)=='log')
+
     let tempUser={}
 
     const hashedPassword = await bcrypt.hash(payload.password, 10);
@@ -28,9 +61,11 @@ async function signUpUser(req,res){
             password:hashedPassword,
             title:payload.title,
             description:payload.description,
+            city:payload.city,
             causes:payload.causes,
-            verificationImages:payload.verificationImages,
-            causesImages:payload.causesImages,
+
+            causesImages:causesImages,
+            verificationImages:verificationImages,
         }
     }
     
@@ -92,5 +127,6 @@ async function signOutUser(req,res){
 module.exports={
     signUpUser,
     signInUser,
-    signOutUser
+    signOutUser,
+    signUpDonor
 }

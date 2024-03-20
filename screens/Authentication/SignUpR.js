@@ -129,7 +129,7 @@ export default function SignUpR({ navigation }) {
                 <Text
                   style={[styles.btnTitle, { color: ColorPallete.screenBg }]}
                 >
-                  Sign Up
+                  Next
                 </Text>
               </View>
             </Pressable>

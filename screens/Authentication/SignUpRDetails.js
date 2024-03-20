@@ -6,20 +6,26 @@ import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator
 } from "react-native";
 import { useContext, useState } from "react";
 import ColorPallete from "../../constants/ColorPallete";
 import ImprovInput from "../../components/ImprovInput";
 import { MaterialIcons } from "@expo/vector-icons";
 import ImagePickerComp from "../../components/ImagePickerComp";
-import { signUp } from "../../utilities/AuthFetches";
+import { signIn, signUp, getAllNgos } from "../../utilities/AuthFetches";
 import { AuthContext } from "../../context/AuthContext";
+import { SelectList } from 'react-native-dropdown-select-list'
+import MyIp from "../../ip";	
+
 
 export default function SignUpRDetails({ navigation, route }) {
   const [orgTitle, setOrgTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [city, setCity] = useState("");
   const [cause, setCause] = useState("");
   const [causes, setCauses] = useState([]);
+  const [logo, setLogo] = useState("");
   const [causeImages, setCauseImages] = useState([]);
   const [verificationImages, setVerificationImages] = useState([]);
 
@@ -29,7 +35,9 @@ export default function SignUpRDetails({ navigation, route }) {
   const [causeImagesError, setCauseImagesError] = useState(false);
   const [verificationImagesError, setVerificationImagesError] = useState(false);
 
-  const { AUTHCHECKENABLED } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { AUTHCHECKENABLED, setCurrentUserAndToken, setAllDonorsHandler, setAllRecipientsHandler } = useContext(AuthContext);
 
   const orgTitleHandler = (title) => {
     setOrgTitle(title);
@@ -74,24 +82,79 @@ const addCauseHandler = () => {
     else setVerificationImagesError(false);
 
     return isOrgTitleValid && isDescriptionValid && isCausesValid;
-  };
+  }
+
+  const handleLoading = () => {
+    setIsLoading(!isLoading);
+  }
 
   const switchScreen = async () => {
     if (AUTHCHECKENABLED && !validator()) {
       return;
     }
+
     let payload = {
       userType: "recipient",
       email: route.params.email,
       password: route.params.password,
       title: orgTitle,
       description: description,
+      city: city,
       causes: causes,
+      logo: logo,
       verificationImages: verificationImages,
       causesImages: causeImages,
-    };
-    signUp({ ...payload });
-    navigation.goBack();
+    }
+
+    const formData = new FormData();
+    formData.append('payload', JSON.stringify(payload));
+    
+    causeImages.forEach((image, index) => {
+      formData.append('images', {
+        uri: image.uri,
+        type: image.type,
+        name: 'cause-' + route.params.email + index + '.jpg',
+      });
+    });
+    verificationImages.forEach((image, index) => {
+      formData.append('images', {
+        uri: image.uri,
+        type: image.type,
+        name: 'verify-' + route.params.email + index + '.jpg',
+      });
+    });
+    formData.append('images', {
+      uri: logo.uri,
+      type: logo.type,
+      name: 'logo-' + route.params.email + '.jpg',
+    });
+
+    
+    handleLoading();
+
+    await fetch(`http://${MyIp}:5000/signup`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error uploading image:', error));
+
+    // await signUp({ ...payload });
+    const result = await signIn(route.params.email, route.params.password);
+    setCurrentUserAndToken(result.user, result.token);
+    console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
+
+    const allDonors = await getAllNgos(result.token, result.user.id);
+    setAllRecipientsHandler(allDonors);
+    setAllDonorsHandler(allDonors);
+    console.log(`[SignIn] -> ${allDonors.length} donors fetched`)
+
+    handleLoading();
+    // navigation.goBack();
   };
 
   return (
@@ -134,6 +197,15 @@ const addCauseHandler = () => {
               inputStyle={[styles.inputStyle, { paddingVertical: 40 }]}
               error={descriptionError}
             />
+            <View style={{marginTop:8, marginBottom:16}}>
+              <SelectList 
+                setSelected={(val) => setCity(val)} 
+                data={['Multan', 'Lahore','Islamabad']} 
+                save="value"
+                search={false}
+                placeholder="Select City"
+              />
+            </View>            
             <View style={styles.causesContainer}>
               <View style={styles.causesTop}>
                 <ImprovInput
@@ -231,6 +303,14 @@ const addCauseHandler = () => {
             </View>
 
             <ImagePickerComp
+              title={"Logo"}
+              images={logo}
+              setter={setLogo}
+              imageLimit={1}
+              minImages={1}
+              // error={verificationImagesError}
+            />
+            <ImagePickerComp
               title={"Verification Documents"}
               images={verificationImages}
               setter={setVerificationImages}
@@ -262,6 +342,7 @@ const addCauseHandler = () => {
                 >
                   Sign Up
                 </Text>
+                {isLoading && <ActivityIndicator size="small" color={'white'} />}
               </View>
             </Pressable>
 

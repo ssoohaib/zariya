@@ -2,16 +2,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen';
-import FoodDonationScreen from '../FoodDonationScreen';
-import ClothesDonationScreen from '../ClothesDonationScreen';
-import RationDonationScreen from '../RationDonationScreen';
-import MedicineDonationScreen from '../MedicineDonationScreen';
-import SearchScreen from '../SearchScreen';
+// import FoodDonationScreen from '../FoodDonationScreen';
+// import ClothesDonationScreen from '../ClothesDonationScreen';
+// import RationDonationScreen from '../RationDonationScreen';
+// import MedicineDonationScreen from '../MedicineDonationScreen';
+// import SearchScreen from '../SearchScreen';
 import NgoDetailsScreen from '../NgoDetailsScreen';
 import { StatusBar } from 'expo-status-bar';
 import NgosListScreen from '../NgosListScreem';
 import PaymentScreen from '../PaymentScreen';
-import PaymentDetailsScreen from '../PaymentDetailsScreen';
+// import PaymentDetailsScreen from '../PaymentDetailsScreen';
 import { MaterialIcons } from '@expo/vector-icons';
 import DonorHistoryScreen from "./DonorHistoryScreen";
 import DonorNotificationScreen from "./DonorNotifcationScreen";
@@ -25,6 +25,7 @@ import PrivacyAndTermsScreen from "../ProfileScreens/PrivacyAndTerms";
 import DonationEnterScreen from './DonationEnterScreen';
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
+import Test from './Test';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,17 +38,18 @@ function MyStack() {
           backgroundColor:colorPallete.mediumBlue
         }
       }}>
+        <Stack.Screen name="Test" component={Test} options={{headerShown:false}}  />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
         <Stack.Screen name="DonationEnter" component={DonationEnterScreen}  />
-        <Stack.Screen name="Food" component={FoodDonationScreen} />
+        {/* <Stack.Screen name="Food" component={FoodDonationScreen} />
         <Stack.Screen name="Ration" component={RationDonationScreen} />
         <Stack.Screen name="Clothes" component={ClothesDonationScreen} />
-        <Stack.Screen name="Medicine" component={MedicineDonationScreen} />
+        <Stack.Screen name="Medicine" component={MedicineDonationScreen} /> */}
   
-        <Stack.Screen name="Search" component={SearchScreen} />
+        {/* <Stack.Screen name="Search" component={SearchScreen} /> */}
         <Stack.Screen name="NgosList" component={NgosListScreen} options={{title:'All'}} />
         <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Donation'}} />
-        <Stack.Screen name="PaymentDetails" component={PaymentDetailsScreen} options={{title:'Details'}} />
+        {/* <Stack.Screen name="PaymentDetails" component={PaymentDetailsScreen} options={{title:'Details'}} /> */}
         <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} options={{
           headerTitle:"",
           headerTintColor:colorPallete.screenBg,
