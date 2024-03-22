@@ -14,11 +14,6 @@ import Cart from "../../components/Cart";
 
 export default function DonationEnterScreen({navigation, route}) {
 
-    const [fromTimeVisible, setFromTimeVisible]=useState(false)
-    const [fromDateVisible, setFromDateVisible]=useState(false)
-    const [tillTimeVisible, setTillTimeVisible]=useState(false)
-    const [tillDateVisible, setTillDateVisible]=useState(false)
-
     const [expDateVisible, setExpDateVisible]=useState(false)
 
     const [items,setItems]=useState([])
@@ -40,8 +35,6 @@ export default function DonationEnterScreen({navigation, route}) {
     const [medicineType,setMedicineType]=useState('')
 
     const [images, setImages] = useState([]);
-    const [fromDate, setFromDate] = useState(new Date());
-    const [tillDate, setTillDate] = useState(new Date());
 
     const category=route.params.donationCategory
     useEffect(()=>{
@@ -64,10 +57,8 @@ export default function DonationEnterScreen({navigation, route}) {
             obj={
                 id:Math.random(0,10000),
                 title:title,
-                mealType:mealType,
+                type:mealType,
                 servings:servings,
-                fromDate:fromDate,
-                tillDate:tillDate,
                 images:images,
             }
         }
@@ -79,8 +70,6 @@ export default function DonationEnterScreen({navigation, route}) {
                 gender:clothesGender,
                 size:clothesSize,
                 quality:clothesQuality,
-                fromDate:fromDate,
-                tillDate:tillDate,
                 images:images,
             }
         }
@@ -91,8 +80,6 @@ export default function DonationEnterScreen({navigation, route}) {
                 type:medicineType,
                 quantity:medicineQuantity,
                 exp:medicineExp,
-                fromDate:fromDate,
-                tillDate:tillDate,
             }
         }
         if (category=='Ration'){
@@ -100,12 +87,27 @@ export default function DonationEnterScreen({navigation, route}) {
                 id:Math.random(0,10000),
                 title:title,
                 quantity:rationQuantity,
-                fromDate:fromDate,
-                tillDate:tillDate,
                 images:images,
             }
         }
         setItems(prev=>[...prev,obj])
+        console.log(items.length)
+        clearForm()
+    }
+
+    const clearForm = ()=>{
+        setTitle('')
+        setMealType('')
+        setServings(0)
+        setClothesSeason('')
+        setClothesGender('')
+        setClothesSize('')
+        setClothesQuality(0)
+        setMedicineType('')
+        setMedicineQuantity(0)
+        setMedicineExp(new Date())
+        setRationQuantity(0)
+        setImages([])
     }
 
     const removeItem = (id)=>{
@@ -128,37 +130,43 @@ export default function DonationEnterScreen({navigation, route}) {
         setRationQuantity(quantity)
     }
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-        if (!result.canceled) {
-            setImages(prev=>[...prev,result.assets[0].uri])
-        }
-    };
-
-    const onFromDateChange = (event, selectedDate) => {
-        setFromDateVisible(false);
-        setFromTimeVisible(false);
-        const currentDate = selectedDate;
-        setFromDate(currentDate);
-    };
-
-    const onTillDateChange = (event, selectedDate) => {
-        setTillDateVisible(false);
-        setTillTimeVisible(false);
-        const currentDate = selectedDate;
-        setTillDate(currentDate);
-    };
-
     const onExpDateChange = (event, selectedDate) => {
         setExpDateVisible(false);
         const currentDate = selectedDate;
         setMedicineExp(currentDate);
     };
+
+    const switchScreen = ()=>{
+        navigation.navigate('DonationTimeLocationPicker', {
+            items:items,
+            category:category
+        })
+    }
+
+    const populateData = (index)=>{
+        setTitle(items[index].title)
+        if (category=='Food'){
+            setMealType(items[index].type)
+            setServings(items[index].servings)
+        }
+        if (category=='Clothes'){
+            setClothesSeason(items[index].season)
+            setClothesGender(items[index].gender)
+            setClothesSize(items[index].size)
+            setClothesQuality(items[index].quality)
+        }
+        if (category=='Medicine'){
+            setMedicineType(items[index].type)
+            setMedicineQuantity(items[index].quantity)
+            setMedicineExp(items[index].exp)
+        }
+        if (category=='Ration'){
+            setRationQuantity(items[index].quantity)
+        }
+        setImages(items[index].images)
+        
+        
+    }
 
     const customSelectList = (setter, list, placeholder)=>{
         return(
@@ -192,10 +200,11 @@ export default function DonationEnterScreen({navigation, route}) {
     }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} automaticallyAdjustKeyboardInsets={true}>
         <Cart
             items={items}
             removeItem={removeItem}
+            onPress={populateData}
 
         />
         
@@ -318,115 +327,6 @@ export default function DonationEnterScreen({navigation, route}) {
                 />
             </View>
         }
-        <View style={styles.dateTimeConatiner}>
-            <View style={[styles.fromContainer]}>
-                <Text style={styles.title}>From</Text>
-                <View style={styles.fromInnerContainer}>
-                    <View style={styles.dateContainer}>
-                        <View style={styles.iconContainer}>
-                            <MaterialIcons name="calendar-today" size={24} color={ColorPallete.screenBg} />
-                        </View>
-                        <View style={styles.dateTimeBtn}>
-                            {
-                                Platform.OS=='android' &&
-                                <Pressable style={{marginLeft:8}} onPress={()=>setFromDateVisible(true)}>
-                                    <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
-                                        <Text style={{color:'black', fontWeight:'bold'}}>{fromDate.getDate()}-{fromDate.getMonth()+1}-{fromDate.getFullYear()}</Text>
-                                    </View>
-                                </Pressable>
-                            }
-                            {(Platform.OS!='android' || fromDateVisible) && 
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={fromDate}
-                                    mode={'date'}
-                                    is24Hour={true}
-                                    onChange={onFromDateChange}
-                                />
-                            }
-                        </View>                
-                    </View>
-                    <View style={styles.dateContainer}>
-                        <View style={styles.iconContainer}>
-                            <MaterialIcons name="access-time" size={24} color={ColorPallete.screenBg} />
-                        </View>
-                        <View style={styles.dateTimeBtn}>
-                            {
-                                Platform.OS=='android' &&
-                                <Pressable style={{marginLeft:8}} onPress={()=>setFromTimeVisible(true)}>
-                                    <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
-                                        <Text style={{color:'black', fontWeight:'bold'}}>{fromDate.getHours()<10 && 0}{fromDate.getHours()}:{fromDate.getMinutes()<10 && 0}{fromDate.getMinutes()}</Text>
-                                    </View>
-                                </Pressable>
-                            }
-                            {(Platform.OS!='android' || fromTimeVisible) && 
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={fromDate}
-                                    mode={'time'}
-                                    is24Hour={true}
-                                    onChange={onFromDateChange}      
-                                />
-                            }
-                        </View>                
-                    </View>
-                </View>
-            </View>
-            <View style={[styles.fromContainer]}>
-                <Text style={styles.title}>Till</Text>
-                <View style={styles.fromInnerContainer}>
-                    <View style={styles.dateContainer}>
-                        <View style={styles.iconContainer}>
-                            <MaterialIcons name="calendar-today" size={24} color={ColorPallete.screenBg} />
-                        </View>
-                        <View style={styles.dateTimeBtn}>
-                            {
-                                Platform.OS=='android' &&
-                                <Pressable style={{marginLeft:8}} onPress={()=>setTillDateVisible(true)}>
-                                    <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
-                                    <Text style={{color:'black', fontWeight:'bold'}}>{tillDate.getDate()}-{tillDate.getMonth()+1}-{tillDate.getFullYear()}</Text>
-                                    </View>
-                                </Pressable>
-                            }
-                            {(Platform.OS!='android' || tillDateVisible) && 
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={tillDate}
-                                    mode={'date'}
-                                    is24Hour={true}
-                                    onChange={onTillDateChange}      
-                                />
-                            }
-                            
-                        </View>                
-                    </View>
-                    <View style={styles.dateContainer}>
-                        <View style={styles.iconContainer}>
-                            <MaterialIcons name="access-time" size={24} color={ColorPallete.screenBg} />
-                        </View>
-                        <View style={styles.dateTimeBtn}>
-                            {
-                                Platform.OS=='android' &&
-                                <Pressable style={{marginLeft:8}} onPress={()=>setTillTimeVisible(true)}>
-                                    <View style={{height:40, paddingHorizontal:32, alignItems:"center", justifyContent:"center", borderRadius:8, backgroundColor:'#F5F5F5'}}>
-                                        <Text style={{color:'black', fontWeight:'bold'}}>{tillDate.getHours()<10 && 0}{tillDate.getHours()}:{tillDate.getMinutes()<10 && 0}{tillDate.getMinutes()}</Text>
-                                    </View>
-                                </Pressable>
-                            }
-                            {(Platform.OS!='android' || tillTimeVisible) && 
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={tillDate}
-                                    mode={'time'}
-                                    is24Hour={true}
-                                    onChange={onTillDateChange}      
-                                />
-                            }
-                        </View>                
-                    </View>
-                </View>
-            </View>
-        </View>
         <View style={styles.btnContainer}>
             <View>
                 <Pressable onPress={addItem}>
@@ -437,9 +337,9 @@ export default function DonationEnterScreen({navigation, route}) {
                 </Pressable>
             </View>
             <View>
-                <Pressable>
+                <Pressable onPress={switchScreen}>
                     <View style={[styles.addItemBtn, {borderWidth:0, backgroundColor:ColorPallete.mediumBlue}]}>
-                        <Text style={[styles.addItemBtnTitle, {color:ColorPallete.screenBg}]}>Post Donation</Text>
+                        <Text style={[styles.addItemBtnTitle, {color:ColorPallete.screenBg}]}>Next</Text>
                         <MaterialIcons name="chevron-right" size={24} color={ColorPallete.screenBg} />
                     </View>
                 </Pressable>
