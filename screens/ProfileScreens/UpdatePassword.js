@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import ColorPallete from '../../constants/ColorPallete';
+import { updatePassword } from '../../utilities/RecipientFetches'; 
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from 'react';
+
 
 export default function UpdatePassword() {
+    const { currentUser } = useContext(AuthContext); 
+    const [password, setPassword] = useState(''); // State to store the password
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (newPassword !== confirmNewPassword) {
             setPasswordsMatch(false);
             return;
         }
 
-        // Implement password update logic here
-        console.log("Current Password:", currentPassword);
-        console.log("New Password:", newPassword);
-        console.log("Confirm New Password:", confirmNewPassword);
+        console.log("Password:", password);
+
+        let payload = {
+            userType: "recipient",
+            id: currentUser._id,
+            password: password,
+          };
+      
+        updatePassword({ ...payload });
     };
 
     const handleCancel = () => {
-        // Implement cancel logic here
         setCurrentPassword('');
         setNewPassword('');
         setConfirmNewPassword('');
@@ -42,7 +53,10 @@ export default function UpdatePassword() {
                 placeholder="New Password"
                 secureTextEntry={true}
                 value={newPassword}
-                onChangeText={setNewPassword}
+                onChangeText={(text) => {
+                    setNewPassword(text);
+                    setPassword(text); 
+                }}
             />
             <TextInput
                 style={[styles.input, !passwordsMatch && styles.errorInput]}
@@ -51,13 +65,14 @@ export default function UpdatePassword() {
                 value={confirmNewPassword}
                 onChangeText={(text) => {
                     setConfirmNewPassword(text);
+                    setPassword(text);
                     setPasswordsMatch(text === newPassword);
                 }}
             />
             {!passwordsMatch && <Text style={styles.errorText}>Passwords do not match</Text>}
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={handleCancel}>
-                    <Text style={styles.buttonText}>Cancel</Text>
+                    <Text style={[styles.buttonText, styles.cancelButtonText]}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={handleSave}>
                     <Text style={styles.buttonText}>Save</Text>
@@ -77,6 +92,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         marginBottom: 20,
+        fontWeight: 'bold',
+        color: ColorPallete.mediumBlue,
     },
     input: {
         width: '100%',
@@ -108,10 +125,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     cancelButton: {
-        backgroundColor: '#ff6961',
+        borderColor: ColorPallete.mediumBlue,
+        borderWidth: 1,
+    },
+    cancelButtonText: {
+        color: ColorPallete.mediumBlue,
     },
     saveButton: {
-        backgroundColor: '#77dd77',
+        backgroundColor: ColorPallete.mediumBlue,
     },
     buttonText: {
         color: 'white',
