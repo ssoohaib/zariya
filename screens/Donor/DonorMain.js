@@ -21,6 +21,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 import Test from './Test';
 import DonationTimeLocationPicker from './DonationTimeLocationPicker';
+import SubscriptionScreen from './SubscriptionScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -66,9 +67,6 @@ function DonorNotifactionStack() {
           headerTitle:"",
           headerTintColor:colorPallete.screenBg,
           headerTransparent:true,
-          headerStyle:{
-            // bac
-          }
         }} />
         
       </Stack.Navigator>
@@ -85,10 +83,10 @@ function DonorProfileStack() {
     }}>
       <Stack.Screen name="ProfileScreen" component={DonorProfileScreen} options={{headerShown:false}}  />
       <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-      <Stack.Screen name="UpdatePassword" component={UpdatePasswordScreen} />
-      <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReportsScreen} />
-      <Stack.Screen name="Verification" component={VerificationScreen} />
-      <Stack.Screen name="PrivacyAndTerms" component={PrivacyAndTermsScreen} />
+      <Stack.Screen name="SubscriptionScreen" component={SubscriptionScreen} options={{headerTitle:"Subscriptions"}}/>
+      <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReportsScreen} options={{headerTitle:"Analytics & Reports"}}/>
+      {/* <Stack.Screen name="Verification" component={VerificationScreen} /> */}
+      <Stack.Screen name="PrivacyAndTerms" component={PrivacyAndTermsScreen} options={{headerTitle:"Privacy & Terms"}}/>
       
       
     </Stack.Navigator>

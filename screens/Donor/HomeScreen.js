@@ -46,8 +46,7 @@ export default function HomeScreen({navigation}) {
   }
 
   const renderFlatList = (itemData) =>{
-    // const isFav=currentUser.favouriteNgos.find(ngo=>ngo.id===itemData.item._id)
-    // console.log('>>>',isFav)
+    const isFav = currentUser.favouriteNgos.find(id=>id===itemData.item._id) ? true : false
 
     return(
       <NgoCard 
@@ -57,7 +56,7 @@ export default function HomeScreen({navigation}) {
         desc={itemData.item.description}
         imageUrl={itemData.item.causesImages[0]}
         descLength={68}
-
+        isFav={isFav}
       />
     )
   }

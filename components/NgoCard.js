@@ -1,5 +1,4 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import IconButton from './IconButton'
 import ColorPallete from '../constants/ColorPallete'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useContext } from 'react';
@@ -8,7 +7,7 @@ import {toggleFav} from '../utilities/DonorApis'
 
 
 export default function NgoCard(props) {
-    const {currentUser, modifyCurrentUser} = useContext(AuthContext);
+    const {currentUser, modifyCurrentUser, token} = useContext(AuthContext);
 
     const handleToggleFav = async ()=>{
 
@@ -26,7 +25,7 @@ export default function NgoCard(props) {
                 favouriteNgos:[...currentUser.favouriteNgos, props.id]
             })
         }
-        const result = await toggleFav(currentUser._id, props.id)
+        const result = await toggleFav(token, currentUser._id, props.id)
 
     }
 

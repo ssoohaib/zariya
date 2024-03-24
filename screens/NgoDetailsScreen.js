@@ -1,25 +1,43 @@
-import { Button, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SliderBox } from "react-native-image-slider-box";
-import { NGOS } from "../dummy_data/dummy_data";
 import ColorPallete from "../constants/ColorPallete";
-import IconButton from "../components/IconButton";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { useContext, useState } from "react";
 import PaymentModal from "../components/PaymentModal";
 import { AuthContext } from "../context/AuthContext";
-
+const {toggleFav} = require('../utilities/DonorApis')
 
 export default function NgoDetailsScreen({navigation, route}) {
-  const {allRecipients} = useContext(AuthContext);
+  const {allRecipients, currentUser, token, modifyCurrentUser} = useContext(AuthContext);
   const [selectedCauses, setSelectedCauses] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
+  
+  const selectedNgo = allRecipients.find(i=>i._id===route.params.id)
+  const isFav = currentUser.favouriteNgos.find(id=>id===selectedNgo._id) ? true : false
+
+  const handleToggleFav = async ()=>{
+    const isFav=currentUser.favouriteNgos.find(id=>id===selectedNgo._id)
+    if (isFav){
+        const newFavList=currentUser.favouriteNgos.filter(id=>id!==selectedNgo._id)
+        modifyCurrentUser({
+            ...currentUser,
+            favouriteNgos:newFavList
+        })
+        
+    }else{
+        modifyCurrentUser({
+            ...currentUser,
+            favouriteNgos:[...currentUser.favouriteNgos, selectedNgo._id]
+        })
+    }
+    const result = await toggleFav(token, currentUser._id, selectedNgo._id)
+  }
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
-  const selectedNgo = allRecipients.find(i=>i._id===route.params.id)
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
@@ -52,14 +70,15 @@ export default function NgoDetailsScreen({navigation, route}) {
         <View style={styles.titleContainer}>
           <View style={styles.titleLeftContainer}>
             <Text style={styles.title}>{selectedNgo.title}</Text>
-            <Text style={styles.address}>{selectedNgo.city}</Text>
-            
+            <Text style={styles.address}>{selectedNgo.city}</Text>            
           </View>
-          <IconButton 
-            icon={'star'} 
-            iconColor={ColorPallete.mediumBlue}
-            style={{flex:0,borderWidth:1,borderColor:ColorPallete.mediumBlue}}
-        />
+          <Pressable onPress={handleToggleFav}>
+            {
+              isFav === true ? 
+              <MaterialCommunityIcons name={'star'} size={24} color={ColorPallete.mediumBlue} />
+              :<MaterialCommunityIcons name={'star-outline'} size={24} color={ColorPallete.mediumBlue} />
+            }
+          </Pressable>
         </View>
         <Text style={styles.subtitle}>Description</Text>
         <Text style={styles.desc}>{selectedNgo.description}</Text>

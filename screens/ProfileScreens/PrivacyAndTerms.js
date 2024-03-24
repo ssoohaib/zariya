@@ -18,68 +18,57 @@ const PrivacyAndTerms = () => {
     setAcceptPressed(false);
   };
 
-  return (
-    <View style={styles.container}>
-        <Text style={styles.heading}>Privacy and Terms</Text>
-      
+  return (      
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.subHeadings}>1. Terms</Text>
         <Text style={styles.text}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          {'\n\n'}
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </Text>
         <Text style={styles.subHeadings}>2. Security</Text>
         <Text style={styles.text}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          {'\n\n'}
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </Text>
         <Text style={styles.subHeadings}>3. Privacy</Text>
         <Text style={styles.text}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          {'\n\n'}
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </Text>
+        <Text style={styles.subHeadings}>4. Data</Text>
+        <Text style={styles.text}>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </Text>
+        <Text style={styles.subHeadings}>5. Collection</Text>
+        <Text style={styles.text}>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </Text>
+        <Text style={styles.subHeadings}>6. Usage</Text>
+        <Text style={styles.text}>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </Text>
+        <View style={{height:32}}></View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.btn, isDeclinePressed ? styles.btnPressed : styles.btnOutline]}
-          onPress={handleDeclinePress}
-        >
-          <Text style={[styles.btnText, isDeclinePressed ? styles.btnTextPressed : null]}>Decline</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.btn, isAcceptPressed ? styles.btnPressed : styles.btnOutline]}
-          onPress={handleAcceptPress}
-        >
-          <Text style={[styles.btnText, isAcceptPressed ? styles.btnTextPressed : null]}>Accept</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    // </View>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: ColorPallete.screenBg,
+    paddingHorizontal: 16,
+  },
   container: {
     flex: 1,
     padding: 16,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   headingContainer: {
     flexDirection: 'row',
   },
   heading: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     //marginBottom: 10,
     color: ColorPallete.darkBlue
-  },
-  scrollContainer: {
-    flex: 1,
-    marginBottom: 16,
   },
   text: {
     fontSize: 16,
@@ -91,8 +80,9 @@ const styles = StyleSheet.create({
   },
   subHeadings: {
     fontWeight: 'bold',
-    fontSize: 18,
-    marginTop: 20,
+    fontSize: 16,
+    marginVertical:8,
+    // marginTop: 20,
     color: ColorPallete.darkBlue
   },
   btn: {
