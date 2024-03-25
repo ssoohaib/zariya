@@ -33,7 +33,7 @@ export default function AnalyticsAndReports() {
   const totalOneTimeMoney = currentUser.donationsMade.filter(donation=>donation.donationCategory === 'Monetary' && donation.donationStatus === 'Complete' && donation.donation.type === 'One Time');
   const totalSubscriptionMoney = currentUser.donationsMade.filter(donation=>donation.donationCategory === 'Monetary' && donation.donationStatus === 'Complete' && donation.donation.type === 'Subscription');
 
-  console.log(totalMoney, totalOneTimeMoney, totalSubscriptionMoney)
+  // console.log(totalMoney, totalOneTimeMoney, totalSubscriptionMoney)
 
   let sumAll=0;
   totalMoney.forEach(element => {
@@ -48,7 +48,7 @@ export default function AnalyticsAndReports() {
     sumSub+=element.donation.amount;
   });
 
-  console.log(sumAll, sumOne, sumSub)
+  // console.log(sumAll, sumOne, sumSub)
 
   const totalMonetaryDonationsData = [
     {value: sumAll, label: 'All', frontColor: ColorPallete.mediumBlue, topLabelComponent: () => ( <Text style={{color: ColorPallete.mediumBlue, fontSize: 14, marginBottom: 2}}>{totalMonetaryDonationsData[0].value}</Text>)},

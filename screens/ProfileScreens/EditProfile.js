@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, Text, View, Image, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Alert, ScrollView } from 'react-native';
 import ColorPallete from '../../constants/ColorPallete';
 import AcceptDonationBtn from '../../components/AcceptDonationBtn';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function EditProfile() {
+  const {currentUser}=useContext(AuthContext);
+
   const [image, setImage] = useState(null);
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [location, setLocation] = useState('');
+
   const [emailError, setEmailError] = useState(null);
   const [phoneError, setPhoneError] = useState(null);
+
+  console.log(currentUser)
+
+  useEffect(() => {
+    if (currentUser) {
+      setEmail(currentUser.email);
+      setPhoneNumber(currentUser.contactNumber);
+      setLocation(currentUser.city);
+    }
+  }
+  , []);
 
   const handleChoosePhoto = async () => {
     try {
@@ -72,7 +87,7 @@ export default function EditProfile() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.iconContainer} onTouchEnd={handleChoosePhoto}>
         <Ionicons style={styles.icon} name="ios-camera-outline" size={24} color="white" />
       </View>
@@ -108,6 +123,20 @@ export default function EditProfile() {
         />
         {phoneError && <Text style={styles.errorText}>{phoneError}</Text>}
       </View>
+      <View style={styles.phoneContainer}>
+        <Text style={styles.title}>New Password</Text>
+        <TextInput
+          style={[styles.input, phoneError && { borderColor: 'red' }]}
+          placeholder="+92 609 456 567 4"
+          keyboardType="phone-pad"
+          value={phoneNumber}
+          onChangeText={(text) => {
+            setPhoneNumber(text);
+            setPhoneError(null); 
+          }}
+        />
+        {phoneError && <Text style={styles.errorText}>{phoneError}</Text>}
+      </View>
       <View style={styles.locContainer}>
         <Text style={styles.title}>Location</Text>
         <TextInput
@@ -118,9 +147,9 @@ export default function EditProfile() {
         />
       </View>
       <View style={styles.btnContainer}>
-        <AcceptDonationBtn onPress={handleSavePress}>Save</AcceptDonationBtn>
+        <AcceptDonationBtn onPress={handleSavePress}>Update</AcceptDonationBtn>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -128,24 +157,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingHorizontal: 24,
     backgroundColor: 'white',
   },
   imgContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
+    // position: 'relative',
   },
   img: {
-    marginTop: 50,
+    // marginTop: 50,
     borderRadius: 100,
-    height: 200,
-    width: 200,
+    height: 150,
+    width: 150,
   },
   iconContainer: {
     position: 'absolute',
-    top: 60,
-    zIndex: 1,
-    right: 100,
+    // top: -80,
+    zIndex: 879898989,
+    right: 90,
     height: 50,
     width: 50,
     borderRadius: 25,
@@ -157,28 +187,30 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   input: {
-    height: 40,
+    // height: 40,
     borderColor: '#DCDCDC',
     borderWidth: 1,
-    marginBottom: 16,
-    paddingLeft: 8,
+    // marginBottom: 16,
+    // paddingLeft: 8,
+    padding: 16,
     borderRadius: 8,
-    marginLeft: 16,
-    marginRight: 16,
+    // marginLeft: 16,
+    // marginRight: 16,
   },
   mailContainer: {
-    marginTop: 30,
+    marginTop: 16,
 
   },
   phoneContainer: {
-    marginTop: 10,
+    marginTop: 16,
 
   },
   locContainer: {
-    marginTop: 10,
+    marginTop: 16,
   },
   title: {
-    marginLeft: 20,
+    // marginLeft: 20,
+    marginBottom: 8,
     color: '#B2B0AF',
   },
   btnContainer: {

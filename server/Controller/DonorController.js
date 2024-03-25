@@ -1,4 +1,5 @@
 const UserModel=require('../Models/UserModel')
+const DonationModel=require('../Models/DonationModel')
 const bcrypt = require('bcrypt');
 
 async function updateInfo(req,res){
@@ -54,6 +55,8 @@ async function makeDonation(req,res){
             }
         }
        )
+
+       await DonationModel.create(donation);
 
         return res.status(200).json({ message: 'Donation made successfully' });
     } catch (error) {

@@ -82,7 +82,7 @@ function DonorProfileStack() {
       }
     }}>
       <Stack.Screen name="ProfileScreen" component={DonorProfileScreen} options={{headerShown:false}}  />
-      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{headerTitle:"Edit"}}/>
       <Stack.Screen name="SubscriptionScreen" component={SubscriptionScreen} options={{headerTitle:"Subscriptions"}}/>
       <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReportsScreen} options={{headerTitle:"Analytics & Reports"}}/>
       {/* <Stack.Screen name="Verification" component={VerificationScreen} /> */}

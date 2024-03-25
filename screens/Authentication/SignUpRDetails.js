@@ -89,6 +89,8 @@ const addCauseHandler = () => {
   }
 
   const switchScreen = async () => {
+    console.log(':::::::::::::',causeImages, verificationImages, logo)
+    // return
     if (AUTHCHECKENABLED && !validator()) {
       return;
     }
@@ -104,34 +106,37 @@ const addCauseHandler = () => {
       logo: logo,
       verificationImages: verificationImages,
       causesImages: causeImages,
+      recipientApproval:true
     }
 
     const formData = new FormData();
-    formData.append('payload', JSON.stringify(payload));
+    formData.append('payload', JSON.stringify(payload));    
     
     causeImages.forEach((image, index) => {
       formData.append('images', {
-        uri: image.uri,
-        type: image.type,
+        uri: image,
+        // type: image.type,
         name: 'cause-' + route.params.email + index + '.jpg',
       });
     });
     verificationImages.forEach((image, index) => {
       formData.append('images', {
-        uri: image.uri,
-        type: image.type,
+        uri: image,
+        // type: image.type,
         name: 'verify-' + route.params.email + index + '.jpg',
       });
     });
     formData.append('images', {
-      uri: logo.uri,
-      type: logo.type,
+      uri: logo,
+      // type: logo.type,
       name: 'logo-' + route.params.email + '.jpg',
     });
 
     
     handleLoading();
-
+    console.log('----',formData.getAll('images'))
+    // return
+    // Signup---------------------------------------------------------
     await fetch(`http://${MyIp}:5000/signup`, {
       method: 'POST',
       body: formData,
@@ -143,7 +148,9 @@ const addCauseHandler = () => {
     .then(data => console.log(data))
     .catch(error => console.error('Error uploading image:', error));
 
-    // await signUp({ ...payload });
+    // ---------------------------------------------------------------
+    return
+
     const result = await signIn(route.params.email, route.params.password);
     setCurrentUserAndToken(result.user, result.token);
     console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
@@ -154,7 +161,6 @@ const addCauseHandler = () => {
     console.log(`[SignIn] -> ${allDonors.length} donors fetched`)
 
     handleLoading();
-    // navigation.goBack();
   };
 
   return (

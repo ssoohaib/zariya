@@ -2,6 +2,8 @@ const UserModel=require('../Models/UserModel')
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../utils/jwt');
 const uid=require('uid')
+const path = require('path');
+const fs = require('fs').promises;
 
 async function signUpDonor(req,res){
     console.log('------------------------')
@@ -63,9 +65,11 @@ async function signUpUser(req,res){
             description:payload.description,
             city:payload.city,
             causes:payload.causes,
+            recipientApproval:payload.recipientApproval,
 
             causesImages:causesImages,
             verificationImages:verificationImages,
+            logo:logo
         }
     }
     
@@ -97,9 +101,24 @@ async function signInUser(req,res){
                 const token=generateToken(user.id)
                 console.log(`${user.userType}: ${user.email}`)
                 console.log(`Token: ...${token.slice(-10)}`)
+
+                const imageData=[]
+                for (const image of user.causesImages) {
+                    const imagePath = path.join(__dirname, '../public/uploads', 'Screenshot.png');
+                    // console.log(imagePath)
+                    const data = await fs.readFile(imagePath, 'binary');
+                    // console.log(data.toString('base64'))
+                    imageData.push({
+                      filename: image.filename,
+                      mimeType: image.mimetype,
+                      data: data.toString('base64')
+                    });
+                }
+
                 res.status(200).send({
                     token:token,
-                    user:user
+                    user:user,
+                    allImages:imageData
                 })
             }else{
                 res.status(404).send({error:'Incorrect Password'})

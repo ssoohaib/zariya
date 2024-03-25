@@ -7,7 +7,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-var uploadDirectory = './uploads';
+var uploadDirectory = './public/uploads';
 if (!fs.existsSync(uploadDirectory)) {
   fs.mkdirSync(uploadDirectory);
 }
@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
       cb(null, uploadDirectory);
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
+      cb(null, file.originalname);
     }
 });
 

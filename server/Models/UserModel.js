@@ -94,6 +94,10 @@ const UserSchema=new mongoose.Schema({
     ngoPaymentMenthods:{
         type:Array,
         required:false
+    },
+    logo:{
+        type: Array,
+        required: false,
     }
 })
 
