@@ -75,6 +75,14 @@ export default function SignIn({ navigation }) {
     }
     handleLoading();
     const result = await signIn(email, password);
+
+    console.log(`[SignIn] -> ${JSON.stringify(result)}`)
+
+    if (result.user && result.user.recipientApproval === true){
+      navigation.navigate('OnHold');
+      return;
+    }
+
     setCurrentUserAndToken(result.user, result.token);
     console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
 

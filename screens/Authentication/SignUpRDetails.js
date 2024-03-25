@@ -89,7 +89,7 @@ const addCauseHandler = () => {
   }
 
   const switchScreen = async () => {
-    console.log(':::::::::::::',causeImages, verificationImages, logo)
+    // console.log(':::::::::::::',causeImages, verificationImages, logo)
     // return
     if (AUTHCHECKENABLED && !validator()) {
       return;
@@ -127,14 +127,14 @@ const addCauseHandler = () => {
       });
     });
     formData.append('images', {
-      uri: logo,
+      uri: logo[0],
       // type: logo.type,
       name: 'logo-' + route.params.email + '.jpg',
     });
 
-    
     handleLoading();
-    console.log('----',formData.getAll('images'))
+    // console.log('----',formData.getAll('images'))
+
     // return
     // Signup---------------------------------------------------------
     await fetch(`http://${MyIp}:5000/signup`, {
@@ -149,18 +149,17 @@ const addCauseHandler = () => {
     .catch(error => console.error('Error uploading image:', error));
 
     // ---------------------------------------------------------------
-    return
+    navigation.navigate("OnHold");
+    // const result = await signIn(route.params.email, route.params.password);
+    // setCurrentUserAndToken(result.user, result.token);
+    // console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
 
-    const result = await signIn(route.params.email, route.params.password);
-    setCurrentUserAndToken(result.user, result.token);
-    console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
+    // const allDonors = await getAllNgos(result.token, result.user.id);
+    // setAllRecipientsHandler(allDonors);
+    // setAllDonorsHandler(allDonors);
+    // console.log(`[SignIn] -> ${allDonors.length} donors fetched`)
 
-    const allDonors = await getAllNgos(result.token, result.user.id);
-    setAllRecipientsHandler(allDonors);
-    setAllDonorsHandler(allDonors);
-    console.log(`[SignIn] -> ${allDonors.length} donors fetched`)
-
-    handleLoading();
+    // handleLoading();
   };
 
   return (

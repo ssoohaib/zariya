@@ -102,25 +102,62 @@ async function signInUser(req,res){
                 console.log(`${user.userType}: ${user.email}`)
                 console.log(`Token: ...${token.slice(-10)}`)
 
-                const imageData=[]
-                for (const image of user.causesImages) {
-                    const imagePath = path.join(__dirname, '../public/uploads', 'Screenshot.png');
-                    // console.log(imagePath)
-                    const data = await fs.readFile(imagePath, 'binary');
-                    // console.log(data.toString('base64'))
-                    imageData.push({
-                      filename: image.filename,
-                      mimeType: image.mimetype,
-                      data: data.toString('base64')
-                    });
-                }
+                // if (user.userType === 'recipient') {
+                //     const imageData=[]
+                //     if (!(user.causesImages.length === 0 || user.verificationImages.length === 0 || user.logo.length === 0)) {
+                //     for (const image of user.causesImages) {
+                //         const imagePath = path.join(__dirname, '../public/uploads/', image.filename);
+                //         // console.log(imagePath)
+                //         const data = await fs.readFile(imagePath, 'binary');
+                //         // console.log(data.toString('base64'))
+                //         imageData.push({
+                //         filename: image.filename,
+                //         mimeType: image.mimetype,
+                //         data: data.toString('base64')
+                //         });
+                //     }
+                //     for (const image of user.verificationImages) {
+                //         const imagePath = path.join(__dirname, '../public/uploads/', image.filename);
+                //         // console.log(imagePath)
+                //         const data = await fs.readFile(imagePath, 'binary');
+                //         // console.log(data.toString('base64'))
+                //         imageData.push({
+                //         filename: image.filename,
+                //         mimeType: image.mimetype,
+                //         data: data.toString('base64')
+                //         });
+                //     }
+                //     for (const image of user.logo) {
+                //         const imagePath = path.join(__dirname, '../public/uploads/', image.filename);
+                //         // console.log(imagePath)
+                //         const data = await fs.readFile(imagePath, 'binary');
+                //         // console.log(data.toString('base64'))
+                //         imageData.push({
+                //         filename: image.filename,
+                //         mimeType: image.mimetype,
+                //         data: data.toString('base64')
+                //         });
+                //     }
+                //     res.status(200).send({
+                //         token:token,
+                //         user:user,
+                //         allImages:imageData
+                //     })
+                // }
+                // else{
+                //     res.status(200).send({
+                //         token:token,
+                //         user:user
+                //     })
+                // }
+                // }else
+                    res.status(200).send({
+                        token:token,
+                        user:user
+                    })
 
-                res.status(200).send({
-                    token:token,
-                    user:user,
-                    allImages:imageData
-                })
-            }else{
+            }
+            else{
                 res.status(404).send({error:'Incorrect Password'})
             }
         }else{

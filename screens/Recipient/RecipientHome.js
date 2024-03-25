@@ -83,7 +83,6 @@ function RecipientHome() {
                     </View>
                 </View>
             </View>
-            <Text>lol</Text>
             <View style={styles.buttonContainer}>
                 <View style={styles.incomingView}>
                     <Text style={styles.buttonsText}>Incoming Requests</Text>
