@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import ColorPallete from "../constants/ColorPallete";
 import { useState } from "react";
-import RecHistoryModal from "./RecHistoryModal";
+import HistoryModal from "./HistoryModal";
 
 
 export default function HistoryCard(props) {
@@ -72,7 +72,7 @@ export default function HistoryCard(props) {
                 </View>
             </View>
         </Pressable>
-        <RecHistoryModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal}/>
+        <HistoryModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal}/>
     </>
   )
 }

@@ -2,7 +2,7 @@ import { FlatList, ScrollView, StyleSheet, Text, View, Pressable } from 'react-n
 import NotFound from '../../components/NotFound';
 import ColorPallete from '../../constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
-import HistoryCard from '../../components/HistoryCard'
+import RecHistoryCard from '../../components/RecHistoryCard'
 import { Ionicons } from '@expo/vector-icons';;
 import { HISTORY } from '../../dummy_data/dummy_data';
 import { useContext } from 'react';
@@ -31,7 +31,7 @@ export default function RecipientHistory({ navigation }) {
       title += " received from " + itemData.item.donorName
 
       return (
-        <HistoryCard
+        <RecHistoryCard
           id={itemData.item.id}
           category={itemData.item.donationCategory}
           title={title}
