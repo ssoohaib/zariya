@@ -1,3 +1,4 @@
+
 const express=require('express')
 const cors=require('cors')
 const connectDB=require('./db/conn')
@@ -20,5 +21,4 @@ const PORT=5000;
         app.use('/',require('./Routes/RecipientRoutes'))
         
         app.listen(PORT,()=>{console.log(`Port Active:${PORT}`)})
-    }
 )();

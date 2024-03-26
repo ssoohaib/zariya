@@ -25,7 +25,22 @@ async function getAllNgos(req,res){
     }
 }
 
+async function getAllDonors(req, res) {
+    console.log('------------------------')
+    console.log(`[GET] -> /all-donors/${req.params.id}`)
+    try {
+        const donors = await UserModel.find({ userType: 'donor' }, '-password');
+        res.status(200).send(donors);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error });
+    }
+}
+
+
+
 module.exports={
     getAllUsers,
-    getAllNgos
+    getAllNgos,
+    getAllDonors,
 }

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Modal, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TextInput, TouchableOpacity, Pressable } from 'react-native'; // Import Pressable
 import { SliderBox } from 'react-native-image-slider-box';
 import { useRef } from 'react';
 import AcceptBtn from '../../components/AcceptBtn';
@@ -77,6 +77,11 @@ function DonationDetail(props) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.backButton}> 
+       <Pressable onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={26} color="#453953" />
+       </Pressable>
+       </View>
       <View style={styles.imageContainer}> 
         <Image style={styles.image} source={require('../../assets/images/biryani.png')} /> 
       </View> 
@@ -281,4 +286,12 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 5,
   },
+  backButton: {
+    position: 'absolute',
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginTop: 70,
+    zIndex: 1, // Ensure the icon is rendered above other components
+  },
 });
+
