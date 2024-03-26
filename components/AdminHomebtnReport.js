@@ -30,8 +30,8 @@ export default function AdminHomebtn(props) {
                 }
                 {
                     props.icon &&
-                    <View style={{alignItems:'flex-end'}}>
-                        <MaterialCommunityIcons name={props.icon} size={32} 
+                    <View style={{alignItems: 'center'}}>
+                        <MaterialCommunityIcons name={props.icon} size={28} 
                         color={props.iconColor ? props.iconColor:'black'} />
                     </View>
                 }
@@ -44,18 +44,16 @@ export default function AdminHomebtn(props) {
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        //position:'relative',
         borderRadius:16,
-        //overflow:'hidden'
     },
     innerContainer:{
-        height:120,
+        height:85,
         padding:10,
         justifyContent:'space-between',
     },
     text:{
-        fontSize:16,
+        fontSize:18,
         fontWeight:'bold',
-        textAlign:'left',
+        textAlign:'center',
     }
 })

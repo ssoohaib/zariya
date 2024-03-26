@@ -1,46 +1,26 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import IconButton from './IconButton'
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import AcceptDonationBtn from './AcceptDonationBtn';
 
-import ColorPallete from '../constants/ColorPallete'
-
-function RecipientCard(props) {
-    const navigation = useNavigation();
-
-  const handleAccept = () => {
-    navigation.navigate('DonationDetail');
-  };
+function RecipientCard({id, onPress, title, email, causesImages, recipientApproval}) {    
 
     return (
         <View style={styles.container}>
-            <Pressable onPress={handleAccept}>
+            <Pressable onPress={()=>onPress(id)}>
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
-                            <Image style={styles.image}
-                                source={{uri:props.imageUrl}} />
+                            <Image style={styles.image} source={{ uri: causesImages }} />
                             <View style={styles.nameTimeDescContainer}>
-                                <View style={styles.nameTimeContainer}>
-                                    <Text style={styles.name}>{props.name}</Text>
-                                    <Text style={styles.time}>{props.time}</Text>
+                                <View style={styles.nameContainer}>
+                                    <Text style={styles.name}>{title}</Text>
+                                    {recipientApproval && <Text style={styles.onHold}>(On hold)</Text>}
                                 </View>
-                                <Text style={styles.category}>{props.category}</Text>
-                                <Text style={styles.desc}>{props.desc.slice(0,90)}...</Text>
+                                <View style={styles.emailContainer}>
+                                    <Text style={styles.email}>Email: {email}</Text>
+                                </View>
                             </View>
                         </View>
                     </View>
-                    <View style={styles.btnContainer}>
-                        <Text style={styles.quantityText}>5 person</Text>
-                        <View style={styles.call}>
-                            <Ionicons
-                                name='call' size={20}
-                                color={ColorPallete.darkBlue}
-                            />
-                        </View>
-                        <AcceptDonationBtn onPress={handleAccept}>Accept</AcceptDonationBtn>
-                    </View>
+
                 </View>
             </Pressable>
         </View>
@@ -52,18 +32,22 @@ export default RecipientCard;
 const styles = StyleSheet.create({
     container: {
         overflow: 'hidden',
-        marginBottom: 5,
-        backgroundColor: 'white',
-        width: '100%',
+        marginBottom: 4,
+        // marginTop:6,
+        backgroundColor: '#f5f5f5',
+        // width: '97%',
+        borderRadius:8,
+        // marginLeft:7
     },
     innerContainer: {
-       margin: 10,
+        margin: 10,
+        marginTop: 10
     },
     image: {
         width: 60,
         height: 60,
         borderRadius: 60,
-       // marginLeft: 10,
+        // marginLeft: 10,
     },
     titleContainer: {
         flexDirection: 'row',
@@ -73,11 +57,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         marginLeft: 10,
     },
-    nameTimeContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    nameTimeContainer: {
+    nameContainer: {
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -85,42 +65,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
-    time: {
-        fontWeight: 'bold',
-        marginLeft: 140, 
-    },
-    category: {
-        fontWeight: '400',
-        //marginTop: 2,
-    },
-    desc: {
-        fontSize: 12,
-        lineHeight: 15,
+    emailContainer: {
         marginTop: 5,
-        fontWeight: '200',
-        marginBottom: 5,
     },
-    btnContainer: {
+    bottomContainer: {
         flexDirection: 'row',
         marginTop: 10,
-        alignItems: 'center', 
+        justifyContent: 'space-between',
     },
-    call: {
-        borderRadius: 5,
-        backgroundColor: ColorPallete.lightBlue,
-        marginRight: 10, 
-        padding: 8, 
-        marginLeft: 150,
+    onHold: {
+        fontSize: 14,
+        color: 'red',
+        marginLeft: 7
     },
-    btn: {
-        borderRadius: 8,
-        width: 40,
-    },
-    quantityText: {
-        fontWeight: '100',
-        marginLeft: 10,
-        marginTop: 15,
-        fontSize: 12,
-    },
-
-})
+});

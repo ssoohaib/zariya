@@ -1,24 +1,26 @@
-const AdminModel = require('../Models/AdminModel');
+const UserModel = require('../Models/UserModel');
 
-async function test(req,res){
-    const temp={
-        id:'admin',
-        email:'admin@admin',
-        password:'admin',
-        firstName:'joe',
-        lastName:'jones',
+async function toggleFreeze(req, res) {
+    console.log('------------------------');
+    console.log('PUT - /toggle-freeze/:userId');
+
+    const userId = req.params.userId;
+
+    try {
+        const user = await UserModel.findOne({ _id: userId });
+        if (user.recipientApproval===true){
+            user.recipientApproval=false;
+        }else{
+            user.recipientApproval=true;
+        }
+        await user.save();
+        res.status(200).send({ message: `User ${user.email} isFrozen: ${user.recipientApproval}` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'User Not Found' });
     }
-    // const admin=new AdminModel(temp)
-    // try{
-    //     await admin.save()
-    //     res.status(200).send({message:'Admin Created'})
-    // }catch (error){
-    //     console.error(error)
-    //     res.status(500).send({error:'Server Error'})
-    // }
-    res.status(200).send({message:'Henlo'})
 }
 
 module.exports = {
-    test,
+    toggleFreeze,
 };

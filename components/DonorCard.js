@@ -1,30 +1,18 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 
-function DonorCard({navigation, id, firstName, lastName, contactNumber, email}) {
-
-    const switchScreenHandler = () =>{
-        navigation.navigate("AdminDonorScreen", {
-            id: id,
-            firstName: firstName,
-            lastName: lastName,
-            // photo: props.imageUrl,
-            email: email,
-            contactNumber: contactNumber,
-            // donationsMade: props.donationsMade
-        });
-    }
-    
+function DonorCard({id, onPress, firstName, lastName, email, imageUrl, recipientApproval}) {    
 
     return (
         <View style={styles.container}>
-            <Pressable onPress={switchScreenHandler}>
+            <Pressable onPress={()=>onPress(id)}>
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
-                            {/* <Image style={styles.image} source={{ uri: props.imageUrl }} /> */}
+                            <Image style={styles.image} source={{ uri: imageUrl }} />
                             <View style={styles.nameTimeDescContainer}>
                                 <View style={styles.nameContainer}>
                                     <Text style={styles.name}>{firstName} {lastName}</Text>
+                                    {recipientApproval && <Text style={styles.onHold}>(On hold)</Text>}
                                 </View>
                                 <View style={styles.emailContainer}>
                                     <Text style={styles.email}>Email: {email}</Text>
@@ -35,16 +23,6 @@ function DonorCard({navigation, id, firstName, lastName, contactNumber, email}) 
 
                 </View>
             </Pressable>
-            {/* <DonorInfoModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload}
-                userData={{
-                    firstName: props.firstName,
-                    lastName: props.lastName,
-                    email: props.email,
-                    contactNumber: props.contactNumber,
-                    imageUrl: props.imageUrl,
-                    status: props.status,
-                }}
-            /> */}
         </View>
     )
 }
@@ -94,5 +72,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 10,
         justifyContent: 'space-between',
+    },
+    onHold: {
+        fontSize: 14,
+        color: 'red',
+        marginLeft: 7
     },
 });

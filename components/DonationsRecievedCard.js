@@ -4,15 +4,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import ColorPallete from "../constants/ColorPallete";
 
-export default function DonationsCard(props) {
-  const { id, ngoName, category, status, date } = props;
+export default function DonationsRecievedCard(props) {
+  const { id, donorName, category, status, date } = props;
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <MaterialIcons name="business" size={24} color="black" style={styles.icon} />
-        <Text style={styles.text}>NGO Name: </Text>
-        <Text style={styles.plaintext}>{ngoName}</Text>
+        <Text style={styles.text}>Donor: </Text>
+        <Text style={styles.plaintext}>{donorName}</Text>
       </View>
       <View style={styles.row}>
         <MaterialCommunityIcons name="format-list-group" size={24} color="black" style={styles.icon} />

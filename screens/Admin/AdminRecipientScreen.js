@@ -38,7 +38,7 @@ export default function AdminRecipientScreen({navigation}) {
             />
           </View>
 
-          <View style={styles.buttonsContainer}>
+          {/* <View style={styles.buttonsContainer}>
             <AdminIconButton 
               title={'Recipient Feedbacks'} 
               icon={'message-alert'} 
@@ -48,7 +48,7 @@ export default function AdminRecipientScreen({navigation}) {
               onPress={switchScreenHandler}
               screen={'FeedbackScreen'}
             />
-          </View>
+          </View> */}
         </View>
 
       </ScrollView>

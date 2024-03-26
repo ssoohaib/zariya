@@ -14,6 +14,13 @@ export default function SearchDonorScreen({ navigation }) {
     setSearchTerm(text);
   }
 
+  const cardNavigationHandler =(id)=>{
+    console.log('-----',id)
+    navigation.navigate("AdminDonorScreen",{
+      id:id
+    })
+  }
+
   const renderFlatList = (itemData) => {
     return (
       <>
@@ -23,9 +30,9 @@ export default function SearchDonorScreen({ navigation }) {
             firstName={itemData.item.firstName}
             lastName={itemData.item.lastName}
             email={itemData.item.email}
-            contactNumber={itemData.item.contactNumber}
-            // imageUrl={itemData.item.photo}
-            // status={'Verified'}
+            imageUrl={itemData.item.photo}
+            recipientApproval={itemData.item.recipientApproval}
+            onPress={cardNavigationHandler}
           />
         )}
       </>

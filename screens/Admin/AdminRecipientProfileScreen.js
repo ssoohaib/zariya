@@ -1,12 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, FlatList, Linking, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import ColorPallete from '../../constants/ColorPallete';
+import DonationsRecievedCard from '../../components/DonationsRecievedCard'
+import SubedUsersCard from '../../components/SubedUsersCard';
+import { AuthContext } from '../../context/AuthContext';
 import { MaterialIcons } from '@expo/vector-icons';
+import Swiper from 'react-native-swiper';
+import HorizontalBarGraph from '../../components/HorizontalBarGraph'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function AdminRecipientProfileScreen({ route }) {
-  const { id, firstName, lastName, photo, email, contactNumber, donationsMade } = route.params;
+  const { allUsers } = useContext(AuthContext);
+  const currentUser = allUsers.filter(item => item._id === route.params.id);
+  const { title, email, contactNumber, donationsReceived, subscribedUsers, causesImages } = currentUser[0];
+  const [freezeAccount, setFreezeAccount] = useState(currentUser[0].freezeAccount);
+
+  const [activeButton, setActiveButton] = useState('Donations');
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showDonations, setShowDonations] = useState(true); // State to track which list to show
+
+  const [donationsCount, setDonationsCount] = useState(0);
+  const [subscribedNgosCount, setSubscribedNgosCount] = useState(0);
+  const [causeCounts, setCauseCounts] = useState({});
+
+  useEffect(() => {
+    setDonationsCount(donationsReceived.length);
+    setSubscribedNgosCount(subscribedUsers.length);
+
+    // Count the occurrences of each cause
+    const counts = {};
+    subscribedUsers.forEach(ngo => {
+      ngo.causes.forEach(cause => {
+        counts[cause] = (counts[cause] || 0) + 1;
+      });
+    });
+    setCauseCounts(counts);
+  }, [donationsReceived, subscribedUsers]);
+
+  const maxValue = Math.max(donationsCount, subscribedNgosCount, ...Object.values(causeCounts));
+
+
 
   const handleContactPress = () => {
     Alert.alert(
@@ -41,6 +75,51 @@ export default function AdminRecipientProfileScreen({ route }) {
     );
   };
 
+  const handleFreezeAccount = () => {
+
+    if (freezeAccount) {
+      Alert.alert(
+        'Unfreeze Account',
+        'Do you want to unfreeze this user account?',
+        [
+          
+          {
+            text: 'No',
+            style: 'cancel',
+          },
+          {
+            text: 'Yes',
+            onPress: () => {
+              setFreezeAccount(false);
+            },
+          },
+        ],
+        { cancelable: true }
+      );
+    }
+    else{
+      Alert.alert(
+        'Freeze Account',
+        'Do you want to freeze this user account?',
+        [
+          
+          {
+            text: 'No',
+            style: 'cancel',
+          },
+          {
+            text: 'Yes',
+            onPress: () => {
+              setFreezeAccount(true);
+            },
+          },
+        ],
+        { cancelable: true }
+      );
+    }
+
+  };
+
   const handleProfilePress = () => {
     setShowProfileModal(true);
   };
@@ -49,49 +128,103 @@ export default function AdminRecipientProfileScreen({ route }) {
     setShowProfileModal(false);
   };
 
-  useEffect(() => {
-    console.log('Donation Made:', donationsMade);
-  });
+  const renderDonations = itemData => {
+    return (
+      <DonationsRecievedCard
+        id={itemData.item.id}
+        donorId={itemData.item.donorId}
+        donorName={itemData.item.donorName}
+        category={itemData.item.donationCategory}
+        status={itemData.item.donationStatus}
+        date={itemData.item.donationDate}
+      />
+    );
+  };
 
-  const renderDonations = ({ item }) => (
-    <DonationsCard
-      id={item.id}
-      ngoID={item.ngoId}
-      ngoName={item.ngoName}
-      category={item.donationCategory}
-      status={item.donationStatus}
-      date={item.donationDate}
-    />
-  );
+  const rendersubNgos = itemData => {
+    return (
+      <SubedUsersCard
+        id={itemData.item.id}
+        donorName={itemData.item.donorName}
+        causes={itemData.item.causes}
+        date={itemData.item.subscriptionDate}
+        amount={itemData.item.amount}
+        duration={itemData.item.duration}
+        subscriptionStatus={itemData.item.subscriptionStatus}
+      />
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[ColorPallete.darkBlue, 'white']}
-        style={styles.DonorDetails}>
-          <View style={styles.innercontainer}>
-            <Image source={{ uri: photo }} style={styles.image} />
-            <View style={styles.DonorContactDetails}>
-              <Text style={styles.donorName}>{firstName} {lastName}</Text>
-            </View>
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.contactButton} onPress={handleContactPress}>
-                <Text style={styles.buttonText}>Contact</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.idButton} onPress={handleProfilePress}>
-                <MaterialIcons name="article" size={24} color={ColorPallete.darkBlue} />
-              </TouchableOpacity>
-            </View>
+      <LinearGradient colors={[ColorPallete.darkBlue, 'white']} style={styles.DonorDetails}>
+        <View style={styles.innercontainer}>
+          <Image source={{ uri: causesImages[0] }} style={styles.image} />
+          <View style={styles.DonorContactDetails}>
+            <Text style={styles.donorName}>{title}</Text>
+            {freezeAccount && <Text style={styles.accountStatus}>(Account Frozen)</Text>}
           </View>
+          <View style={styles.buttonsContainerx}>
+            <TouchableOpacity style={styles.contactButton} onPress={handleContactPress}>
+              <Text style={styles.buttonText}>Contact</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.idButton} onPress={handleProfilePress}>
+              <MaterialIcons name="article" size={24} color={ColorPallete.darkBlue} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.idButton} onPress={handleFreezeAccount}>
+              <MaterialCommunityIcons name="account-clock" size={24} color={ColorPallete.darkBlue} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity
+              style={[styles.toggleButton, activeButton === 'Donations' && styles.activeButton]}
+              onPress={() => setActiveButton('Donations')}>
+              <Text style={[styles.buttonText, activeButton === 'Donations' && styles.activeButtonText]}>Donations Details</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.toggleButton, activeButton === 'Subscribed' && styles.activeButton]}
+              onPress={() => setActiveButton('Subscribed')}>
+              <Text style={[styles.buttonText, activeButton === 'Subscribed' && styles.activeButtonText]}>Subscribed Users</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.toggleButton, activeButton === 'Analytics' && styles.activeButton]}
+              onPress={() => setActiveButton('Analytics')}>
+              <Text style={[styles.buttonText, activeButton === 'Analytics' && styles.activeButtonText]}>Analytics</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </LinearGradient>
-      <View style={styles.additionalView}>
-        <Text style={{fontWeight: 'bold', fontSize: 18, margin: 15, color: ColorPallete.darkBlue}}>Donations Made</Text>
-        <FlatList
-          data={donationsMade}
-          renderItem={renderDonations}
-          keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator={true}
-        />
+      <View style={[styles.additionalView, { marginTop: freezeAccount ? 69 : 50 }]}>
+        {activeButton === 'Donations' && (
+          <FlatList
+            data={donationsReceived}
+            renderItem={renderDonations}
+            showsVerticalScrollIndicator={true}
+          />
+        )}
+        {activeButton === 'Subscribed' && (
+          <FlatList
+            data={subscribedUsers}
+            renderItem={rendersubNgos}
+            showsVerticalScrollIndicator={true}
+          />
+        )}
+        {activeButton === 'Analytics' && (
+          <View style={styles.analyticsContainer}>
+            <Text style={styles.generalText}>General</Text>
+            <HorizontalBarGraph
+              data={[donationsCount, subscribedNgosCount]}
+              labels={['Donations Recieved', 'Subscribed Users']}
+              maxValue = {maxValue}
+            />
+             <Text style={styles.generalText}>Causes Supported</Text>
+            <HorizontalBarGraph
+              data={Object.values(causeCounts)}
+              labels={Object.keys(causeCounts)}
+              maxValue = {maxValue}
+            />
+          </View>
+        )}
       </View>
       {/* Profile Modal */}
       <Modal visible={showProfileModal} transparent={true} animationType="fade">
@@ -99,12 +232,19 @@ export default function AdminRecipientProfileScreen({ route }) {
           <TouchableOpacity style={styles.closeButton} onPress={handleCloseModal}>
             <MaterialIcons name="close" size={30} color="white" />
           </TouchableOpacity>
-          <Image source={{ uri: photo }} style={styles.profilePhoto} />
+          <Swiper style={styles.wrapper} showsButtons={true}>
+            {causesImages.map((causesImages, index) => (
+              <View key={index} style={styles.slide}>
+                <Image source={{ uri: causesImages }} style={styles.profilePhoto} />
+              </View>
+            ))}
+          </Swiper>
         </View>
       </Modal>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -114,6 +254,12 @@ const styles = StyleSheet.create({
   innercontainer:{
     marginTop: 10,
     alignItems: 'center'
+  },
+  wrapper: {},
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contactButton: {
     marginTop: 10,
@@ -138,11 +284,12 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 10,
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 16,
     color: ColorPallete.darkBlue,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   DonorDetails: {
     width: '100%',
@@ -150,9 +297,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   additionalView: {
-    width: '100%',
-    height: '100%',
-    borderWidth: 2
+    flex: 1,
+    marginTop: 58
   },
   DonorContactDetails: {
     alignItems: 'center',
@@ -160,7 +306,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '32%',
-    height: '52%',
+    height: '43%',
     resizeMode: 'cover',
     borderRadius: 100,
     position: 'absolute',
@@ -168,7 +314,7 @@ const styles = StyleSheet.create({
   },
   profilePhoto: {
     width: '90%',
-    height: '35%',
+    height: '31%',
     resizeMode: 'contain',
     borderRadius: 20,
   },
@@ -182,12 +328,43 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
   },
   closeButton: {
     position: 'absolute',
     top: 40,
     right: 20,
     zIndex: 999,
+  },
+  toggleButton: {
+    borderWidth: 1.5,
+    borderColor: ColorPallete.darkBlue,
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 9,
+    marginHorizontal: 3,
+  },
+  analyticsContainer: {
+    flex: 1,
+    margin: 10
+  },
+  generalText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  activeButton: {
+    backgroundColor: ColorPallete.darkBlue,
+  },
+  activeButtonText: {
+    color: 'white',
+  },
+  buttonsContainerx: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  accountStatus: {
+    fontSize: 16,
+    color: 'red', 
   },
 });

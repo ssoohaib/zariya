@@ -4,30 +4,35 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import ColorPallete from "../constants/ColorPallete";
 
-export default function DonationsCard(props) {
-  const { id, ngoName, category, status, date } = props;
+export default function SubedUsersCard(props) {
+  const { id, donorName, causes, date, amount, duration, subscriptionStatus} = props;
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <MaterialIcons name="business" size={24} color="black" style={styles.icon} />
-        <Text style={styles.text}>NGO Name: </Text>
-        <Text style={styles.plaintext}>{ngoName}</Text>
+        <MaterialCommunityIcons name="account" size={24} color="black" style={styles.icon} />
+        <Text style={styles.text}>Subscribed User: </Text>
+        <Text style={styles.plaintext}>{donorName}</Text>
       </View>
       <View style={styles.row}>
-        <MaterialCommunityIcons name="format-list-group" size={24} color="black" style={styles.icon} />
-        <Text style={styles.text}>Category: </Text>
-        <Text style={styles.plaintext}>{category}</Text>
+        <MaterialIcons name="view-list" size={24} color="black" style={styles.icon} />
+        <Text style={styles.text}>Causes: </Text>
+        <Text style={styles.plaintext}>{causes} </Text>
       </View>
       <View style={styles.row}>
         <MaterialCommunityIcons name="calendar" size={24} color="black" style={styles.icon} />
-        <Text style={styles.text}>Date: </Text>
+        <Text style={styles.text}>Subscription Date: </Text>
         <Text style={styles.plaintext}>{date}</Text>
+      </View>
+      <View style={styles.row}>
+        <MaterialCommunityIcons name="account-clock" size={24} color="black" style={styles.icon} />
+        <Text style={styles.text}>Duration: </Text>
+        <Text style={styles.plaintext}>{duration}</Text>
       </View>
       <View style={styles.row}>
         <MaterialCommunityIcons name="sticker-check-outline" size={24} color="black" style={styles.icon} />
         <Text style={styles.text}>Status: </Text>
-        <Text style={styles.plaintext}>{status}</Text>
+        <Text style={styles.plaintext}>{subscriptionStatus}</Text>
       </View>
     </View>
   );

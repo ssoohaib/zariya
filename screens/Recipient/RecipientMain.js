@@ -87,6 +87,7 @@ function ProfileStack(){
       <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReports} />
       <Stack.Screen name="Verification" component={Verification} />
       <Stack.Screen name="PrivacyAndTerms" component={PrivacyAndTerms} />
+      
     </Stack.Navigator>
   );
 }

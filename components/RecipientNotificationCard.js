@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Modal } from 'react-na
 import { Ionicons } from '@expo/vector-icons';
 import ColorPallete from '../constants/ColorPallete';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 function RecipientNotificationCard(props) {
