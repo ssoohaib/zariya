@@ -8,7 +8,7 @@ import { useContext } from 'react';
 
 export default function UpdatePassword() {
     const { currentUser } = useContext(AuthContext); 
-    const [password, setPassword] = useState(''); // State to store the password
+    const [password, setPassword] = useState(''); 
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -19,17 +19,49 @@ export default function UpdatePassword() {
             setPasswordsMatch(false);
             return;
         }
-
+    
         console.log("Password:", password);
-
+    
         let payload = {
             userType: "recipient",
             id: currentUser._id,
             password: password,
-          };
-      
-        updatePassword({ ...payload });
+        };
+    
+        try {
+            await updatePassword({ ...payload });
+            Alert.alert(
+                "Success",
+                "Password updated successfully",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            setCurrentPassword('');
+                            setNewPassword('');
+                            setConfirmNewPassword('');
+                            setPasswordsMatch(true);
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        } catch (error) {
+            console.error("Error updating password:", error);
+            Alert.alert(
+                "Error",
+                "Failed to update password. Please try again later.",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {}
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
     };
+    
 
     const handleCancel = () => {
         setCurrentPassword('');

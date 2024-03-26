@@ -9,12 +9,12 @@ import {setDataForUpdate} from "../../utilities/RecipientFetches"
 export default function EditProfile() {
   const { currentUser } = useContext(AuthContext); 
   const [changes, setChanges] = useState({
-    email: '',
-    description: '',
-    phoneNumber: '',
-    location: '',
-    causes: [],
-    pictures: [],
+    email: currentUser.email || '',
+    description: currentUser.description || '',
+    phoneNumber: currentUser.contactNumber || '',
+    location: currentUser.city || '',
+    causes: currentUser.causes || [],
+    pictures: currentUser.causesImages || [],
   });
   const [emailError, setEmailError] = useState('');
   const [phoneNumberError, setPhoneNumberError] = useState('');
@@ -51,22 +51,51 @@ export default function EditProfile() {
       let payload = {
         userType: "recipient",
         id: currentUser._id,
-        email: email,
-        description: description,
-        contactNumber: phoneNumber,
-        city: location,
-        causes: causes,
-        causesImages: pictures,
       };
   
+      if (email.trim() !== '') {
+        payload.email = email;
+      }
+  
+      if (description.trim() !== '') {
+        payload.description = description;
+      }
+  
+      if (phoneNumber.trim() !== '') {
+        payload.contactNumber = phoneNumber;
+      }
+  
+      if (location.trim() !== '') {
+        payload.city = location;
+      }
+  
+      if (causes.length > 0) {
+        payload.causes = causes;
+      }
+  
+      if (pictures.length > 0) {
+        payload.causesImages = pictures;
+      }
+  
       setDataForUpdate({ ...payload });
+  
+      setChanges({
+        email: '',
+        description: '',
+        phoneNumber: '',
+        location: '',
+        causes: [],
+        pictures: [],
+      });
+
+      Alert.alert('Success', 'Profile updated successfully!');
     }
   };
   
   
   
+  
   useEffect(() => {
-    // Request permission to access the device's gallery
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
@@ -136,6 +165,7 @@ export default function EditProfile() {
         <TextInput
           style={[styles.input, emailError ? styles.errorInput : null]}
           placeholder="abc@gmail.com"
+          placeholderTextColor="#B2B0AF"
           value={email}
           onChangeText={(text) => setChanges({ ...changes, email: text })}
         />
@@ -146,6 +176,7 @@ export default function EditProfile() {
         <TextInput
           style={[styles.input, styles.multilineInput]}
           placeholder="Enter new description"
+          placeholderTextColor="#B2B0AF"
           value={description}
           onChangeText={(text) => setChanges({ ...changes, description: text })}
           multiline
@@ -156,6 +187,7 @@ export default function EditProfile() {
         <TextInput
           style={[styles.input, phoneNumberError ? styles.errorInput : null]}
           placeholder="+92 303 6547839"
+          placeholderTextColor="#B2B0AF"
           value={phoneNumber}
           onChangeText={(text) => setChanges({ ...changes, phoneNumber: text })}
           keyboardType="phone-pad"
@@ -167,6 +199,7 @@ export default function EditProfile() {
         <TextInput
           style={styles.input}
           placeholder="Lahore"
+          placeholderTextColor="#B2B0AF"
           value={location}
           onChangeText={(text) => setChanges({ ...changes, location: text })}
         />
@@ -177,6 +210,7 @@ export default function EditProfile() {
           <TextInput
             style={styles.input}
             placeholder="Add new cause"
+            placeholderTextColor="#B2B0AF"
             value={newCause}
             onChangeText={(text) => setNewCause(text)}
             onSubmitEditing={handleAddCause}
