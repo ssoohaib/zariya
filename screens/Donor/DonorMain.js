@@ -20,6 +20,7 @@ import Test from './Test';
 import DonationTimeLocationPicker from './DonationTimeLocationPicker';
 import SubscriptionScreen from './SubscriptionScreen';
 import DonorEditProfile from './DonorEditProfile';
+import {StripeProvider } from '@stripe/stripe-react-native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -99,37 +100,39 @@ export default function DonorMain() {
         <NavigationContainer>
           <StatusBar style='light' />
 
-          <Tab.Navigator 
-          screenOptions={{
-            headerShown:false,
-            tabBarActiveTintColor:colorPallete.mediumBlue,
-            tabBarStyle:{
-              borderTopLeftRadius:8,
-              borderTopRightRadius:8,
-              overflow:'hidden',
-            }
-          }}
-          sceneContainerStyle={{
-            backgroundColor:'white'
-          }}>
-          
-            <Tab.Screen name="Home" component={MyStack} options={{
-              tabBarIcon:({color, size})=><MaterialIcons name="home" color={color} size={size} />
-            }} />
-            <Tab.Screen name="Donor History" component={DonorHistoryScreen}  options={{
-              title:'History',
-              tabBarIcon:({color, size})=><MaterialIcons name="history" color={color} size={size} />
-            }} />
-            <Tab.Screen name="Donor Notification" component={DonorNotifactionStack}  options={{
-              title:'Notifications',
-              tabBarIcon:({color, size})=><MaterialIcons name="watch-later" color={color} size={size} />
-            }} />
-            <Tab.Screen name="Donor Profile" component={DonorProfileStack}  options={{
-              title:'Profile',
-              tabBarIcon:({color, size})=><MaterialIcons name="person" color={color} size={size} />
-            }} />
+          <StripeProvider publishableKey="pk_test_51OyhAI2MbSwFXy4ejobNGD74mmCoe2ZGSVLKBJsNtPLwRyRD68jbVdC2DCVHpxGV78SyleQbMy2jWYTT5hGliaS60000QNdgT2">
+            <Tab.Navigator 
+            screenOptions={{
+              headerShown:false,
+              tabBarActiveTintColor:colorPallete.mediumBlue,
+              tabBarStyle:{
+                borderTopLeftRadius:8,
+                borderTopRightRadius:8,
+                overflow:'hidden',
+              }
+            }}
+            sceneContainerStyle={{
+              backgroundColor:'white'
+            }}>
+            
+              <Tab.Screen name="Home" component={MyStack} options={{
+                tabBarIcon:({color, size})=><MaterialIcons name="home" color={color} size={size} />
+              }} />
+              <Tab.Screen name="Donor History" component={DonorHistoryScreen}  options={{
+                title:'History',
+                tabBarIcon:({color, size})=><MaterialIcons name="history" color={color} size={size} />
+              }} />
+              <Tab.Screen name="Donor Notification" component={DonorNotifactionStack}  options={{
+                title:'Notifications',
+                tabBarIcon:({color, size})=><MaterialIcons name="watch-later" color={color} size={size} />
+              }} />
+              <Tab.Screen name="Donor Profile" component={DonorProfileStack}  options={{
+                title:'Profile',
+                tabBarIcon:({color, size})=><MaterialIcons name="person" color={color} size={size} />
+              }} />
 
-          </Tab.Navigator>
+            </Tab.Navigator>
+          </StripeProvider>
         </NavigationContainer>
       }
     </>

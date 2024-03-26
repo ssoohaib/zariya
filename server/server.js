@@ -19,6 +19,7 @@ const PORT=5000;
         app.use('/',require('./Routes/GeneralRoutes'))
         app.use('/',require('./Routes/DonorRoutes'))
         app.use('/',require('./Routes/RecipientRoutes'))
+        app.use('/payments',require('./Routes/PaymentRoutes'))
         
         app.listen(PORT,()=>{console.log(`Port Active:${PORT}`)})
     }

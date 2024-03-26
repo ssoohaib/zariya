@@ -1,4 +1,4 @@
-import { Button, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Modal from "react-native-modal";
 import ColorPallete from "../constants/ColorPallete";
 import StateButton from './StateButton';
@@ -6,16 +6,17 @@ import { useState } from 'react';
 import IconButton from '../components/IconButton';
 import { useToast } from 'react-native-toast-notifications';
 import { MaterialIcons } from '@expo/vector-icons';
-
-
+import { onDonate } from '../utilities/PaymentFetches';
+import {useStripe} from '@stripe/stripe-react-native'
 
 export default function PaymentModal(props) {
   const [paymentType,setPaymentType]=useState('')
   const [duration,setDuration]=useState('')
   const [amount,setAmount]=useState(0)
-  const toast = useToast()
 
-  const [alertText,setAlertText]=useState('')
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+
+  const [isFormInValid,setIsFormInValid]=useState(false)
 
   const amountHandler=(amount)=>{
     setAmount(amount)
@@ -29,34 +30,56 @@ export default function PaymentModal(props) {
     setDuration(duration)
   }
 
-  const showToast = (text)=>{
-    toast.show(text,{
-      type:'warning'
-    })
+  const onDonateHandler = async ()=>{
+    if (!formValidation()){
+      setIsFormInValid(true)
+      return
+    }else{
+      setIsFormInValid(false)
+    }
+
+    const result = await onDonate(Math.floor(amount*100))
+
+    const { error: paymentSheetError } = await initPaymentSheet({
+		  merchantDisplayName: 'Example, Inc.',
+		  paymentIntentClientSecret: result.paymentIntent,
+		  defaultBillingDetails: {
+		    name: 'Jane Doe',
+		  },
+		});
+		if (paymentSheetError) {
+		  Alert.alert('Something went wrong', paymentSheetError.message);
+		  return;
+		}
+
+
+    const { error: paymentError } = await presentPaymentSheet();
+    if (paymentError) {
+      Alert.alert(`Error code: ${paymentError.code}`, paymentError.message);
+      return;
+    }
+
+    clearForm()
+    props.toggleModal()
   }
 
-  const validator = (screenName)=>{
-    let warn=[]
-    if (paymentType.length<1){
-      warn.push('Select Type ')
+  const formValidation = ()=>{
+    if (paymentType===''){
+      return false
     }
-    if (paymentType=='Subscription'){
-      if(duration.length<1){
-        warn.push('Choose Duration ')
-      }
+    if (paymentType==='Subscription' && duration===''){
+      return false
     }
-    if(amount<500){
-      warn.push('Min amount Rs. 500')
+    if (amount<500){
+      return false
     }
-    // console.log('>>>>',amount, typeof amount)
+    return true
+  }
 
-    if (warn.length<1){
-      props.toggleModal()
-      props.switchWithPayload("PaymentDetails",screenName)      
-      return
-    }
-
-    showToast(warn)
+  const clearForm = ()=>{
+    setPaymentType('')
+    setDuration('')
+    setAmount(0)
   }
 
   return (
@@ -156,6 +179,8 @@ export default function PaymentModal(props) {
           />
           <Text style={styles.indicator}>Min Rs. 500</Text>
 
+          {isFormInValid && <Text style={{color:'red'}}>Please fill the form correctly</Text>}
+
           <IconButton 
               title={'Master Card'} 
               icon={'arrow-right-thin'} 
@@ -163,7 +188,7 @@ export default function PaymentModal(props) {
               iconColor={colorPallete.screenBg}
               style={{flex:0,padding:8,marginTop:12,borderWidth:1,borderColor:colorPallete.darkBlue}}
               styleInner={{flexDirection:'row-reverse', justifyContent:'space-between'}}
-              validator={validator}
+              validator={onDonateHandler}
               validatorReturn={'Master Card'}
 
             />
@@ -174,7 +199,7 @@ export default function PaymentModal(props) {
               iconColor={colorPallete.screenBg}
               style={{flex:0,padding:8,marginTop:8,borderWidth:1,borderColor:colorPallete.darkBlue}}
               styleInner={{flexDirection:'row-reverse', justifyContent:'space-between'}}
-              validator={validator}
+              validator={onDonateHandler}
               validatorReturn={'Easypaisa'}
 
             />
@@ -185,7 +210,7 @@ export default function PaymentModal(props) {
               iconColor={colorPallete.screenBg}
               style={{flex:0,padding:8,marginTop:8,borderWidth:1,borderColor:colorPallete.darkBlue}}
               styleInner={{flexDirection:'row-reverse', justifyContent:'space-between'}}
-              validator={validator}
+              validator={onDonateHandler}
               validatorReturn={'Jazz Cash'}
 
             />

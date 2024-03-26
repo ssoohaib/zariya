@@ -12,6 +12,8 @@ export default function NgoDetailsScreen({navigation, route}) {
   const {allRecipients, currentUser, token, modifyCurrentUser} = useContext(AuthContext);
   const [selectedCauses, setSelectedCauses] = useState([]);
 
+  const [isCauseEmpty, setIsCauseEmpty] = useState(false)
+
   const [isModalVisible, setModalVisible] = useState(false);
   
   const selectedNgo = allRecipients.find(i=>i._id===route.params.id)
@@ -36,6 +38,13 @@ export default function NgoDetailsScreen({navigation, route}) {
   }
 
   const toggleModal = () => {
+    if (causesValidation()){
+      setIsCauseEmpty(true)
+      return
+    }else {
+      setIsCauseEmpty(false)
+    }
+    
     setModalVisible(!isModalVisible);
   };
 
@@ -47,6 +56,16 @@ export default function NgoDetailsScreen({navigation, route}) {
     navigation.navigate(screen,{
       paymentType:screenName
     })
+  }
+
+  const causesValidation = () =>{
+    if (selectedCauses.length === 0){
+      setIsCauseEmpty(true)
+      return true
+    }else {
+      setIsCauseEmpty(false)
+      return false
+    }
   }
 
   return (
@@ -92,10 +111,10 @@ export default function NgoDetailsScreen({navigation, route}) {
             label="Causes"
           />
         </View>
-
+        {isCauseEmpty && <Text style={{color:'red', marginBottom:8}}>Please select at least one cause</Text>}
         <Pressable onPress={toggleModal} style={styles.donateBtn}>
           <Text style={styles.donateBtnTitle}>Donate</Text>
-        </Pressable>
+        </Pressable>        
         <PaymentModal isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
 
       </View>
