@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { FlatList, StyleSheet, Text, View, ScrollView, Image, Pressable } from 'react-native';
 import ImageButton from '../../components/ImageButton';
 import ColorPallete from "../../constants/ColorPallete";
 import { useNavigation } from '@react-navigation/native';
@@ -9,11 +9,11 @@ import { TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { getAllUsers } from '../../utilities/AuthFetches';
-
-
+import {getPendingDonationsCity} from '../../utilities/RecipientFetches'
+import { MaterialIcons } from '@expo/vector-icons';
 
 function RecipientHome() {
-    const { currentUser, allDonors } = useContext(AuthContext);
+    const { currentUser, allDonors, token, pendingDonations, setPendingDonationsHandler } = useContext(AuthContext);
     //console.log(currentUser)
     const { title, email, contactNumber, donationsReceived, subscribedUsers, causesImages } = currentUser;
     const [donationsCount, setDonationsCount] = useState(0);
@@ -24,6 +24,28 @@ function RecipientHome() {
     const [selectedFilter, setSelectedFilter] = useState(null);
     const [isModalVisible, setModalVisible] = useState(false);
     const [filteredRequests, setFilteredRequests] = useState(allDonors); 
+
+    const [trigger, setTrigger]=useState(true)
+
+    useEffect(()=>{
+        const fetchPending= async ()=>{
+            console.log('lol')
+
+            const result = await getPendingDonationsCity(token, currentUser.city)
+            console.log(result)
+            setPendingDonationsHandler(result.donations)
+        }
+
+        fetchPending()
+    },[trigger])
+
+    const triggerHandler=()=>{
+    if (trigger)
+        setTrigger(false)
+    else
+        setTrigger(true)
+    }
+
 
     useEffect(() => {
         setDonationsCount(donationsReceived.length);
@@ -77,15 +99,22 @@ function RecipientHome() {
     // console.log(currentUser.causesImages)
 
     const renderFlatList = (itemData) => {
+        if (!itemData)
+            return
+
+        // console.log('---',itemData.item.donationCategory)
+
         return (
             <RecipientCard
-                id={itemData.item.id}
-                name={itemData.item.name}
+                id={itemData.item._id}
+                name={itemData.item.donorName}
+                items={itemData.item.donation.items}
                 //onPress={donationDetail}
-                desc={itemData.item.desc}
-                time={itemData.item.time}
-                category={itemData.item.category}
-                imageUrl={itemData.item.images[0]}
+                desc={"I am under the water"}
+                from={itemData.item.donation.from.slice(0,10)+" ("+itemData.item.donation.from.slice(12,16)+")"}
+                till={itemData.item.donation.till.slice(0,10)+" ("+itemData.item.donation.till.slice(12,16)+")"}
+                category={itemData.item.donationCategory}
+                imageUrl={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHGFfFW95kN-Nxp86JMQWShP3bZ3Wgkgcya9BiYY0a5g&s'}
             />
         )
     }
@@ -114,7 +143,7 @@ function RecipientHome() {
                         </View>
                     </View>
                 </View>
-                <View style={styles.buttonContainer}>
+                <View style={[styles.buttonContainer]}>
                     <View style={styles.incomingView}>
                         <Text style={styles.buttonsText}>Incoming Requests</Text>
                         <Text style={styles.dataText}>{pendingRequestsCount}</Text>
@@ -134,6 +163,9 @@ function RecipientHome() {
                         <Ionicons name="options" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
+                <Pressable style={{alignItems:"center", marginBottom:8}} onPress={triggerHandler}>
+                    <MaterialIcons name="refresh" size={24} color="black" />
+                </Pressable>
 
                 {/* Modal for filtering options */}
                 {isModalVisible && (
@@ -169,10 +201,10 @@ function RecipientHome() {
                 )}
 
                 {/* Render requests or "No current requests" image and text */}
-                {filteredRequests && filteredRequests.length > 0 ? (
+                {pendingDonations && pendingDonations.length > 0 ? (
                     <FlatList
-                        data={filteredRequests}
-                        keyExtractor={(item) => item.id}
+                        data={pendingDonations}
+                        keyExtractor={(item) => item._id}
                         renderItem={renderFlatList}
                         contentContainerStyle={styles.flatListContentContainer}
                     />
@@ -341,21 +373,23 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         height: 100,
-        width: '100%',
-        marginTop: 15,
-        marginBottom: 10,
+        // width: '100%',
+        marginTop: 16,
+        marginBottom: 16,
         flexDirection: 'row',
-        justifyContent: 'center',
+        // justifyContent: 'center',
     },
     requestHeading: {
         marginBottom: 5,
         fontWeight: 'bold',
         fontSize: 20,
         color: ColorPallete.mediumBlue,
-        marginLeft: 10,
+        // marginLeft: 10,
     },
     headingView: {
         flexDirection: 'row',
+        // borderWidth:  1,
+
     },
     filter: {
         marginLeft: 270,

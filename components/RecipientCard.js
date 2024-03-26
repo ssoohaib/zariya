@@ -9,7 +9,10 @@ function RecipientCard(props) {
     const navigation = useNavigation();
 
     const handleAccept = () => {
-        navigation.navigate('DonationsList');
+        navigation.navigate('DonationsList',{
+            items:props.items,
+            category:props.category,
+        });
     };
 
     return (
@@ -22,17 +25,39 @@ function RecipientCard(props) {
                             <View style={styles.nameTimeDescContainer}>
                                 <View style={styles.nameTimeContainer}>
                                     <Text style={styles.name}>{props.name}</Text>
-                                    <Text style={styles.time}>{props.time}</Text>
+                                    <View>
+                                        {
+                                            props.items.map((item, index) => {
+                                                return (
+                                                    <Text key={index} style={styles.desc}>{item.title}</Text>
+                                                );
+                                            })
+                                        }
+                                    </View>
+                                    
                                 </View>
                                 <Text style={styles.category}>{props.category}</Text>
                             </View>
                         </View>
                     </View>
-                    <View style={styles.btnContainer}>
-                        <View style={styles.call}>
-                            <Ionicons name='call' size={20} color={ColorPallete.darkBlue} />
+                    <View style={{paddingHorizontal:8, marginTop:8, flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
+                        
+                        <View>
+                            <View>
+                                <Text style={{fontWeight:'bold'}}>From</Text>
+                                <Text style={styles.time}>{props.from}</Text>
+                            </View>
+                            <View>
+                                <Text style={{fontWeight:'bold'}}>Till</Text>
+                                <Text style={styles.time}>{props.till}</Text>
+                            </View>
                         </View>
-                        <AcceptDonationBtn onPress={handleAccept}>Accept</AcceptDonationBtn>
+                        <View style={styles.btnContainer}>
+                            <View style={styles.call}>
+                                <Ionicons name='call' size={20} color={ColorPallete.darkBlue} />
+                            </View>
+                            <AcceptDonationBtn onPress={handleAccept}>Accept</AcceptDonationBtn>
+                        </View>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -50,7 +75,8 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     innerContainer: {
-       margin: 10,
+        padding:8
+    //    margin: 10,
     },
     image: {
         width: 60,
@@ -61,18 +87,19 @@ const styles = StyleSheet.create({
     titleContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        paddingRight:16,
     },
     nameTimeDescContainer: {
         flexDirection: 'column',
+        // alignItems:"space-between",
+        flex:1,
         marginLeft: 10,
+        // borderWidth:1
     },
     nameTimeContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-    },
-    nameTimeContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'space-between',
     },
     name: {
         fontSize: 18,
@@ -80,31 +107,32 @@ const styles = StyleSheet.create({
     },
     time: {
         fontWeight: '400',
-        marginLeft: 180, 
+        // marginLeft: 180, 
     },
     category: {
         fontWeight: '400',
         //marginTop: 2,
     },
     desc: {
-        fontSize: 12,
-        lineHeight: 15,
-        marginTop: 5,
-        fontWeight: '200',
+        fontSize: 14,
+        // lineHeight: 15,
+        marginTop: 4,
+        fontWeight: "bold",
         //marginBottom: 5,
     },
     btnContainer: {
         flexDirection: 'row',
-        //marginTop: 5,
-        //alignItems: 'center', 
-        marginLeft: 100,
+        marginTop: 6,
+        // justifyContent:"center",
+        // alignItems: 'center', 
+        // marginLeft: 100,
     },
     call: {
         borderRadius: 5,
         backgroundColor: ColorPallete.lightBlue,
-        marginRight: 10, 
+        marginRight: 8, 
         padding: 8, 
-        marginLeft: 150,
+        // marginLeft: 150,
     },
     btn: {
         borderRadius: 8,

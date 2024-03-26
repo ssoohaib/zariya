@@ -9,31 +9,33 @@ export default function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useState(null);
   const [AUTHCHECKENABLED, setAUTHCHECKENABLED] = useState(false);
+  const [pendingDonations, setPendingDonations]=useState([])
 
   const modifyCurrentUser = (user) => {
     setCurrentUser(user);
   };
 
   const setCurrentUserAndToken = (user, token) => {
-    // console.log("setting current user and token");
     setCurrentUser(user);
     setToken(token);
   };
 
   const setAllDonorsHandler = (donors) => {
-    // console.log("setting all donors", donors);
     setAllDonors(donors);
   };
 
   const setAllRecipientsHandler = (recipients) => {
-    // console.log("setting all recipients", recipients);
     setAllRecipients(recipients);
   }
 
   const setAllUsersHandler = (users) => {
-    // console.log("setting all users", users);
     setAllUsers(users);
   };
+
+  const setPendingDonationsHandler = (pendingDonations)=>{
+    console.log("Setting Pending")
+    setPendingDonations(pendingDonations)
+  }
 
   return (
     <AuthContext.Provider
@@ -44,11 +46,13 @@ export default function AuthContextProvider({ children }) {
         allUsers,
         allDonors,
         allRecipients,
+        pendingDonations,
         setCurrentUserAndToken,
         setAllUsersHandler,
         setAllDonorsHandler,
         setAllRecipientsHandler,
-        modifyCurrentUser
+        modifyCurrentUser,
+        setPendingDonationsHandler
       }}
     >
       {children}

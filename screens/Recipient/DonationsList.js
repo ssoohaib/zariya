@@ -7,17 +7,25 @@ import ColorPallete from '../../constants/ColorPallete';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'; 
 
-function DonationsList(props) {
+function DonationsList({ route }) {
     const navigation = useNavigation(); 
 
-    const renderDonationCard = ({ item }) => (
-        <DonationCard
-            id={item.id}
-            food={item.food}
-            desc={item.desc}
-            imageUrl={item.images[0]}
-        />
-    );
+    const renderDonationCard = (item) => {
+        if(!item)
+            return
+        
+            // console.log(route.params.category)
+        
+        return (
+            <DonationCard
+                id={item.item.title}
+                title={item.item.title}
+                item={item.item}
+                category={route.params.category}
+                // desc={'item.description'}
+                imageUrl={'https://banner2.cleanpng.com/20180524/oct/kisspng-computer-icons-n-a-clip-art-not-vector-5b071412f17ef2.9578675815271905469892.jpg'}
+            />
+    )};
 
     const goBackToRecipientHome = () => {
         navigation.goBack();
@@ -38,7 +46,7 @@ function DonationsList(props) {
             <View style={styles.innerContainer}>
                 <View style={styles.listContainer}>
                     <FlatList
-                        data={DonationList}
+                        data={route.params.items}
                         keyExtractor={(item) => item.id}
                         renderItem={renderDonationCard}
                     />

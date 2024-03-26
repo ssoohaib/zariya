@@ -11,6 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Platform } from "react-native";
 import ImagePickerComp from "../../components/ImagePickerComp";
 import Cart from "../../components/Cart";
+// import { set } from "mongoose";
 
 export default function DonationEnterScreen({navigation, route}) {
 
@@ -35,6 +36,9 @@ export default function DonationEnterScreen({navigation, route}) {
     const [medicineType,setMedicineType]=useState('')
 
     const [images, setImages] = useState([]);
+
+    const [isFormValid, setIsFormValid]=useState(true)
+    const [isCartEmpty, setIsCartEmpty]=useState(false)
 
     const category=route.params.donationCategory
     useEffect(()=>{
@@ -90,6 +94,13 @@ export default function DonationEnterScreen({navigation, route}) {
                 images:images,
             }
         }
+
+        if (!formValidator()){
+            setIsFormValid(false)
+            return
+        }else{
+            setIsFormValid(true)
+        }
         setItems(prev=>[...prev,obj])
         console.log(items.length)
         clearForm()
@@ -108,6 +119,30 @@ export default function DonationEnterScreen({navigation, route}) {
         setMedicineExp(new Date())
         setRationQuantity(0)
         setImages([])
+    }
+
+    const formValidator = ()=>{
+        if (category=='Food'){
+            if (title=='' || mealType=='' || servings==0 || images.length==0){
+                return false
+            }
+        }
+        if (category=='Clothes'){
+            if (title=='' || clothesSeason=='' || clothesGender=='' || clothesSize=='' || clothesQuality==0 || images.length==0){
+                return false
+            }
+        }
+        if (category=='Medicine'){
+            if (title=='' || medicineType=='' || medicineQuantity==0 || images.length==0){
+                return false
+            }
+        }
+        if (category=='Ration'){
+            if (title=='' || rationQuantity==0 || images.length==0){
+                return false
+            }
+        }
+        return true
     }
 
     const removeItem = (id)=>{
@@ -137,6 +172,12 @@ export default function DonationEnterScreen({navigation, route}) {
     };
 
     const switchScreen = ()=>{
+        if (items.length==0){
+            setIsCartEmpty(true)
+            return
+        }else{
+            setIsCartEmpty(false)
+        }
         navigation.navigate('DonationTimeLocationPicker', {
             items:items,
             category:category
@@ -327,6 +368,9 @@ export default function DonationEnterScreen({navigation, route}) {
                 />
             </View>
         }
+        {!isFormValid && <Text style={{color:"red", marginBottom:4}}>Please fill in all the fields.</Text>}
+        {isCartEmpty && <Text style={{color:"red", marginBottom:4}}>Please add some items before continuing.</Text>}
+
         <View style={styles.btnContainer}>
             <View>
                 <Pressable onPress={addItem}>

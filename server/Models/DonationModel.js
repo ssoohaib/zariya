@@ -9,6 +9,23 @@ const DonationSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    ngoEmail:{
+        type:String,
+        required:true
+    },
+    ngoContactNumber:{
+        type:String,
+        required:true
+    },
+
+    donorEmail:{
+        type:String,
+        required:true
+    },
+    donorContactNumber:{
+        type:String,
+        required:true
+    },
     donorId:{
         type:String,
         required:true
@@ -29,24 +46,16 @@ const DonationSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    city:{
+        type:String,
+        required:true
+    },
     donationDate:{
         type:Date,
         default:Date.now
     },
     donation:{
         type:Object,
-        required:true
-    },
-    city:{
-        type:String,
-        required:true
-    },
-    contactNumber:{
-        type:String,
-        required:true
-    },
-    email:{
-        type:String,
         required:true
     },
 })

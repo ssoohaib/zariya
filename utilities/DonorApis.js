@@ -1,5 +1,27 @@
 import MyIP from '../ip';
 
+export const getPendingDonations = async (token, userId) =>{
+    try {
+        const url = `http://${MyIP}:5000/`
+        
+        const result = await fetch(url + 'get-donations/donor/'+userId, {
+            method: 'GET',
+            headers:{
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!result.ok) {
+            throw new Error('Could not fetch all users');
+        }
+
+        const data = await result.json();
+        return data;
+    }catch(err){
+        console.log(err)
+    }
+}
+
 export const toggleFav = async (token, userId, ngoId) => {
     try {
         const url = `http://${MyIP}:5000/fav-ngo/${userId}/${ngoId}`

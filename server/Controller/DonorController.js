@@ -2,9 +2,9 @@ const UserModel=require('../Models/UserModel')
 const DonationModel=require('../Models/DonationModel')
 const bcrypt = require('bcrypt');
 
-async function getDonations(req,res){
+async function getDonationsNgo(req,res){
     console.log('------------------------')
-    console.log(`[GET] -> /get-donations/${req.params.city}`)
+    console.log(`[GET] -> /get-donations/ngo/${req.params.city}`)
 
     const city=req.params.city
 
@@ -12,6 +12,19 @@ async function getDonations(req,res){
         const donations = await DonationModel.find({ city: city, donationStatus:"Pending"});
         if (donations.length === 0) 
             return res.status(404).json({ message: 'No donations found' });
+        return res.status(200).json({ donations });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+async function getDonationsDonor(req,res){
+    console.log('------------------------')
+    console.log(`[GET] -> /get-donations/donor/${req.params.donorId}`)
+
+    try {
+        const donations = await DonationModel.find({ donorId:req.params.donorId});        
         return res.status(200).json({ donations });
     } catch (error) {
         console.error(error);
@@ -103,7 +116,12 @@ async function makeDonation(req,res){
     console.log(`[POST] -> /post-nonmon-donation/${req.params.donorId}`)
 
     const donorId=req.params.donorId
-    const donation=req.body
+    const donation=JSON.parse(req.body.payload)
+    const images = req.files;
+
+    // console.log(donation)
+    // console.log(images)
+    // return
 
     try {
        await UserModel.updateOne(
@@ -219,6 +237,7 @@ module.exports={
     activateSubscription,
     updateInfo,
     makeDonation,
-    getDonations,
+    getDonationsNgo,
+    getDonationsDonor,
     acceptDonation
 }

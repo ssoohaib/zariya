@@ -2,13 +2,17 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import date from 'date-and-time';
 import ColorPallete from "../../constants/ColorPallete";
 import { SelectList } from 'react-native-dropdown-select-list'
+import { AuthContext } from "../../context/AuthContext"
+import MyIp from "../../ip";
+
 
 
 export default function DonationTimeLocationPicker({route, navigation}) {
+    const {currentUser, token}=useContext(AuthContext)
     const [city, setCity] = useState("");
 
     const [fromTimeVisible, setFromTimeVisible]=useState(false)
@@ -33,28 +37,61 @@ export default function DonationTimeLocationPicker({route, navigation}) {
         setTillDate(currentDate);
     };
 
-    const handlePostDonation = () => {
-        // console.log(route.params.items)
+    const handlePostDonation = async () => {
         const category = route.params.category
-        let donation={}
-
-        if (category=='Food') {
-            donation={
-                id:Math.random(0,10000),
-                ngoId:"",
-                ngoName:"",
-                donationCategory:category,
-                donationStatus:"Pending",
-                donationDate:date.format(new Date(), 'YYYY/MM/DD HH:mm:ss'),
-                donation:{
-                    from:fromDate,
-                    till:tillDate,
-                    items:route.params.items,
-                }
-                
-            }
-            console.log(JSON.stringify(donation, null,1))
+        let donation={
+            ngoId:"N/A",
+            ngoName:"N/A",
+            ngoEmail:"N/A",
+            ngoContactNumber:"N/A",
+            donorEmail:currentUser.email,
+            donorContactNumber:currentUser.contactNumber || "N/A",
+            donorId:currentUser._id,
+            donorName:currentUser.firstName + ' '+ currentUser.lastName,
+            donorDp:"N/A",
+            donationCategory:category,
+            donationStatus:"Pending",
+            city:currentUser.city,
+            donationDate:date.format(new Date(), 'YYYY/MM/DD HH:mm:ss'),
+            donation:{
+                from:fromDate,
+                till:tillDate,
+                items:route.params.items,
+            }   
         }
+
+        const formData = new FormData();
+        formData.append('payload', JSON.stringify(donation));
+        
+        route.params.items.forEach((item, index) => {
+            formData.append('images', {
+              uri: item.images[index],
+              // type: image.type,
+              name: 'items-' + currentUser.email + index +(Math.floor(Math.random() * 10000) + 1) + '.jpg',
+            });
+        });
+        
+        // console.log(JSON.stringify(donation, null,1))
+
+        await fetch(`http://${MyIp}:5000/make-donation/${currentUser._id}`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            navigation.navigate('DonorHome')
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+
+        navigation.goBack()
+        navigation.goBack()
     }
 
   return (
@@ -63,7 +100,7 @@ export default function DonationTimeLocationPicker({route, navigation}) {
             <Text style={styles.title}>Location</Text>
             <SelectList 
                 setSelected={(val) => setCity(val)} 
-                data={['Multan', 'Lahore','Islamabad']} 
+                data={['Multan', 'Lahore','Islamabad', 'Karachi']} 
                 save="value"
                 search={false}
                 placeholder="Select City"
