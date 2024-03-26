@@ -25,6 +25,10 @@ const DonationSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    donationStatus:{
+        type:String,
+        required:true
+    },
     donationDate:{
         type:Date,
         default:Date.now
@@ -32,7 +36,19 @@ const DonationSchema=new mongoose.Schema({
     donation:{
         type:Object,
         required:true
-    }
+    },
+    city:{
+        type:String,
+        required:true
+    },
+    contactNumber:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true
+    },
 })
 
 module.exports=mongoose.model('Donation',DonationSchema)

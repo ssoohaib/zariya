@@ -2,6 +2,69 @@ const UserModel=require('../Models/UserModel')
 const DonationModel=require('../Models/DonationModel')
 const bcrypt = require('bcrypt');
 
+async function getDonations(req,res){
+    console.log('------------------------')
+    console.log(`[GET] -> /get-donations/${req.params.city}`)
+
+    const city=req.params.city
+
+    try {
+        const donations = await DonationModel.find({ city: city, donationStatus:"Pending"});
+        if (donations.length === 0) 
+            return res.status(404).json({ message: 'No donations found' });
+        return res.status(200).json({ donations });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+async function acceptDonation(req,res){
+    console.log('------------------------')
+    console.log(`[PUT] -> /accept-donation`)
+
+    const donation=req.body
+    let updatedDoc={}
+
+    try {
+        await DonationModel.updateOne(
+            { _id: donation.donationId },
+            { $set: { ngoId:donation.ngoId, ngoName:donation.ngoName, donationStatus: 'Accepted' } },
+            { new: true },
+            (err, updatedDocument) => {
+                if (err) {
+                    updatedDoc=updatedDocument
+                    console.error(err);
+                } else {
+                    console.log(updatedDocument);
+                }
+            }
+        )
+
+        const result = await DonationModel.findOne({ _id: donation.donationId });
+
+        console.log(result)
+
+        await UserModel.updateOne(
+            { _id: donation.ngoId },
+            { $push: { donationsReceived: result } },
+            { new: true },
+            (err, updatedDocument) => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log(updatedDocument);
+                }
+            }
+        )
+
+        return res.status(200).json({ message: 'Donation accepted successfully' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 async function updateInfo(req,res){
     console.log('------------------------')
     console.log(`[PUT] -> /update-info/${req.params.donorId}`)
@@ -155,5 +218,7 @@ module.exports={
     deactivateSubscription,
     activateSubscription,
     updateInfo,
-    makeDonation
+    makeDonation,
+    getDonations,
+    acceptDonation
 }
