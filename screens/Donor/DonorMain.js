@@ -11,10 +11,7 @@ import DonorHistoryScreen from "./DonorHistoryScreen";
 import DonorNotificationScreen from "./DonorNotifcationScreen";
 import DonorProfileScreen from "./DonorProfileScreen";
 import NotificationDeatilsScreen from "./NotificationDeatilsScreen";
-import EditProfileScreen from "../ProfileScreens/EditProfile";
-import UpdatePasswordScreen from "../ProfileScreens/UpdatePassword";
 import AnalyticsAndReportsScreen from "../ProfileScreens/AnalyticsAndReports";
-import VerificationScreen from "../ProfileScreens/Verification";
 import PrivacyAndTermsScreen from "../ProfileScreens/PrivacyAndTerms";
 import DonationEnterScreen from './DonationEnterScreen';
 import { AuthContext } from '../../context/AuthContext';
@@ -22,6 +19,7 @@ import { useContext } from 'react';
 import Test from './Test';
 import DonationTimeLocationPicker from './DonationTimeLocationPicker';
 import SubscriptionScreen from './SubscriptionScreen';
+import DonorEditProfile from './DonorEditProfile';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,10 +80,9 @@ function DonorProfileStack() {
       }
     }}>
       <Stack.Screen name="ProfileScreen" component={DonorProfileScreen} options={{headerShown:false}}  />
-      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{headerTitle:"Edit"}}/>
+      <Stack.Screen name="EditProfile" component={DonorEditProfile} options={{headerTitle:"Edit"}}/>
       <Stack.Screen name="SubscriptionScreen" component={SubscriptionScreen} options={{headerTitle:"Subscriptions"}}/>
       <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReportsScreen} options={{headerTitle:"Analytics & Reports"}}/>
-      {/* <Stack.Screen name="Verification" component={VerificationScreen} /> */}
       <Stack.Screen name="PrivacyAndTerms" component={PrivacyAndTermsScreen} options={{headerTitle:"Privacy & Terms"}}/>
       
       
