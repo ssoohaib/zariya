@@ -4,6 +4,6 @@ const {toggleFreeze}=require('../Controller/AdminController')
 const {authMiddleware}=require('../Middleware/AuthMiddleware')
 
 
-router.put("/toggle-freeze/:userId", authMiddleware, toggleFreeze)
+router.put("/toggle-freeze/:userId", toggleFreeze)
 
 module.exports = router;
