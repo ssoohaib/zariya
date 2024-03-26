@@ -1,70 +1,99 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
 import NotFound from '../../components/NotFound';
 import ColorPallete from '../../constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
-import HistoryCard from '../../components/HistoryCard';
+import RecHistoryCard from '../../components/RecHistoryCard'
+import { Ionicons } from '@expo/vector-icons';;
 import { HISTORY } from '../../dummy_data/dummy_data';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
-export default function DonorHistoryScreen({navigation}) {
+export default function RecipientHistory({ navigation }) {
 
-  const switchScreen = (screen)=>{
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser)
+
+  const switchScreen = (screen) => {
     navigation.navigate(screen)
   }
 
-  const renderHistory = itemData => (
-    <HistoryCard
-      id={itemData.item.id}
-      title={itemData.item.title}
-      puid={itemData.item.puid}
-      date={itemData.item.date}
-      donationType={itemData.item.donationType}
-      status={itemData.item.status}
-    />
-    )
+  const renderHistory = itemData => {
+    if (!currentUser)
+      return
 
-    return (
-      <>
-        {
-          HISTORY.length < 1 ?
-          <NotFound
-            title={'No History Found'}
-            desc={"Make some donations to see your history. All your donations will arrive here."}
-            btnTitle={'Back to Home'}
-            btnFunctions={switchScreen}
-            screen={"Home"}
-            btnTitleStyle={{fontSize:15,fontWeight:'bold'}}
-          />
-          :
-          <View style={styles.container}>
-            <StatusBar style='dark' />
+
+    if (itemData.item.donationStatus === 'Complete') {
+      let title = itemData.item.donationCategory === "Monetary" ?
+        "Money"
+        :
+        itemData.item.donationCategory
+
+      title += " received from " + itemData.item.donorName
+
+      return (
+        <RecHistoryCard
+          id={itemData.item.id}
+          category={itemData.item.donationCategory}
+          title={title}
+          status={itemData.item.donationStatus}
+          date={itemData.item.donationDate}
+          donation={itemData.item.donation}
+        />
+      )
+    }
+  }
+
+  return (
+    <>
+      {
+        currentUser &&
+        <View style={styles.container}>
+          <StatusBar style='dark' />
+          <View style={styles.backButton}>
+            <Pressable onPress={() => navigation.goBack()}>
+              <Ionicons name="chevron-back" size={26} color="#453953" />
+            </Pressable>
             <Text style={styles.subtitle}>History</Text>
+          </View>
+          <View style={styles.listContainer}>
             <FlatList
-              data={HISTORY}
-              keyExtractor={i=>i.id}
+              data={currentUser.donationsReceived}
+              keyExtractor={i => i.id}
               renderItem={renderHistory}
               showsVerticalScrollIndicator={false}
-            />         
+            />
           </View>
-        }
-      </>
+        </View>
+      }
+    </>
 
-      
-    );
+
+  );
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:ColorPallete.screenBg,
-    paddingHorizontal:16,
-    paddingTop:48,
+  container: {
+    flex: 1,
+    backgroundColor: ColorPallete.screenBg,
+    paddingHorizontal: 16,
+    paddingTop: 48,
 
   },
-  subtitle:{
-    fontSize:18,
-    fontWeight:'bold',
-    marginBottom:16,
+  subtitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 16,
 
   },
-    
+  backButton: {
+    position: 'absolute',
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginTop: 70,
+    zIndex: 1,
+  },
+  listContainer: {
+    marginTop: 70,
+  },
+
 });
