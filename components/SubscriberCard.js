@@ -1,21 +1,39 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react';
 import ColorPallete from '../constants/ColorPallete';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import SubscriberDetailModal from './SubscriberDetailModal';
+import { useState } from "react";
+
+
 
 function SubscriberCard(props) {
+
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    }
+
     return (
-        <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Image source={{ uri: props.imageUrl }} style={styles.image} />
-                <View style={styles.textContainer}>
-                    <Text style={styles.name}>{props.name}</Text>
-                    <View style={styles.amountContainer}>
-                        <Text style={styles.amount}>{props.amount}</Text>
-                        <Text style={styles.type}>/{props.type}</Text>
+        <>
+            <Pressable onPress={toggleModal}>
+                <View style={styles.container}>
+                    <View style={styles.imageContainer}>
+                        <Image source={require('../../zariya/assets/images/user2.png')} style={styles.image} />
+                        <View style={styles.textContainer}>
+                            <Text style={styles.name}>{props.name}</Text>
+                            <View style={styles.amountContainer}>
+                                <Text style={styles.amount}>{props.amount}</Text>
+                                <Text style={styles.type}>/{props.duration}</Text>
+                            </View>
+                        </View>
                     </View>
                 </View>
-            </View>
-        </View>
+            </Pressable>
+            <SubscriberDetailModal id={props.id} isModalVisible={isModalVisible} toggleModal={toggleModal} />
+        </>
     );
 }
 

@@ -304,6 +304,8 @@ export const Subscriber = [
             ],
             amount: '10000',
             type: 'Yearly',
+            payment: 'Jazzcash', 
+            causes: ['Elderly', 'Blind', 'Orphans']
         },
         {
             id: '0002',
@@ -315,6 +317,8 @@ export const Subscriber = [
             ],
             amount: '5000',
             type: 'Monthly',
+            payment: 'Jazzcash',
+            causes: ['Elderly', 'Blind', 'Orphans']
         },
         {
             id: '0003',
@@ -326,6 +330,8 @@ export const Subscriber = [
             ],
             amount: '500',
             type: 'Weekly',
+            payment: 'Jazzcash',
+            causes: ['Elderly', 'Blind', 'Orphans']
         },
         {
             id: '0004',
@@ -337,6 +343,8 @@ export const Subscriber = [
             ],
             amount: '800000',
             type: 'Yearly',
+            payment: 'Jazzcash',
+            causes: ['Elderly', 'Blind', 'Orphans']
         },
 
 ]

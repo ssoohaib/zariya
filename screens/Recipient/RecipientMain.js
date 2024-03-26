@@ -26,6 +26,7 @@ import Feedback from '../../components/Feedback';
 import { AuthContext } from '../../context/AuthContext';
 import DonationsList from './DonationsList';
 import Subscribers from './Subscribers';
+import SubscriberDetail from './SubscriberDetail';
 
 
 
@@ -46,6 +47,7 @@ function MyStack() {
       <Stack.Screen name="Congratulations" component={Congratulations} options={{headerShown:false}}  />
       <Stack.Screen name="DonationsList" component={DonationsList} options={{headerShown:false}} />
       <Stack.Screen name="Subscribers" component={Subscribers} options={{headerShown:false}} />
+      <Stack.Screen name="SubscriberDetail" component={SubscriberDetail} options={{headerShown:false}} />
     </Stack.Navigator>
   );
 }

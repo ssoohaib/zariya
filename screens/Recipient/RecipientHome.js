@@ -3,19 +3,50 @@ import ImageButton from '../../components/ImageButton';
 import ColorPallete from "../../constants/ColorPallete";
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import RecipientCard from '../../components/RecipientCard';
 import { TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { getAllUsers } from '../../utilities/AuthFetches';
 
 
 
 function RecipientHome() {
     const { currentUser, allDonors } = useContext(AuthContext);
+    //console.log(currentUser)
+    const { title, email, contactNumber, donationsReceived, subscribedUsers, causesImages } = currentUser;
+    const [donationsCount, setDonationsCount] = useState(0);
+    const [subscribedNgosCount, setSubscribedNgosCount] = useState(0);
+    const [pendingRequestsCount, setPendingRequestsCount] = useState(0);
+    const [completedRequestsCount, setCompletedRequestsCount] = useState(0);
+    const [totalDonations, setTotalDonations] = useState(0);
     const [selectedFilter, setSelectedFilter] = useState(null);
     const [isModalVisible, setModalVisible] = useState(false);
-    const [filteredRequests, setFilteredRequests] = useState(allDonors); // Default to all requests
+    const [filteredRequests, setFilteredRequests] = useState(allDonors); 
+
+    useEffect(() => {
+        setDonationsCount(donationsReceived.length);
+        setSubscribedNgosCount(subscribedUsers.length);
+        let pendingCount = 0;
+        let completedCount = 0;
+        let totalAmount = 0; 
+        donationsReceived.forEach(donation => {
+            if (donation.donation && donation.donation.amount) {
+                totalAmount += donation.donation.amount;
+            }
+            if (donation.donationStatus === 'Pending') {
+                pendingCount++;
+            } else if (donation.donationStatus === 'Complete') {
+                completedCount++;
+            }
+        });
+
+        setPendingRequestsCount(pendingCount);
+        setCompletedRequestsCount(completedCount);
+        setTotalDonations(totalAmount); 
+    }, [donationsReceived, subscribedUsers]);
+
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
@@ -63,7 +94,7 @@ function RecipientHome() {
             <View style={styles.headerContainer}>
                 <View style={styles.headerUpper}>
                     <View>
-                        <Text style={styles.amount}>PKR. 79,865.40</Text>
+                        <Text style={styles.amount}>PKR. {totalDonations.toFixed(2)}</Text>
                         <Text style={styles.headerText}>Donations Received</Text>
                     </View>
                     <View style={styles.userContainer}>
@@ -82,15 +113,15 @@ function RecipientHome() {
             <View style={styles.buttonContainer}>
                 <View style={styles.incomingView}>
                     <Text style={styles.buttonsText}>Incoming Requests</Text>
-                    <Text style={styles.dataText}>57</Text>
+                    <Text style={styles.dataText}>{pendingRequestsCount}</Text>
                 </View>
                 <View style={styles.addressedView}>
                     <Text style={styles.addresedText}>Addressed Requests</Text>
-                    <Text style={styles.addressedData}>143</Text>
+                    <Text style={styles.addressedData}>{completedRequestsCount}</Text>
                 </View>
                 <TouchableOpacity onPress={goToSubscribers} style={styles.subscriptionView}>
                     <Text style={styles.buttonsText}>Subscribers</Text>
-                    <Text style={styles.dataText}>7</Text>
+                    <Text style={styles.dataText}>{subscribedNgosCount}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.headingView}>
