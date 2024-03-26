@@ -1,8 +1,33 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import IconButton from './IconButton'
 import ColorPallete from '../constants/ColorPallete'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import {toggleFav} from '../utilities/DonorApis'
+
 
 export default function NgoCard(props) {
+    const {currentUser, modifyCurrentUser, token} = useContext(AuthContext);
+
+    const handleToggleFav = async ()=>{
+
+        const isFav=currentUser.favouriteNgos.find(id=>id===props.id)
+        if (isFav){
+            const newFavList=currentUser.favouriteNgos.filter(id=>id!==props.id)
+            modifyCurrentUser({
+                ...currentUser,
+                favouriteNgos:newFavList
+            })
+            
+        }else{
+            modifyCurrentUser({
+                ...currentUser,
+                favouriteNgos:[...currentUser.favouriteNgos, props.id]
+            })
+        }
+        const result = await toggleFav(token, currentUser._id, props.id)
+
+    }
 
   return (
     <View style={[styles.container, props.containerStyle]}>
@@ -10,29 +35,17 @@ export default function NgoCard(props) {
             <View style={styles.innerContainer}>
                 <Image style={[styles.image, props.imageStyle]} source={{uri:props.imageUrl}}/>
                 <View style={styles.infoContainer}>
-                    <Text style={styles.title}>{props.title}</Text>
+                    <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
+                        <Text style={styles.title}>{props.title}</Text>
+                        <Pressable onPress={handleToggleFav} style={[styles.favContainer, props.imageStyle && {top:-150}]}>
+                        {
+                            props.isFav === true ? 
+                            <MaterialCommunityIcons name={'star'} size={16} color={ColorPallete.mediumBlue} />
+                            :<MaterialCommunityIcons name={'star-outline'} size={16} color={ColorPallete.mediumBlue} />
+                        }
+                        </Pressable>
+                    </View>
                     <Text style={styles.desc}>{props.desc.slice(0,props.descLength)}...</Text>
-                    {/* { */}
-                        {/* !props.imageStyle && */}
-                        <View style={styles.btnContainer}>
-                            <View style={[styles.favContainer, props.imageStyle && {top:-210, left:190}]}>
-                                <IconButton 
-                                    icon={'star-outline'} 
-                                    // bgColor={ColorPallete.lightBlue} 
-                                    iconColor={ColorPallete.mediumBlue}
-                                    style={{flex:0}}
-                                    size={18}
-                                />
-                            </View>
-                            {/* <IconButton 
-                                title={'Donate'} 
-                                bgColor={ColorPallete.mediumBlue} 
-                                iconColor={ColorPallete.screenBg}
-                                style={{flex:1,}}
-                                textStyle={{fontSize:18}}
-                            /> */}
-                        </View>
-                    {/* } */}
                 </View>
             </View>
         </Pressable>
@@ -80,18 +93,22 @@ const styles=StyleSheet.create({
         
     },
     btnContainer:{
-        flexDirection:'row',
-        justifyContent:'space-between',
         alignItems:'center',
-        marginTop:12,
+        borderRadius:100,
 
     },
     favContainer:{
         backgroundColor:ColorPallete.screenBg,
-        borderRadius:'100%',
-        position:'absolute',
-        top:-275,
-        left:292,
+        borderRadius:100,
+        overflow:'hidden',
+        padding:4,
+        position:'relative',
+        top:-200
+        // position:'absolute',
+        // top:-270,
+        // left:330,
+        // top:-275,
+        // left:292,
         
     }
 })

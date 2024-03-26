@@ -74,6 +74,7 @@ function RecipientHome() {
         navigation.navigate(screen)
     }
 
+    // console.log(currentUser.causesImages)
 
     const renderFlatList = (itemData) => {
         return (

@@ -13,6 +13,7 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import SignUpR from "./SignUpR";
 import SignUpRDetails from "./SignUpRDetails";
+import OnHold from "./OnHold";
 
 const Stack = createNativeStackNavigator();
 const StackSplash = createNativeStackNavigator();
@@ -69,6 +70,7 @@ export default function AuthenticationMain() {
               <Stack.Screen name="SignUpRDetails" component={SignUpRDetails}/>
               <Stack.Screen name="Verification" component={Verification}  options={{animationEnabled:false}} />
               <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+              <Stack.Screen name="OnHold" component={OnHold} />
             </Stack.Navigator>
           </NavigationContainer>
         ))}

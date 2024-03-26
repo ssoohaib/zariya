@@ -3,15 +3,11 @@ import IconButton from '../../components/IconButton';
 import NgoCard from '../../components/NgoCard';
 import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
-import InputBar from '../../components/InputBar';
-import { NGOS } from '../../dummy_data/dummy_data';
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 
 export default function HomeScreen({navigation}) {
-  const {currentUser, allDonors} = useContext(AuthContext);
-
-  // console.log('--()-',allDonors.length)
+  const {currentUser, allRecipients} = useContext(AuthContext);
 
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
@@ -29,28 +25,14 @@ export default function HomeScreen({navigation}) {
     })
   }
 
-  const renderFlatList = (itemData) =>{
-    return(
-      <NgoCard 
-        id={itemData.item.id}
-        title={itemData.item.title}
-        onPress={ngoScreenHandler}
-        desc={itemData.item.description}
-        imageUrl={itemData.item.causesImages[0]}
-        descLength={68}
-
-      />
-    )
-  }
-
   const renderFavNgoFlatList = (itemData) =>{
-    if (!allDonors)
+    if (!allRecipients)
       return
 
-    const ngo = allDonors.find(ngo=>ngo.id===itemData.item)
+    const ngo = allRecipients.find(ngo=>ngo._id===itemData.item)
     return (
       <NgoCard 
-        id={ngo.id}
+        id={ngo._id}
         title={ngo.title}
         onPress={ngoScreenHandler}
         desc={ngo.description}
@@ -58,9 +40,25 @@ export default function HomeScreen({navigation}) {
         containerStyle={{height:240, width:240, marginRight:8, marginBottom:-16}}
         imageStyle={{height:150}}
         descLength={30}
+        isFav={true}
       />     
     )
-    
+  }
+
+  const renderFlatList = (itemData) =>{
+    const isFav = currentUser.favouriteNgos.find(id=>id===itemData.item._id) ? true : false
+
+    return(
+      <NgoCard 
+        id={itemData.item._id}
+        title={itemData.item.title}
+        onPress={ngoScreenHandler}
+        desc={itemData.item.description}
+        imageUrl={itemData.item.causesImages[0]}
+        descLength={68}
+        isFav={isFav}
+      />
+    )
   }
 
     return (
@@ -69,26 +67,13 @@ export default function HomeScreen({navigation}) {
           <View style={styles.headerUpper}>
             <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
             <View style={styles.userContainer}>
-              {/* <View style={styles.userTextContainer}>
-                <Text style={styles.userGreet}>Hi,</Text>
-                <Text style={styles.userName}>{currentUser.firstName}</Text>
-              </View> */}
               <ImageButton
                 style={styles.userImage}
                 onPress={switchScreenHandler}
                 screen={'Donor Profile'}
               />
             </View>
-          </View>
-          {/* <View style={styles.lowerHeader}>
-            <InputBar 
-              placeHolder={'Search NGOs, Causes'}
-              bgColor={colorPallete.mediumBlue}
-              icon={'magnify'}
-              iconColor={'white'}
-
-            />
-          </View> */}
+          </View> 
         </View>
         <View style={styles.categoryContainer}>
           <Text style={styles.subtitle}>Donate</Text>
@@ -163,8 +148,8 @@ export default function HomeScreen({navigation}) {
           </View>
           <View style={styles.ngoListContainer}>
             <FlatList
-              data={allDonors}
-              keyExtractor={(item)=>item.id}
+              data={allRecipients}
+              keyExtractor={(item)=>item._id}
               renderItem={renderFlatList}
             />
           </View>

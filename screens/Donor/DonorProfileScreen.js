@@ -1,5 +1,4 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import IconButton from '../../components/IconButton';
 import ColorPallete from '../../constants/ColorPallete';
 import { StatusBar } from 'expo-status-bar';
 import PressableOption from '../../components/PressableOption';
@@ -28,8 +27,8 @@ export default function DonorProfileScreen({navigation}) {
           </View>
           <View style={styles.topRight}>
             <Text style={styles.userName}>{currentUser.firstName} {currentUser.lastName}</Text>
-            <Text style={styles.subTitle}>{currentUser.city} Pakistan</Text>
-            <Text style={styles.subTitle}>{currentUser.contactNumber && currentUser.contactNumber.slice(0,4)} {currentUser.contactNumber && currentUser.contactNumber.slice(4)}</Text>
+            <Text style={styles.subTitle}>{currentUser.city || 'City'}, Pakistan</Text>
+            <Text style={styles.subTitle}>{currentUser.contactNumber || 'Phone'}</Text>
           </View>
         </View>
         <View style={styles.bottom}>          
@@ -41,11 +40,11 @@ export default function DonorProfileScreen({navigation}) {
             screen={'EditProfile'}
           />
           <PressableOption 
-            title={'Update Password'}
-            leftIcon={"lock"}
+            title={'Subscriptions'}
+            leftIcon={"subscriptions"}
             rightIcon={"keyboard-arrow-right"}
             onPress={switchScreen}
-            screen={'UpdatePassword'}
+            screen={'SubscriptionScreen'}
           />
           <PressableOption 
             title={'Analytics & Reports'}
@@ -54,13 +53,13 @@ export default function DonorProfileScreen({navigation}) {
             onPress={switchScreen}
             screen={'AnalyticsAndReports'}
           />
-          <PressableOption 
+          {/* <PressableOption 
             title={'Verification'}
             leftIcon={"verified"}
             rightIcon={"keyboard-arrow-right"}
             onPress={switchScreen}
             screen={'Verification'}
-          />
+          /> */}
           <PressableOption 
             title={'Privacy & Terms'}
             leftIcon={"privacy-tip"}

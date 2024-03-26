@@ -25,7 +25,7 @@ export default function SignIn({ navigation }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { AUTHCHECKENABLED, setCurrentUserAndToken, setAllDonorsHandler } = useContext(AuthContext);
+  const { AUTHCHECKENABLED, setCurrentUserAndToken, setAllDonorsHandler, setAllRecipientsHandler } = useContext(AuthContext);
 
   const modeHandler = (mode) => {
     toggleModal();
@@ -75,10 +75,19 @@ export default function SignIn({ navigation }) {
     }
     handleLoading();
     const result = await signIn(email, password);
+
+    console.log(`[SignIn] -> ${JSON.stringify(result)}`)
+
+    if (result.user && result.user.recipientApproval === true){
+      navigation.navigate('OnHold');
+      return;
+    }
+
     setCurrentUserAndToken(result.user, result.token);
     console.log(`[SignIn] -> ${result.user.email} - ${result.user.id}`)
 
     const allDonors = await getAllNgos(result.token, result.user.id);
+    setAllRecipientsHandler(allDonors);
     setAllDonorsHandler(allDonors);
     console.log(`[SignIn] -> ${allDonors.length} donors fetched`)
 

@@ -14,13 +14,13 @@ export default function ImagePickerComp(props) {
           quality: 1,
         });
         if (!result.canceled) {
-            console.log(result.assets[0])
+            // console.log(result.assets[0])
             props.setter(prev=>[...prev,result.assets[0].uri])
         }
     };
 
     const deleteImage = (index) => {
-        console.log(index)
+        // console.log(index)
         // return
         let newImages = props.images.filter((item, i)=>i!==index)
         props.setter(newImages)

@@ -2,11 +2,46 @@ const UserModel=require('../Models/UserModel')
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../utils/jwt');
 const uid=require('uid')
+const path = require('path');
+const fs = require('fs').promises;
+
+async function signUpDonor(req,res){
+    console.log('------------------------')
+    console.log("POST - /signupd")
+
+    const payload=req.body
+    const hashedPassword = await bcrypt.hash(payload.password, 10);
+
+    const tempUser={
+        id:uid.uid(11),
+        userType:payload.userType,
+        email:payload.email,
+        password:hashedPassword,
+        firstName:payload.firstName,
+        lastName:payload.lastName,
+    }
+
+    const user= new UserModel(tempUser)
+
+    try{
+        await user.save()
+        res.status(200).send({message:`User Created(${payload.userType}): ${tempUser.email}`})
+    }catch (error){
+        console.error(error)
+        res.status(500).send({error:'Email Already In Use'})
+    }
+}
 
 async function signUpUser(req,res){
     console.log('------------------------')
     console.log("POST - /signup")
-    const payload=req.body
+    const payload=JSON.parse(req.body.payload)
+    console.log(req.files)
+
+    const causesImages  = req.files.filter(file=>file.filename.slice(0,3)=='cau')
+    const verificationImages  = req.files.filter(file=>file.filename.slice(0,3)=='ver')
+    const logo = req.files.filter(file=>file.filename.slice(0,3)=='log')
+
     let tempUser={}
 
     const hashedPassword = await bcrypt.hash(payload.password, 10);
@@ -28,9 +63,13 @@ async function signUpUser(req,res){
             password:hashedPassword,
             title:payload.title,
             description:payload.description,
+            city:payload.city,
             causes:payload.causes,
-            verificationImages:payload.verificationImages,
-            causesImages:payload.causesImages,
+            recipientApproval:payload.recipientApproval,
+
+            causesImages:causesImages,
+            verificationImages:verificationImages,
+            logo:logo
         }
     }
     
@@ -62,11 +101,63 @@ async function signInUser(req,res){
                 const token=generateToken(user.id)
                 console.log(`${user.userType}: ${user.email}`)
                 console.log(`Token: ...${token.slice(-10)}`)
-                res.status(200).send({
-                    token:token,
-                    user:user
-                })
-            }else{
+
+                // if (user.userType === 'recipient') {
+                //     const imageData=[]
+                //     if (!(user.causesImages.length === 0 || user.verificationImages.length === 0 || user.logo.length === 0)) {
+                //     for (const image of user.causesImages) {
+                //         const imagePath = path.join(__dirname, '../public/uploads/', image.filename);
+                //         // console.log(imagePath)
+                //         const data = await fs.readFile(imagePath, 'binary');
+                //         // console.log(data.toString('base64'))
+                //         imageData.push({
+                //         filename: image.filename,
+                //         mimeType: image.mimetype,
+                //         data: data.toString('base64')
+                //         });
+                //     }
+                //     for (const image of user.verificationImages) {
+                //         const imagePath = path.join(__dirname, '../public/uploads/', image.filename);
+                //         // console.log(imagePath)
+                //         const data = await fs.readFile(imagePath, 'binary');
+                //         // console.log(data.toString('base64'))
+                //         imageData.push({
+                //         filename: image.filename,
+                //         mimeType: image.mimetype,
+                //         data: data.toString('base64')
+                //         });
+                //     }
+                //     for (const image of user.logo) {
+                //         const imagePath = path.join(__dirname, '../public/uploads/', image.filename);
+                //         // console.log(imagePath)
+                //         const data = await fs.readFile(imagePath, 'binary');
+                //         // console.log(data.toString('base64'))
+                //         imageData.push({
+                //         filename: image.filename,
+                //         mimeType: image.mimetype,
+                //         data: data.toString('base64')
+                //         });
+                //     }
+                //     res.status(200).send({
+                //         token:token,
+                //         user:user,
+                //         allImages:imageData
+                //     })
+                // }
+                // else{
+                //     res.status(200).send({
+                //         token:token,
+                //         user:user
+                //     })
+                // }
+                // }else
+                    res.status(200).send({
+                        token:token,
+                        user:user
+                    })
+
+            }
+            else{
                 res.status(404).send({error:'Incorrect Password'})
             }
         }else{
@@ -92,5 +183,6 @@ async function signOutUser(req,res){
 module.exports={
     signUpUser,
     signInUser,
-    signOutUser
+    signOutUser,
+    signUpDonor
 }

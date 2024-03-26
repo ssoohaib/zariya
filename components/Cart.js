@@ -6,9 +6,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function Cart(props) {
 
     const itemCard = (itemData)=>{
-
         return(
-            <Pressable>
+            <Pressable onPress={()=>props.onPress(itemData.index)}>
                 <View style={styles.cardContainer}>
                     <View style={styles.cardUp}>
                         <Pressable style={styles.delBtn} onPress={()=>props.removeItem(itemData.item.id)}>

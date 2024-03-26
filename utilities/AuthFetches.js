@@ -5,7 +5,6 @@ export const signIn = async (email, password) => {
     console.log("signing in", email, password)
     
     try {
-        // const url = Platform.OS === 'android' ? 'http://192.168.18.75:5000/' : 'http://192.168.18.75:5000/';
         const url = `http://${MyIP}:5000/`
 
         const response = await fetch(url + 'signin', {
@@ -31,11 +30,10 @@ export const signIn = async (email, password) => {
     }
 }
 
-export const signUp = ({email, password, firstName, lastName, userType, title, description, causes, verificationImages, causesImages}) => {
-    // const url = Platform.OS=='android'? 'http://10.0.2.2:5000/':'http://192.168.56.1:5000/' 
+export const signUp = async ({email, password, firstName, lastName, userType, title, description, city, causes, verificationImages, causesImages}) => {
     const url = `http://${MyIP}:5000/`
     
-    fetch(url+'signup',{
+    await fetch(url+'signupd',{
         method:'POST',
         headers:{
             'Content-Type':'application/json'
@@ -56,6 +54,7 @@ export const signUp = ({email, password, firstName, lastName, userType, title, d
                 password:password,
                 title:title,
                 description:description,
+                city:city,
                 causes:causes,
                 verificationImages:verificationImages,
                 causesImages:causesImages,
@@ -74,7 +73,6 @@ export const signUp = ({email, password, firstName, lastName, userType, title, d
 export const signOut = (bearerTokenToBlacklist) => {
     console.log("signing out - token", bearerTokenToBlacklist)
     try{
-        // const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';
         const url = `http://${MyIP}:5000/`
 
         fetch(url+'signout',{
@@ -98,7 +96,6 @@ export const signOut = (bearerTokenToBlacklist) => {
 
 export const getAllUsers = async (token) => {
     try {
-        // const url = Platform.OS === 'android' ? 'http://10.0.2.2:5000/' : 'http://192.168.56.1:5000/';
         const url = `http://${MyIP}:5000/`
         
         const result = await fetch(url + 'all-users', {

@@ -52,6 +52,10 @@ const UserSchema=new mongoose.Schema({
         type:Array,
         required:false
     },
+    profilePhoto:{
+        type:String,
+        required:false
+    },
 
     
     title: {
@@ -90,6 +94,10 @@ const UserSchema=new mongoose.Schema({
     ngoPaymentMenthods:{
         type:Array,
         required:false
+    },
+    logo:{
+        type: Array,
+        required: false,
     }
 })
 

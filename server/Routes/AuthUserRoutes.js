@@ -1,13 +1,67 @@
 const express = require("express");
 const router = express.Router();
-const {signUpUser, signInUser, signOutUser}=require('../Controller/AuthUserController')
+const {signUpUser, signInUser, signOutUser, signUpDonor}=require('../Controller/AuthUserController')
 const {authMiddleware}=require('../Middleware/AuthMiddleware')
 const fetch = require("node-fetch");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
+var uploadDirectory = './public/uploads';
+if (!fs.existsSync(uploadDirectory)) {
+  fs.mkdirSync(uploadDirectory);
+}
 
-router.post("/signup", signUpUser)
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, uploadDirectory);
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+router.post("/signup", upload.array('images',6), signUpUser)
+router.post("/signupd", signUpDonor)
 router.post("/signin", signInUser)
 router.get("/signout", signOutUser)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.get("/protected", authMiddleware, (req,res)=>{
     res.send({userId:req.userId})

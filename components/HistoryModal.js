@@ -24,7 +24,9 @@ export default function HistoryModal(props) {
 
   const selectedHistory = currentUser.donationsMade.find(
     (i) => i.id == props.id
-  );
+  )
+
+  const currentCategory=selectedHistory.donationCategory
 
   let icon = "";
   let desc = "";
@@ -45,12 +47,67 @@ export default function HistoryModal(props) {
     desc = "Amount: ";
   }
 
+  const renderFlatListItems = (itemData) => {
+
+    return(
+      <View style={{ width:140, justifyContent:'center', padding: 8, marginRight:8, borderWidth:1, borderRadius:8, borderStyle:"dashed"}}>
+        <View style={styles.row}>
+          <Text style={styles.c1}>Item</Text>
+          <Text style={styles.c2}>{itemData.item.title.slice(0,8)}</Text>
+        </View>
+        {
+          currentCategory==="Food" && 
+          <>
+            <View style={styles.row}>
+              <Text style={styles.c1}>Type</Text>
+              <Text style={styles.c2}>{itemData.item.type}</Text>
+            </View>
+            <View style={[styles.row, {marginBottom:0}]}>
+              <Text style={styles.c1}>Serv</Text>
+              <Text style={styles.c2}>{itemData.item.servings}</Text>
+            </View>
+          </>
+        }
+        {
+          currentCategory==="Clothes" &&
+          <>
+            <View style={styles.row}>
+              <Text style={styles.c1}>Size</Text>
+              <Text style={styles.c2}>{itemData.item.size}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.c1}>Gender</Text>
+              <Text style={styles.c2}>{itemData.item.gender}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.c1}>Quantity</Text>
+              <Text style={styles.c2}>{itemData.item.quantity}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.c1}>Season</Text>
+              <Text style={styles.c2}>{itemData.item.season}</Text>
+            </View>
+          </>
+        }
+        {
+          currentCategory==="Ration" &&
+          <View style={[styles.row, {marginBottom:0}]}>
+            <Text style={styles.c1}>Quantity</Text>
+            <Text style={styles.c2}>{itemData.item.quantity}</Text>
+          </View>
+        }
+      </View>  
+    )
+  }
+
   return (
     <Modal
       isVisible={props.isModalVisible}
       style={styles.modalContainer}
       onBackdropPress={props.toggleModal}
     >
+      
+      {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <MaterialCommunityIcons
@@ -59,7 +116,6 @@ export default function HistoryModal(props) {
             color={ColorPallete.screenBg}
           />
         </View>
-        {/* <Text style={styles.headerText}>lol</Text> */}
         <View style={styles.headerRight}>
           <Pressable onPress={props.toggleModal}>
             <MaterialIcons
@@ -71,17 +127,14 @@ export default function HistoryModal(props) {
         </View>
       </View>
 
+      {/* Title */}
       <Text style={styles.title}>
-        {selectedHistory.donationCategory +
-          " donated to " +
-          selectedHistory.ngoName}
+        {selectedHistory.donationCategory === "Monetary"? "Money" : selectedHistory.donationCategory}
+          {" donated to "}
+        {selectedHistory.ngoName}
       </Text>
 
-      {/* <View style={styles.row}>
-        <Text style={styles.c1}>Category</Text>
-        <Text style={styles.c2}>{selectedHistory.donationCategory}</Text>
-      </View> */}
-
+      {/* Monetary Details */}
       {selectedHistory.donationCategory === "Monetary" && (
         <>
           <View style={styles.row}>
@@ -104,7 +157,9 @@ export default function HistoryModal(props) {
             <Text style={styles.c1}>Medium</Text>
             <Text style={styles.c2}>{selectedHistory.donation.paidThrough}</Text>
           </View>
-          <Text style={{textAlign:"right"}}>-------------------------</Text>
+          <View style={{alignItems:'flex-end', marginTop:8, marginBottom:16}}>
+            <View style={{width:150, borderWidth:1, borderStyle:'dashed', borderColor:ColorPallete.mediumBlue}}></View>
+          </View>
           <View style={styles.row}>
             <Text style={styles.c1}>Causes</Text>
             <Text style={styles.c2}>{selectedHistory.donation.causes.map(i=>' '+i)}</Text>
@@ -112,24 +167,46 @@ export default function HistoryModal(props) {
         </>
       )}
 
+      {
+        selectedHistory.donationCategory !== "Monetary" &&
+        <View style={{marginBottom:8, alignItems:'center'}}>
+          <FlatList 
+            data={selectedHistory.donation.items}
+            keyExtractor={i=>i.title}
+            horizontal={true}
+            renderItem={renderFlatListItems}
+          />
+        </View>
+      }
+
+      {/* Common */}
       <View style={styles.row}>
         <Text style={styles.c1}>Status</Text>
         <Text style={styles.c2}>{selectedHistory.donationStatus}</Text>
       </View>
-      <Text style={styles.date}>{selectedHistory.donationDate.slice(0,10)}</Text>
+
+
+      {/* Dates */}
+      {
+        selectedHistory.donationCategory === "Monetary"?
+          <View style={styles.row}>
+            <Text style={styles.c1}>Date</Text>
+            <Text style={styles.c2}>{selectedHistory.donationDate.slice(0,10)}</Text>
+          </View>
+          :
+          <>
+          <View style={styles.row}>
+            <Text style={styles.c1}>From</Text>
+            <Text style={styles.c2}>{selectedHistory.donation.from.slice(0,10)}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.c1}>Till</Text>
+            <Text style={styles.c2}>{selectedHistory.donation.from.slice(0,10)}</Text>
+          </View>
+          </>
+      }
+
       <View style={styles.btn}>
-        <ImprovButton
-          icon={"delete"}
-          iconColor={ColorPallete.screenBg}
-          style={{
-            backgroundColor: ColorPallete.mediumBlue,
-            // borderWidth:1,
-            marginRight: 8,
-            borderRadius:8,
-            borderColor: "red",
-            padding: 11,
-          }}
-        />
         <ImprovButton
           title={"Donate Again"}
           container={{ flex: 1}}
@@ -174,7 +251,6 @@ const styles = StyleSheet.create({
     color: ColorPallete.mediumBlue,
     textAlign: "center",
   },
-  headerRight: {},
   title: {
     fontSize: 18,
     fontWeight: "bold",
