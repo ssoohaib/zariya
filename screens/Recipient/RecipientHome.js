@@ -92,93 +92,97 @@ function RecipientHome() {
 
     return (
         <View>
-            <View style={styles.headerContainer}>
-                <View style={styles.headerUpper}>
-                    <View>
-                        <Text style={styles.amount}>PKR. {totalDonations.toFixed(2)}</Text>
-                        <Text style={styles.headerText}>Donations Received</Text>
+
+            {currentUser && <>
+
+                <View style={styles.headerContainer}>
+                    <View style={styles.headerUpper}>
+                        <View>
+                            <Text style={styles.amount}>PKR. {totalDonations.toFixed(2)}</Text>
+                            <Text style={styles.headerText}>Donations Received</Text>
+                        </View>
+                        <View style={styles.userContainer}>
+                            <View style={styles.userTextContainer}>
+                                <Text style={styles.userGreet}>Welcome,</Text>
+                                <Text style={styles.userName}>{currentUser.title}</Text>
+                            </View>
+                            <ImageButton
+                                style={styles.userImage}
+                                onPress={switchScreenHandler}
+                                screen={'Profile'}
+                            />
+                        </View>
                     </View>
-                    <View style={styles.userContainer}>
-                        <View style={styles.userTextContainer}>
-                            <Text style={styles.userGreet}>Welcome,</Text>
-                            <Text style={styles.userName}>{currentUser.title}</Text>
-                        </View>
-                        <ImageButton
-                            style={styles.userImage}
-                            onPress={switchScreenHandler}
-                            screen={'Profile'}
-                        />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <View style={styles.incomingView}>
+                        <Text style={styles.buttonsText}>Incoming Requests</Text>
+                        <Text style={styles.dataText}>{pendingRequestsCount}</Text>
                     </View>
+                    <View style={styles.addressedView}>
+                        <Text style={styles.addresedText}>Addressed Requests</Text>
+                        <Text style={styles.addressedData}>{completedRequestsCount}</Text>
+                    </View>
+                    <TouchableOpacity onPress={goToSubscribers} style={styles.subscriptionView}>
+                        <Text style={styles.buttonsText}>Subscribers</Text>
+                        <Text style={styles.dataText}>{subscribedNgosCount}</Text>
+                    </TouchableOpacity>
                 </View>
-            </View>
-            <View style={styles.buttonContainer}>
-                <View style={styles.incomingView}>
-                    <Text style={styles.buttonsText}>Incoming Requests</Text>
-                    <Text style={styles.dataText}>{pendingRequestsCount}</Text>
-                </View>
-                <View style={styles.addressedView}>
-                    <Text style={styles.addresedText}>Addressed Requests</Text>
-                    <Text style={styles.addressedData}>{completedRequestsCount}</Text>
-                </View>
-                <TouchableOpacity onPress={goToSubscribers} style={styles.subscriptionView}>
-                    <Text style={styles.buttonsText}>Subscribers</Text>
-                    <Text style={styles.dataText}>{subscribedNgosCount}</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.headingView}>
-                <Text style={styles.requestHeading}>Requests</Text>
-                <TouchableOpacity onPress={toggleModal} style={styles.filter}>
-                    <Ionicons name="options" size={24} color="black" />
-                </TouchableOpacity>
-            </View>
-
-            {/* Modal for filtering options */}
-            {isModalVisible && (
-                <View style={styles.modalContainer}>
-                    <TouchableOpacity onPress={() => handleFilterOption('All')} style={styles.optionContainer}>
-                        <View style={styles.option}>
-                            <Text style={styles.optionText}>All</Text>
-                        </View>
+                <View style={styles.headingView}>
+                    <Text style={styles.requestHeading}>Requests</Text>
+                    <TouchableOpacity onPress={toggleModal} style={styles.filter}>
+                        <Ionicons name="options" size={24} color="black" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleFilterOption('Clothes')} style={styles.optionContainer}>
-                        <View style={styles.option}>
-                            <Text style={styles.optionText}>Clothes</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleFilterOption('Ration')} style={styles.optionContainer}>
-                        <View style={styles.option}>
-                            <Text style={styles.optionText}>Ration</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleFilterOption('Medicine')} style={styles.optionContainer}>
-                        <View style={styles.option}>
-                            <Text style={styles.optionText}>Medicine</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleFilterOption('Food')} style={styles.optionContainer}>
-                        <View style={styles.option}>
-                            <Text style={styles.optionText}>Food</Text>
-                        </View>
-                    </TouchableOpacity>
-
                 </View>
 
-            )}
+                {/* Modal for filtering options */}
+                {isModalVisible && (
+                    <View style={styles.modalContainer}>
+                        <TouchableOpacity onPress={() => handleFilterOption('All')} style={styles.optionContainer}>
+                            <View style={styles.option}>
+                                <Text style={styles.optionText}>All</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleFilterOption('Clothes')} style={styles.optionContainer}>
+                            <View style={styles.option}>
+                                <Text style={styles.optionText}>Clothes</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleFilterOption('Ration')} style={styles.optionContainer}>
+                            <View style={styles.option}>
+                                <Text style={styles.optionText}>Ration</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleFilterOption('Medicine')} style={styles.optionContainer}>
+                            <View style={styles.option}>
+                                <Text style={styles.optionText}>Medicine</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleFilterOption('Food')} style={styles.optionContainer}>
+                            <View style={styles.option}>
+                                <Text style={styles.optionText}>Food</Text>
+                            </View>
+                        </TouchableOpacity>
 
-            {/* Render requests or "No current requests" image and text */}
-            {filteredRequests && filteredRequests.length > 0 ? (
-                <FlatList
-                    data={filteredRequests}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderFlatList}
-                    contentContainerStyle={styles.flatListContentContainer}
-                />
-            ) : (
-                <View style={styles.noRequestsContainer}>
-                    <Image source={require('../../assets/images/no-data.png')} style={styles.noRequestsImage} />
-                    <Text style={styles.noRequestsText}>No current requests</Text>
-                </View>
-            )}
+                    </View>
+
+                )}
+
+                {/* Render requests or "No current requests" image and text */}
+                {filteredRequests && filteredRequests.length > 0 ? (
+                    <FlatList
+                        data={filteredRequests}
+                        keyExtractor={(item) => item.id}
+                        renderItem={renderFlatList}
+                        contentContainerStyle={styles.flatListContentContainer}
+                    />
+                ) : (
+                    <View style={styles.noRequestsContainer}>
+                        <Image source={require('../../assets/images/no-data.png')} style={styles.noRequestsImage} />
+                        <Text style={styles.noRequestsText}>No current requests</Text>
+                    </View>
+                )}
+            </>}
 
 
         </View>
