@@ -8,7 +8,7 @@ function RecipientCard({id, onPress, title, email, causesImages, recipientApprov
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
-                            <Image style={styles.image} source={{ uri: logo }} />
+                            <Image style={styles.image} source={{ uri: causesImages }} />
                             <View style={styles.nameTimeDescContainer}>
                                 <View style={styles.nameContainer}>
                                     <Text style={styles.name}>{title}</Text>

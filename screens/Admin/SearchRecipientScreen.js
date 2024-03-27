@@ -30,7 +30,7 @@ export default function SearchRecipientScreen({ navigation }) {
             title={itemData.item.title}
             email={itemData.item.email}
             contactNumber={itemData.item.contactNumber}
-            // causesImages={itemData.item.causesImages[0]}
+            causesImages={itemData.item.causesImages[0]}
             recipientApproval={itemData.item.recipientApproval}
             donationsReceived={itemData.item.donationsReceived}
             onPress={cardNavigationHandler}

@@ -7,6 +7,14 @@ import ColorPallete from "../constants/ColorPallete";
 export default function SubedUsersCard(props) {
   const { id, donorName, causes, date, amount, duration, subscriptionStatus} = props;
 
+  const renderCauses = () => {
+    return causes.map((cause, index) => (
+      <Text key={index} style={styles.plaintext}>
+        {cause}{index !== causes.length - 1 ? ', ' : ''}
+      </Text>
+    ));
+  };
+  
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -17,7 +25,9 @@ export default function SubedUsersCard(props) {
       <View style={styles.row}>
         <MaterialIcons name="view-list" size={24} color="black" style={styles.icon} />
         <Text style={styles.text}>Causes: </Text>
-        <Text style={styles.plaintext}>{causes} </Text>
+        <View style={styles.causesContainer}>
+          {renderCauses()}
+        </View>
       </View>
       <View style={styles.row}>
         <MaterialCommunityIcons name="calendar" size={24} color="black" style={styles.icon} />

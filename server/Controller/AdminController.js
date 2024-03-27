@@ -1,8 +1,8 @@
 const UserModel = require('../Models/UserModel');
 
 async function toggleFreeze(req, res) {
-    console.log('------------------------');
-    console.log('PUT - /toggle-freeze/:userId');
+    // console.log('------------------------');
+    // console.log('PUT - /toggle-freeze/:userId');
 
     const userId = req.params.userId;
 
@@ -21,6 +21,27 @@ async function toggleFreeze(req, res) {
     }
 }
 
+
+async function toggleFreeze(req, res) {
+    console.log('------------------------');
+    console.log('PUT - /toggle-freeze/:userId');
+
+    const userId = req.params.userId;
+
+    try {
+        const user = await UserModel.findOne({ _id: userId });
+        if (user.recipientApproval===false){
+            user.recipientApproval=true;
+
+        }
+        await user.save();
+        res.status(200).send({ message: `User ${user.email} isFrozen: ${user.activationStatus}` });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'User Not Found' });
+    }
+}
+
 module.exports = {
-    toggleFreeze,
+    toggleFreeze
 };

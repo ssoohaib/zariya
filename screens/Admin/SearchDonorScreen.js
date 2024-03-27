@@ -15,7 +15,7 @@ export default function SearchDonorScreen({ navigation }) {
   }
 
   const cardNavigationHandler =(id)=>{
-    console.log('-----',id)
+    // console.log('-----',id)
     navigation.navigate("AdminDonorScreen",{
       id:id
     })

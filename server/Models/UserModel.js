@@ -79,6 +79,11 @@ const UserSchema=new mongoose.Schema({
         default:false,
         required:false
     },
+    activationStatus:{
+        type:Boolean,
+        default:false,
+        required:false
+    },
     donationsReceived:{
         type:Array,
         required:false

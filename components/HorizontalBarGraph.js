@@ -7,7 +7,7 @@ const HorizontalBarGraph = ({ data, labels, maxValue }) => {
   if (isNaN(maxValue) || maxValue <= 0) {
     return null; // Return null or handle the case appropriately
   }
-  const barWidthUnit = 200 / maxValue; 
+  const barWidthUnit = 150 / maxValue; 
 
   return (
     <View style={styles.container}>

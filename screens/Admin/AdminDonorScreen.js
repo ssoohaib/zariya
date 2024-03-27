@@ -9,7 +9,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { MaterialIcons } from '@expo/vector-icons';
 import HorizontalBarGraph from '../../components/HorizontalBarGraph'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import toggleFreeze from '../../server/Controller/AdminController'
+import {toggleFreeze} from '../../utilities/AdminApis'
 
 
 export default function AdminDonorScreen({ route }) {
@@ -85,7 +85,8 @@ export default function AdminDonorScreen({ route }) {
           {
             text: 'Yes',
             onPress: () => {
-              setFreezeAccount(false);
+              setFreezeAccount(true);
+
               toggleFreeze(currentUser[0]._id); // Send HTTP request to backend to unfreeze account
             },
           },
@@ -104,7 +105,8 @@ export default function AdminDonorScreen({ route }) {
           {
             text: 'Yes',
             onPress: () => {
-              setFreezeAccount(true);
+              setFreezeAccount(false);
+
               toggleFreeze(currentUser[0]._id); // Send HTTP request to backend to freeze account
             },
           },

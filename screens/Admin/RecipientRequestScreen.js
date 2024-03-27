@@ -36,7 +36,8 @@ export default function SearchRecipientScreen({ navigation }) {
       <RecipientRequestCard
         id={itemData.item.id}
         title={itemData.item.title}
-        logo={'https://t4.ftcdn.net/jpg/05/26/35/07/360_F_526350772_taMM7EVaoDzWAashADdBrYkjH24hqS3c.jpg'}
+        // logo={'https://t4.ftcdn.net/jpg/05/26/35/07/360_F_526350772_taMM7EVaoDzWAashADdBrYkjH24hqS3c.jpg'}
+        causesImages={itemData.item.causesImages[0]}
         email={itemData.item.email}
         description={itemData.item.description}
         contactNumber={itemData.item.contactNumber}
@@ -70,7 +71,7 @@ export default function SearchRecipientScreen({ navigation }) {
           <FlatList
 
             data={allUsers.filter((user) =>
-              user.userType == 'recipient' && user.recipientApproval == false
+              user.userType == 'recipient' && user.activationStatus == false
             )}
             keyExtractor={(item) => item.id}
             renderItem={renderFlatList}

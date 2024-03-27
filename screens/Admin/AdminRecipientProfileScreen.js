@@ -9,12 +9,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Swiper from 'react-native-swiper';
 import HorizontalBarGraph from '../../components/HorizontalBarGraph'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {toggleFreeze} from '../../utilities/AdminApis'
 
 export default function AdminRecipientProfileScreen({ route }) {
   const { allUsers } = useContext(AuthContext);
   const currentUser = allUsers.filter(item => item._id === route.params.id);
   const { title, email, contactNumber, donationsReceived, subscribedUsers, causesImages } = currentUser[0];
-  const [freezeAccount, setFreezeAccount] = useState(currentUser[0].freezeAccount);
+  const [freezeAccount, setFreezeAccount] = useState(currentUser[0].recipientApproval);
 
   const [activeButton, setActiveButton] = useState('Donations');
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -90,7 +91,8 @@ export default function AdminRecipientProfileScreen({ route }) {
           {
             text: 'Yes',
             onPress: () => {
-              setFreezeAccount(false);
+              setFreezeAccount(true);
+              toggleFreeze(currentUser[0]._id); // Send HTTP request to backend to unfreeze account
             },
           },
         ],
@@ -110,7 +112,8 @@ export default function AdminRecipientProfileScreen({ route }) {
           {
             text: 'Yes',
             onPress: () => {
-              setFreezeAccount(true);
+              setFreezeAccount(false);
+              toggleFreeze(currentUser[0]._id); // Send HTTP request to backend to unfreeze account
             },
           },
         ],

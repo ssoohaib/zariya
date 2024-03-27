@@ -5,11 +5,13 @@ import ColorPallete from "../../constants/ColorPallete";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Swiper from 'react-native-swiper';
+import {toggleFreeze} from '../../utilities/AdminApis'
 
 
 export default function AdminRecipientRequestDetails({navigation, route}) {
   const {allDonors} = useContext(AuthContext);
   const [showProfileModal, setShowProfileModal] = useState(false);
+
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -18,7 +20,8 @@ export default function AdminRecipientRequestDetails({navigation, route}) {
   };
 
   const selectedNgo = allDonors.find(i=>i.id===route.params.id)
-
+  const [openAccount, setOpenAccount] = useState(selectedNgo.activationStatus);
+  
   const switchScreenHandler = (screen) =>{
     navigation.navigate(screen)
   }
@@ -32,6 +35,11 @@ export default function AdminRecipientRequestDetails({navigation, route}) {
   const handleAcceptReject = (action) => {
     if (action === 'Accept') {
       Alert.alert('Request Accepted', 'The request has been accepted.');
+      setOpenAccount(true);
+      // console.log(selectedNgo._id)
+      toggleFreeze(selectedNgo._id);
+
+
     } else if (action === 'Reject') {
       Alert.alert('Request Rejected', 'The request has been rejected.');
     }
