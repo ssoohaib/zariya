@@ -5,14 +5,18 @@ import { StyleSheet, Text, View, Image, TextInput, Alert, ScrollView } from 'rea
 import ColorPallete from '../../constants/ColorPallete';
 import AcceptDonationBtn from '../../components/AcceptDonationBtn';
 import { AuthContext } from '../../context/AuthContext';
+import { SelectList } from 'react-native-dropdown-select-list'
+import { updateInfo } from '../../utilities/DonorApis';
 
 export default function DonorEditProfile() {
-  const {currentUser}=useContext(AuthContext);
+  const {currentUser, token, modifyCurrentUser}=useContext(AuthContext);
 
   const [image, setImage] = useState(null);
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [contactNumber, setPhoneNumber] = useState('');
   const [location, setLocation] = useState('');
+
+  const [city, setCity] = useState("");
 
   const [emailError, setEmailError] = useState(null);
   const [phoneError, setPhoneError] = useState(null);
@@ -23,7 +27,7 @@ export default function DonorEditProfile() {
     if (currentUser) {
       setEmail(currentUser.email);
       setPhoneNumber(currentUser.contactNumber);
-      setLocation(currentUser.city);
+      setCity(currentUser.city);
     }
   }
   , []);
@@ -55,7 +59,7 @@ export default function DonorEditProfile() {
     return regex.test(phoneNumber);
   };
 
-  const handleSavePress = () => {
+  const handleSavePress = async () => {
     let hasError = false;
   
     // Validate email
@@ -67,14 +71,14 @@ export default function DonorEditProfile() {
     }
   
     // Validate phone number
-    if (phoneNumber && !validatePhoneNumber(phoneNumber)) {
+    if (contactNumber && !validatePhoneNumber(contactNumber)) {
       setPhoneError('Invalid phone number');
       hasError = true;
     } else {
       setPhoneError(null);
     }
   
-    if (!email && !phoneNumber && !location) {
+    if (!email && !contactNumber && !location) {
       setEmailError('Field is empty');
       setPhoneError('Field is empty');
       hasError = true;
@@ -83,7 +87,21 @@ export default function DonorEditProfile() {
     if (hasError) {
       return;
     }
-    Alert.alert('Success', 'Your profile has been updated successfully');
+
+
+
+    const result = await updateInfo (token ,{_id:currentUser._id, email, contactNumber, city});
+    console.log('Updated---', result)
+    if (result.error) {
+      Alert.alert('Error', 'Could not update profile');
+      return;
+    }
+    
+    // modifyCurrentUser()
+
+
+
+    // Alert.alert('Success', 'Your profile has been updated successfully');
   };
 
   return (
@@ -115,7 +133,7 @@ export default function DonorEditProfile() {
           style={[styles.input, phoneError && { borderColor: 'red' }]}
           placeholder="+92 609 456 567 4"
           keyboardType="phone-pad"
-          value={phoneNumber}
+          value={contactNumber}
           onChangeText={(text) => {
             setPhoneNumber(text);
             setPhoneError(null); 
@@ -123,7 +141,7 @@ export default function DonorEditProfile() {
         />
         {phoneError && <Text style={styles.errorText}>{phoneError}</Text>}
       </View>
-      <View style={styles.phoneContainer}>
+      {/* <View style={styles.phoneContainer}>
         <Text style={styles.title}>New Password</Text>
         <TextInput
           style={[styles.input, phoneError && { borderColor: 'red' }]}
@@ -136,8 +154,18 @@ export default function DonorEditProfile() {
           }}
         />
         {phoneError && <Text style={styles.errorText}>{phoneError}</Text>}
+      </View> */}
+      <View style={styles.locationContainer}>
+        <Text style={styles.title}>Location</Text>
+        <SelectList 
+          setSelected={(val) => setCity(val)} 
+          data={['Multan', 'Lahore','Islamabad', 'Karachi']} 
+          save="value"
+          search={false}
+          placeholder="Select City"
+        />
       </View>
-      <View style={styles.locContainer}>
+      {/* <View style={styles.locContainer}>
         <Text style={styles.title}>Location</Text>
         <TextInput
           style={styles.input}
@@ -145,7 +173,7 @@ export default function DonorEditProfile() {
           value={location}
           onChangeText={(text) => setLocation(text)}
         />
-      </View>
+      </View> */}
       <View style={styles.btnContainer}>
         <AcceptDonationBtn onPress={handleSavePress}>Update</AcceptDonationBtn>
       </View>
@@ -223,4 +251,8 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     //marginTop: 3,
   },
+  locationContainer:{
+    marginBottom:16,
+    marginTop:16,
+},
 });

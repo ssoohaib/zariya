@@ -110,7 +110,7 @@ export default function DonorHistoryScreen({navigation}) {
               </View>
 
               {
-                pendingDonations ? 
+                pendingDonations && pendingDonations.length>0 ? 
                   <FlatList 
                     data={pendingDonations}
                     keyExtractor={i=>i._id}
@@ -120,7 +120,7 @@ export default function DonorHistoryScreen({navigation}) {
 
                   />
                   :
-                  <Text>No ongoing donations.</Text>
+                  <Text style={{textAlign:"center"}}>No ongoing donations.</Text>
               }
 
             </View>

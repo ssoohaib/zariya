@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from "react-native";
@@ -15,6 +15,8 @@ export default function DonationTimeLocationPicker({route, navigation}) {
     const {currentUser, token}=useContext(AuthContext)
     const [city, setCity] = useState("");
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [fromTimeVisible, setFromTimeVisible]=useState(false)
     const [fromDateVisible, setFromDateVisible]=useState(false)
     const [tillTimeVisible, setTillTimeVisible]=useState(false)
@@ -22,6 +24,10 @@ export default function DonationTimeLocationPicker({route, navigation}) {
 
     const [fromDate, setFromDate] = useState(new Date());
     const [tillDate, setTillDate] = useState(new Date());
+
+    const handleLoading = () => {
+        setIsLoading(!isLoading);
+    }
 
     const onFromDateChange = (event, selectedDate) => {
         setFromDateVisible(false);
@@ -38,6 +44,8 @@ export default function DonationTimeLocationPicker({route, navigation}) {
     };
 
     const handlePostDonation = async () => {
+        handleLoading();
+
         const category = route.params.category
         let donation={
             ngoId:"N/A",
@@ -89,6 +97,7 @@ export default function DonationTimeLocationPicker({route, navigation}) {
             console.error('Error:', error);
         });
 
+        handleLoading();
 
         navigation.goBack()
         navigation.goBack()
@@ -217,9 +226,11 @@ export default function DonationTimeLocationPicker({route, navigation}) {
                 </View>
             </View>
         </View>
+        
         <Pressable onPress={handlePostDonation}>
             <View style={[styles.addItemBtn, {borderWidth:0, backgroundColor:ColorPallete.mediumBlue}]}>
                 <Text style={[styles.addItemBtnTitle, {color:ColorPallete.screenBg}]}>Post</Text>
+                {isLoading && <ActivityIndicator size="small" color={'white'} />}
                 <MaterialIcons name="chevron-right" size={24} color={ColorPallete.screenBg} />
             </View>
         </Pressable>

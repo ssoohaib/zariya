@@ -1,5 +1,35 @@
 import MyIP from '../ip';
 
+export const updateInfo = async (token, user) => {
+    try {
+        const url = `http://${MyIP}:5000/update-info/${user._id}`
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                email: user.email,
+                contactNumber: user.contactNumber,
+                city: user.city,
+                // image: user.image
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Could not update user info');
+        }
+
+        const data = await response.json();
+        return data;
+    }
+    catch (err) {
+        console.log(err)
+        return { error: 'Update error' };
+    }
+}
+
 export const getPendingDonations = async (token, userId) =>{
     try {
         const url = `http://${MyIP}:5000/`
