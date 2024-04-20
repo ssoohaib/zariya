@@ -19,7 +19,8 @@ Zariya provides a platform to empower individuals and organizations alike to mak
 
 ## Screenshot
 
-![App Screenshot](./assets/screen-shots/)
+![App Screenshot](./assets/images/ss-1.png)
+![App Screenshot](./assets/images/ss-2.png)
 
 
 ![Logo](./assets/images/logo-white.png)
