@@ -14,7 +14,7 @@ Zariya provides a platform to empower individuals and organizations alike to mak
 
 ## Architecture
 
-![App Architecture](./assets/screen-shots/)
+![App Architecture](./assets/images/architecture.png)
 
 
 ## Screenshot
