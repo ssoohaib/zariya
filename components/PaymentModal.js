@@ -1,4 +1,4 @@
-import { Alert, Button, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Modal from "react-native-modal";
 import ColorPallete from "../constants/ColorPallete";
 import StateButton from './StateButton';
@@ -14,9 +14,15 @@ export default function PaymentModal(props) {
   const [duration,setDuration]=useState('')
   const [amount,setAmount]=useState(0)
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
   const [isFormInValid,setIsFormInValid]=useState(false)
+
+  const handleLoading = () => {
+    setIsLoading(!isLoading);
+  }
 
   const amountHandler=(amount)=>{
     setAmount(amount)
@@ -38,6 +44,8 @@ export default function PaymentModal(props) {
       setIsFormInValid(false)
     }
 
+    handleLoading()
+
     const result = await onDonate(Math.floor(amount*100))
 
     const { error: paymentSheetError } = await initPaymentSheet({
@@ -52,7 +60,8 @@ export default function PaymentModal(props) {
 		  return;
 		}
 
-
+    handleLoading()
+    
     const { error: paymentError } = await presentPaymentSheet();
     if (paymentError) {
       Alert.alert(`Error code: ${paymentError.code}`, paymentError.message);
@@ -227,7 +236,7 @@ const styles=StyleSheet.create({
     paddingTop:8,
     paddingHorizontal:16,
     position:'relative',
-    top:"26%",
+    top:"30%",
     margin:0,
 
   },
