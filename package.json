@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@react-navigation/stack": "^6.3.20",
+    "@stripe/stripe-react-native": "0.28.0",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -24,7 +25,7 @@
     "date-fns": "^3.3.1",
     "date-format": "^4.0.14",
     "events": "^3.3.0",
-    "expo": "~49.0.15",
+    "expo": "^51.0.2",
     "expo-auth-session": "~5.0.2",
     "expo-crypto": "~12.4.1",
     "expo-document-picker": "^11.10.1",
@@ -47,13 +48,13 @@
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-pdf": "^6.7.3",
-    "react-native-reanimated": "~3.3.0",
+    "react-native-reanimated": "~3.10.1",
     "react-native-safe-area-context": "^4.6.3",
     "react-native-screens": "~3.22.0",
     "react-native-svg": "^15.1.0",
     "react-native-toast-message": "^2.1.7",
     "react-native-toast-notifications": "^3.4.0",
-    "@stripe/stripe-react-native": "0.28.0"
+    "expo-application": "~5.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

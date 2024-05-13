@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import AuthContextProvider, { AuthContext } from './context/AuthContext';
 import colorPallete from './constants/ColorPallete';
 import { ToastProvider } from 'react-native-toast-notifications';
+import 'react-native-reanimated';
 import AdminMain from './screens/Admin/AdminMain'
 import RecipientMain from './screens/Recipient/RecipientMain';
 import DonorMain from './screens/Donor/DonorMain';
