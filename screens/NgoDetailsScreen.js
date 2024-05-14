@@ -68,6 +68,10 @@ export default function NgoDetailsScreen({navigation, route}) {
     }
   }
 
+  const paymentSuccessHandler = (data)=>{
+    navigation.navigate('PaymentSuccess',data)
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.sliderContainer}>
@@ -115,7 +119,11 @@ export default function NgoDetailsScreen({navigation, route}) {
         <Pressable onPress={toggleModal} style={styles.donateBtn}>
           <Text style={styles.donateBtnTitle}>Donate</Text>
         </Pressable>        
-        <PaymentModal isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} />
+        <PaymentModal data={{
+          userName:currentUser.firstName+' '+currentUser.lastName,
+          ngoName:selectedNgo.title,
+          causes:selectedCauses,
+        }} isModalVisible={isModalVisible} toggleModal={toggleModal} switchWithPayload={switchWithPayload} paymentSuccessHandler={paymentSuccessHandler} />
 
       </View>
     </ScrollView>

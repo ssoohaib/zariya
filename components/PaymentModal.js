@@ -4,12 +4,11 @@ import ColorPallete from "../constants/ColorPallete";
 import StateButton from './StateButton';
 import { useState } from 'react';
 import IconButton from '../components/IconButton';
-import { useToast } from 'react-native-toast-notifications';
 import { MaterialIcons } from '@expo/vector-icons';
 import { onDonate } from '../utilities/PaymentFetches';
 import {useStripe} from '@stripe/stripe-react-native'
 
-export default function PaymentModal(props) {
+export default function PaymentModal({data, toggleModal, isModalVisible, paymentSuccessHandler}) {
   const [paymentType,setPaymentType]=useState('')
   const [duration,setDuration]=useState('')
   const [amount,setAmount]=useState(0)
@@ -19,6 +18,17 @@ export default function PaymentModal(props) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
   const [isFormInValid,setIsFormInValid]=useState(false)
+
+  const paymentSuccessData={
+    userName:data.userName,
+    ngoName:data.ngoName,
+    causes:data.causes,
+
+    amount:amount,
+    paymentType:paymentType,
+    duration:duration
+
+  }
 
   const handleLoading = () => {
     setIsLoading(!isLoading);
@@ -68,8 +78,10 @@ export default function PaymentModal(props) {
       return;
     }
 
+    toggleModal()
+    // navigation.navigate('PaymentSuccess')
     clearForm()
-    props.toggleModal()
+    paymentSuccessHandler(paymentSuccessData)
   }
 
   const formValidation = ()=>{
@@ -93,16 +105,16 @@ export default function PaymentModal(props) {
 
   return (
     <Modal 
-      isVisible={props.isModalVisible}
+      isVisible={isModalVisible}
       style={styles.modalContainer}
-      onBackdropPress={props.toggleModal}
+      onBackdropPress={toggleModal}
       >
 
       <ScrollView style={styles.container}> 
         <View style={styles.typeContainer}>
           <View style={styles.cancelOuterContainer}>
             <Text style={[styles.subtitle,{margin:0}]}>Type</Text>
-            <Pressable onPress={props.toggleModal} style={styles.cancelContainer}>
+            <Pressable onPress={toggleModal} style={styles.cancelContainer}>
               <MaterialIcons name="cancel" size={24} color={ColorPallete.mediumBlue} />
             </Pressable>
           </View>
@@ -191,17 +203,18 @@ export default function PaymentModal(props) {
           {isFormInValid && <Text style={{color:'red'}}>Please fill the form correctly</Text>}
 
           <IconButton 
-              title={'Master Card'} 
+              title={'Donate'} 
               icon={'arrow-right-thin'} 
               bgColor={colorPallete.darkBlue} 
               iconColor={colorPallete.screenBg}
-              style={{flex:0,padding:8,marginTop:12,borderWidth:1,borderColor:colorPallete.darkBlue}}
+              style={{flex:0,padding:8,marginTop:12}}
+              textStyle={{fontSize:16}}
               styleInner={{flexDirection:'row-reverse', justifyContent:'space-between'}}
               validator={onDonateHandler}
               validatorReturn={'Master Card'}
 
             />
-          <IconButton 
+          {/* <IconButton 
               title={'Easypaisa'} 
               icon={'arrow-right-thin'} 
               bgColor={colorPallete.darkBlue} 
@@ -211,8 +224,8 @@ export default function PaymentModal(props) {
               validator={onDonateHandler}
               validatorReturn={'Easypaisa'}
 
-            />
-          <IconButton 
+            /> */}
+          {/* <IconButton 
               title={'Jazz Cash'} 
               icon={'arrow-right-thin'} 
               bgColor={colorPallete.darkBlue} 
@@ -222,7 +235,7 @@ export default function PaymentModal(props) {
               validator={onDonateHandler}
               validatorReturn={'Jazz Cash'}
 
-            />
+            /> */}
         </View>
       </ScrollView>
     </Modal>
@@ -236,7 +249,7 @@ const styles=StyleSheet.create({
     paddingTop:8,
     paddingHorizontal:16,
     position:'relative',
-    top:"30%",
+    top:"40%",
     margin:0,
 
   },

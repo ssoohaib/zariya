@@ -21,6 +21,7 @@ import DonationTimeLocationPicker from './DonationTimeLocationPicker';
 import SubscriptionScreen from './SubscriptionScreen';
 import DonorEditProfile from './DonorEditProfile';
 import {StripeProvider } from '@stripe/stripe-react-native';
+import PaymentSuccess from './PaymentSuccess';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,12 +34,13 @@ function MyStack() {
           backgroundColor:colorPallete.mediumBlue
         }
       }}>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false}}  />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown:false, title:''}} />
         {/* <Stack.Screen name="Test" component={Test} options={{headerShown:false}}  /> */}
         <Stack.Screen name="DonationEnter" component={DonationEnterScreen}  />
         <Stack.Screen name="DonationTimeLocationPicker" component={DonationTimeLocationPicker} options={{title:'Post'}} />
         <Stack.Screen name="NgosList" component={NgosListScreen} options={{title:'All'}} />
         <Stack.Screen name="Payment" component={PaymentScreen} options={{title:'Donation'}} />
+        <Stack.Screen name="PaymentSuccess" component={PaymentSuccess} options={{title:'Donation', headerTransparent:true, headerTintColor:colorPallete.screenBg, }} />
         <Stack.Screen name="NgoDetails" component={NgoDetailsScreen} options={{
           headerTitle:"",
           headerTintColor:colorPallete.screenBg,

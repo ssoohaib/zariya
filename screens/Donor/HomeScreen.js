@@ -1,10 +1,12 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import IconButton from '../../components/IconButton';
 import NgoCard from '../../components/NgoCard';
 import colorPallete from '../../constants/ColorPallete'
 import ImageButton from '../../components/ImageButton';
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
+import ColorPallete from '../../constants/ColorPallete';
+import PushNotificationCard from '../../components/PushNotificationCard';
 
 export default function HomeScreen({navigation}) {
   const {currentUser, allRecipients} = useContext(AuthContext);
@@ -75,6 +77,12 @@ export default function HomeScreen({navigation}) {
             </View>
           </View> 
         </View>
+
+        {/* <PushNotificationCard
+          title={'New Notification'}
+          body={'You have a new notification'}
+        /> */}
+
         <View style={styles.categoryContainer}>
           <Text style={styles.subtitle}>Donate</Text>
           <View style={styles.buttonsContainer}>
