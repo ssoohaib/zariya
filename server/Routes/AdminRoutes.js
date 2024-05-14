@@ -6,5 +6,6 @@ const { toggleActivation } = require("../../utilities/AdminApis");
 
 
 router.put("/toggle-freeze/:userId", toggleFreeze)
+router.put("/toggle-activation/:userId", toggleActivation)
 
 module.exports = router;
