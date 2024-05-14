@@ -22,6 +22,7 @@ import SubscriptionScreen from './SubscriptionScreen';
 import DonorEditProfile from './DonorEditProfile';
 import {StripeProvider } from '@stripe/stripe-react-native';
 import PaymentSuccess from './PaymentSuccess';
+import DonorSupport from './DonorSupport';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,13 +83,12 @@ function DonorProfileStack() {
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
-      <Stack.Screen name="ProfileScreen" component={DonorProfileScreen} options={{headerShown:false}}  />
+      <Stack.Screen name="ProfileScreen" component={DonorProfileScreen} options={{headerShown:false, headerTitle:''}}  />
       <Stack.Screen name="EditProfile" component={DonorEditProfile} options={{headerTitle:"Edit"}}/>
       <Stack.Screen name="SubscriptionScreen" component={SubscriptionScreen} options={{headerTitle:"Subscriptions"}}/>
       <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReportsScreen} options={{headerTitle:"Analytics & Reports"}}/>
       <Stack.Screen name="PrivacyAndTerms" component={PrivacyAndTermsScreen} options={{headerTitle:"Privacy & Terms"}}/>
-      
-      
+      <Stack.Screen name="DonorSupport" component={DonorSupport} options={{headerTitle:"Support"}}/>      
     </Stack.Navigator>
   );
 }

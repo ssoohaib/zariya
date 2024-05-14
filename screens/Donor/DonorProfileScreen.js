@@ -61,6 +61,13 @@ export default function DonorProfileScreen({navigation}) {
             screen={'Verification'}
           /> */}
           <PressableOption 
+            title={'Support'}
+            leftIcon={"support-agent"}
+            rightIcon={"keyboard-arrow-right"}
+            onPress={switchScreen}
+            screen={'DonorSupport'}
+          />
+          <PressableOption 
             title={'Privacy & Terms'}
             leftIcon={"privacy-tip"}
             rightIcon={"keyboard-arrow-right"}

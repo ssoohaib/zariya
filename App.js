@@ -7,10 +7,9 @@ import AdminMain from './screens/Admin/AdminMain'
 import RecipientMain from './screens/Recipient/RecipientMain';
 import DonorMain from './screens/Donor/DonorMain';
 import AuthenticationMain from './screens/Authentication/AuthenticationMain'
-import { Pressable, Text } from 'react-native';
 import * as Notifications from 'expo-notifications';
-import PaymentSuccess from './screens/Donor/PaymentSuccess';
-
+import { Linking, Pressable, Text } from 'react-native';
+import DonorSupport from './screens/Donor/DonorSupport';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -47,13 +46,15 @@ export default function App() {
     })
   }
 
+  
+
   const AppNav=()=>{
     return(
       <>
         {/* <Pressable onPress={handleNotification} style={{marginTop:100, padding:16, borderWidth:1}} >
           <Text>Notification</Text>
         </Pressable> */}
-        {/* <PaymentSuccess /> */}
+        
         <AuthenticationMain />
         <AdminMain />
         <DonorMain />
