@@ -45,7 +45,7 @@ export default function NgoCard(props) {
                         }
                         </Pressable>
                     </View>
-                    <Text style={styles.desc}>{props.desc.slice(0,props.descLength)}...</Text>
+                    {props.descShow && <Text style={styles.desc}>{props.desc.slice(0,props.descLength)}...</Text>}
                 </View>
             </View>
         </Pressable>

@@ -4,7 +4,7 @@ import ColorPallete from '../../constants/ColorPallete';
 
 export default function PaymentSuccess({route}) {
     const data=route.params
-    console.log(route.params)
+    // console.log(route.params)
 
   return (
     <View style={styles.container}>
@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
         backgroundColor:ColorPallete.screenBg,
     },
     tag:{
-        marginTop:8
+        marginTop:8,
+        marginBottom:4
     },
     text:{
         fontWeight:'bold'

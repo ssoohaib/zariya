@@ -191,7 +191,7 @@ export default function PaymentModal({data, toggleModal, isModalVisible, payment
         <View style={styles.amountContainer}>
           <Text style={styles.subtitle}>Enter the donation amount</Text>
           <TextInput 
-            style={styles.input} 
+            style={[styles.input, {fontSize:20, fontWeight:'bold'}]} 
             placeholder='Amount' 
             placeholderTextColor={colorPallete.lightTextColor} 
             keyboardType='numeric' 

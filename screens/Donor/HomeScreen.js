@@ -38,6 +38,7 @@ export default function HomeScreen({navigation}) {
         title={ngo.title}
         onPress={ngoScreenHandler}
         desc={ngo.description}
+        descShow={false}
         imageUrl={ngo.causesImages[0]}
         containerStyle={{height:240, width:240, marginRight:8, marginBottom:-16}}
         imageStyle={{height:150}}
@@ -56,6 +57,7 @@ export default function HomeScreen({navigation}) {
         title={itemData.item.title}
         onPress={ngoScreenHandler}
         desc={itemData.item.description}
+        descShow={true}
         imageUrl={itemData.item.causesImages[0]}
         descLength={68}
         isFav={isFav}
@@ -126,7 +128,7 @@ export default function HomeScreen({navigation}) {
         </View>
         {
           currentUser.favouriteNgos.length >= 1 && 
-          <>
+          <View style={{marginBottom:-20}}>
             <View style={[styles.ngoSearchContainer, {paddingHorizontal:16}]}>
               <Text style={styles.subtitle}>Favourite</Text>
             </View>
@@ -139,7 +141,7 @@ export default function HomeScreen({navigation}) {
                 showsHorizontalScrollIndicator={false}
               />
             </View>
-          </>
+          </View>
         }
         <View style={styles.ngoContainer}>
           <View style={styles.ngoSearchContainer}>
