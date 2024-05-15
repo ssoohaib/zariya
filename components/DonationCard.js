@@ -4,13 +4,20 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import AcceptDonationBtn from './AcceptDonationBtn';
 import ColorPallete from '../constants/ColorPallete'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRef, useState } from 'react';
+// import AcceptBtn from '../components/AcceptBtn'
 
 function DonationCard(props) {
-    const navigation = useNavigation();
+     const navigation = useNavigation();
 
-    const handleAccept = () => {
-        navigation.navigate('DonationDetail');
+     const handleAccept = () => {
+        navigation.navigate('DonationDetail',{
+            data:props
+        });
     };
+
+    // console.log('>>>',props)
 
     return (
         <View style={styles.container}>
@@ -18,7 +25,26 @@ function DonationCard(props) {
                 {/* <View style={styles.innerContainer}> */}
                     {/* <View> */}
                         <View style={styles.titleContainer}>
-                            <Image style={styles.image} source={{ uri: props.imageUrl }} />
+                            {/* <Image style={styles.image} source={{ uri: props.imageUrl }} /> */}
+                            <View style={{backgroundColor:ColorPallete.mediumBlue, padding:8, borderRadius:8}}>
+                                {
+                                    props.category == 'Food' &&
+                                    <MaterialCommunityIcons name={'food'} size={24} color={ColorPallete.screenBg} />
+                                }
+                                {
+                                    props.category == 'Clothes' &&
+                                    <MaterialCommunityIcons name={'tshirt-crew'} size={24} color={ColorPallete.screenBg} />
+                                }
+                                {
+                                    props.category == 'Medicine' &&
+                                    <MaterialCommunityIcons name={'medical-bag'} size={24} color={ColorPallete.screenBg} />
+                                }
+                                {
+                                    props.category == 'Ration' &&
+                                    <MaterialCommunityIcons name={'food-variant'} size={24} color={ColorPallete.screenBg} />
+                                }
+                            </View>
+
                             <View style={[styles.nameTimeDescContainer]}>
                                 {/* <View style={[styles.nameTimeContainer, {borderWidth:1, flex:1}]}> */}
                                 <Text style={[styles.food, {fontWeight:"bold", fontSize:16}]}>{props.title}</Text>
@@ -26,33 +52,35 @@ function DonationCard(props) {
                                 {
                                     props.category == 'Food' &&
                                     <>
-                                        <Text>Type: {props.item.type}</Text>
-                                        <Text>Servings: {props.item.servings}</Text>
+                                        <Text style={{marginTop:8, marginBottom:4}}>Type: <Text style={{fontWeight:'bold'}}>{props.item.type}</Text></Text>
+                                        <Text>Servings: <Text style={{fontWeight:'bold'}}>{props.item.servings}</Text></Text>
                                     </>
                                 }
                                 {
                                     props.category == 'Clothes' &&
                                     <>
-                                        <Text>Season: {props.item.season}</Text>
-                                        <Text>Gender: {props.item.gender}</Text>
-                                        <Text>Size: {props.item.size}</Text>
-                                        <Text>Quantity: {props.item.quantity}</Text>
+                                        <Text style={{marginTop:8, marginBottom:4}}>Season: <Text style={{fontWeight:'bold'}}>{props.item.season}</Text></Text>
+                                        <Text style={{marginBottom:4}}>Gender: <Text style={{fontWeight:'bold'}}>{props.item.gender}</Text></Text>
+                                        <Text style={{marginBottom:4}}>Size: <Text style={{fontWeight:'bold'}}>{props.item.size}</Text></Text>
+                                        <Text style={{marginBottom:4}}>Quantity: <Text style={{fontWeight:'bold'}}>{props.item.quantity}</Text></Text>
                                     </>
                                 }
                                 {
                                     props.category == "Medicine" &&
                                     <>
-                                        <Text>Type: {props.item.type}</Text>
-                                        <Text>Quantity: {props.item.quantity}</Text>
-                                        <Text>ExpiryDate: {props.item.expiryDate}</Text>
+                                        <Text style={{marginTop:8, marginBottom:4}}>Type: <Text style={{fontWeight:'bold'}}>{props.item.type}</Text></Text>
+                                        <Text style={{marginBottom:4}}>Quantity: <Text style={{fontWeight:'bold'}}>{props.item.quantity}</Text></Text>
+                                        <Text style={{marginBottom:4}}>ExpiryDate: <Text style={{fontWeight:'bold'}}>{props.item.expiryDate.slice(0,10)}</Text></Text>
                                     </>
                                 }
                                 {
                                     props.category == "Ration" &&
                                     <>
-                                        <Text>Quantity: {props.item.quantity}</Text>
+                                        <Text>Quantity: <Text style={{fontWeight:'bold'}}>{props.item.quantity}</Text></Text>
                                     </>
                                 }
+
+                                
 
 
 
@@ -76,7 +104,7 @@ const styles = StyleSheet.create({
     container: {
         overflow: 'hidden',
         marginBottom: 5,
-        backgroundColor: 'white',
+        backgroundColor: ColorPallete.fLightColor,
         // width: '100%',
         borderRadius: 8,
         padding: 8,
@@ -93,7 +121,8 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
+        // alignItems: 'center',
+        alignItems:'flex-start'
     },
     nameTimeDescContainer: {
         // flexDirection: 'column',

@@ -69,7 +69,7 @@ export default function HomeScreen({navigation}) {
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}> 
         <View style={styles.headerContainer}>
           <View style={styles.headerUpper}>
-            <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
+            <Image style={styles.logo} source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZkVW9Zs8ryvd58g8AhjaPhzcXv3Q87nXnBgXyp2u8PJq4usCm8hUES2BVkz0K08pi7d62Formr7a_FpFUAxZU97GooJ5WVrjM=w1919-h910'}} />
             <View style={styles.userContainer}>
               <ImageButton
                 style={styles.userImage}

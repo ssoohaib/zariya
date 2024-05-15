@@ -26,9 +26,7 @@ import Feedback from '../../components/Feedback';
 import { AuthContext } from '../../context/AuthContext';
 import DonationsList from './DonationsList';
 import Subscribers from './Subscribers';
-
-
-
+import RecipientSupport from './RecipientSupport';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -85,13 +83,14 @@ function ProfileStack(){
         backgroundColor:colorPallete.mediumBlue
       }
     }}>
-      <Stack.Screen name="RecipientProfile" component={RecipientProfile} options={{headerShown:false}}  />
+      <Stack.Screen name="RecipientProfile" component={RecipientProfile} options={{headerShown:false, headerTitle:''}}  />
       <Stack.Screen name="Feedback" component={Feedback} options={{headerShown:false}}  />
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="UpdatePassword" component={UpdatePassword} />
       <Stack.Screen name="AnalyticsAndReports" component={AnalyticsAndReports} />
       <Stack.Screen name="Verification" component={Verification} />
       <Stack.Screen name="PrivacyAndTerms" component={PrivacyAndTerms} />
+      <Stack.Screen name="RecipientSupport" component={RecipientSupport} options={{headerTitle:"Support"}}/>    
     </Stack.Navigator>
   );
 }

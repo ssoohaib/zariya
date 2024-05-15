@@ -67,7 +67,7 @@ export default function SignUpR({ navigation }) {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={require("../../assets/images/logo-white.png")}
+            source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZkVW9Zs8ryvd58g8AhjaPhzcXv3Q87nXnBgXyp2u8PJq4usCm8hUES2BVkz0K08pi7d62Formr7a_FpFUAxZU97GooJ5WVrjM=w1919-h910'}}
           />
         </View>
 
@@ -76,7 +76,7 @@ export default function SignUpR({ navigation }) {
             <View style={styles.btnContainer}>
               <Image
                 style={styles.btnImg}
-                source={require("../../assets/images/google-logo.png")}
+                source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZvwPBjT1NaLlgi3GcG_rvOmRjAc1ejW45GSwrYxSNhPwL3vRO6QAVuJPxgTOeAic0gj95nbtMxp0i9ljvaDaLVD1SkxXfCL6s=w1919-h910-rw-v1'}}
               />
               <Text style={styles.btnTitle}>Sign up with Google</Text>
             </View>
@@ -85,7 +85,7 @@ export default function SignUpR({ navigation }) {
             <View style={styles.btnContainer}>
               <Image
                 style={[styles.btnImg, {}]}
-                source={require("../../assets/images/apple-logo.png")}
+                source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbhb6PKcYWblRnWkKRAdjBU31S1xfWvfoVufZxMHqLiRjDxXxK9tL9ZhX9PDOlyzTM8Jay0T4el_0khEACmEDuUjrxF_qu0lA=w1919-h910-rw-v1'}}
               />
               <Text style={styles.btnTitle}>Sign up with Apple</Text>
             </View>

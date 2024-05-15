@@ -1,148 +1,156 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Pressable, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import ColorPallete from '../constants/ColorPallete';
 import AcceptDonationBtn from './AcceptDonationBtn';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 function RecipientCard(props) {
     const navigation = useNavigation();
 
     const handleAccept = () => {
         navigation.navigate('DonationsList',{
+            donationId:props.id,
             items:props.items,
             category:props.category,
         });
     };
 
+    const handleOpenDialer = () => {
+        // Construct the tel URL with the phone number
+        const telURL = `tel:${props.phone}`;
+    
+        // Open the dialer with the pre-filled phone number
+        Linking.openURL(telURL);
+      };
+
     return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={handleAccept}>
-                <View style={styles.innerContainer}>
-                    <View>
-                        <View style={styles.titleContainer}>
-                            <Image style={styles.image} source={{ uri: props.imageUrl }} />
-                            <View style={styles.nameTimeDescContainer}>
-                                <View style={styles.nameTimeContainer}>
-                                    <Text style={styles.name}>{props.name}</Text>
-                                    <View>
-                                        {
-                                            props.items.map((item, index) => {
-                                                return (
-                                                    <Text key={index} style={styles.desc}>{item.title}</Text>
-                                                );
-                                            })
-                                        }
-                                    </View>
-                                    
+        <Pressable onPress={handleAccept}>
+            <View style={styles.container}>
+                <View style={styles.top}>
+                    <View style={styles.topLeft}>
+                        <View style={{flexDirection:'row'}}>
+                            <View style={styles.topLeftIcon}>
+                                <MaterialCommunityIcons name={'charity'} size={24} color={ColorPallete.screenBg} />
+                            </View>
+                            <View>
+                                <Text style={styles.title}>{props.name}</Text>
+                                {/* <Text style={{fontWeight:'600'}}>{props.name}</Text> */}
+                                <View style={{flexDirection:'row'}}>
+                                    {
+                                        props.items.map(i=>
+                                            <Text style={{fontWeight:'500'}}>{i.title} </Text>
+                                        )
+                                    }
                                 </View>
-                                <Text style={styles.category}>{props.category}</Text>
                             </View>
                         </View>
-                    </View>
-                    <View style={{paddingHorizontal:8, marginTop:8, flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
-                        
-                        <View>
-                            <View>
-                                <Text style={{fontWeight:'bold'}}>From</Text>
-                                <Text style={styles.time}>{props.from}</Text>
-                            </View>
-                            <View>
-                                <Text style={{fontWeight:'bold'}}>Till</Text>
-                                <Text style={styles.time}>{props.till}</Text>
-                            </View>
-                        </View>
-                        <View style={styles.btnContainer}>
-                            <View style={styles.call}>
-                                <Ionicons name='call' size={20} color={ColorPallete.darkBlue} />
-                            </View>
-                            <AcceptDonationBtn onPress={handleAccept}>Accept</AcceptDonationBtn>
-                        </View>
+                        <Pressable onPress={handleOpenDialer} style={{backgroundColor:ColorPallete.lightBlueTwo, padding:8, alignItems:'center', justifyContent:'center', borderRadius:8}}>
+                            <MaterialIcons name={'phone'} size={24} color={ColorPallete.mediumBlue} />
+                        </Pressable>
                     </View>
                 </View>
-            </TouchableOpacity>
-        </View>
+                <View style={styles.bottom}>
+                    <View style={styles.bottomLeft}>
+                        <Text style={styles.subsubtitle}>Expiration</Text>
+                        <Text style={styles.subtitle}>{props.till}</Text>
+                    </View>
+                    <View style={styles.bottomRight}>
+                        <Text style={styles.status}>{props.category}</Text>
+                    </View>
+                </View>
+            </View>
+        </Pressable>
     );
 }
 
 export default RecipientCard;
 
 const styles = StyleSheet.create({
-    container: {
-        overflow: 'hidden',
-        marginBottom: 5,
-        backgroundColor: 'white',
-        width: '100%',
+    container:{
+        // borderWidth:.5,
+        borderColor:ColorPallete.lightTextColor,
+        borderRadius:16,
+        padding:16,
+        marginBottom:12,
+        marginHorizontal:16,
+
+        backgroundColor:ColorPallete.fLightColor,
+        // backgroundColor:ColorPallete.screenBg,
     },
-    innerContainer: {
-        padding:8
-    //    margin: 10,
+    top:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        borderBottomWidth:.5,
+        borderColor:ColorPallete.lightTextColor,
+        paddingBottom:12,
+        
+        
+
     },
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 60,
-       // marginLeft: 10,
+    topLeft:{
+        flexDirection:'row',
+        // justifyContent:'flex-start'
+        // alignItems:'flex-start'
+        justifyContent:"space-between",
+        // alignItems:'space-between'
+        // borderWidth:1,
+        flex:1
+        
     },
-    titleContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingRight:16,
+    topLeftIcon:{
+        backgroundColor:ColorPallete.mediumBlue,
+        padding:8,
+        justifyContent:"center",
+        alignItems:'center',
+        marginRight:8,
+        borderRadius:8,
     },
-    nameTimeDescContainer: {
-        flexDirection: 'column',
-        // alignItems:"space-between",
-        flex:1,
-        marginLeft: 10,
-        // borderWidth:1
+    topRight:{
+
     },
-    nameTimeContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+    bottom:{
+        paddingTop:12,
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+
     },
-    name: {
-        fontSize: 18,
-        fontWeight: 'bold',
+    bottomLeft:{
+
     },
-    time: {
-        fontWeight: '400',
-        // marginLeft: 180, 
+    bottomRight:{
+        backgroundColor:ColorPallete.mediumBlue,
+        padding:8,
+        // paddingHorizontal:8,
+        borderRadius:8,
     },
-    category: {
-        fontWeight: '400',
-        //marginTop: 2,
+    title:{
+        fontSize:16,
+        fontWeight:'bold',
+        marginBottom:4,
+        color:ColorPallete.darkBlue,
+
     },
-    desc: {
-        fontSize: 14,
-        // lineHeight: 15,
-        marginTop: 4,
-        fontWeight: "bold",
-        //marginBottom: 5,
+    subtitle:{
+        fontWeight:'bold',
+        color:ColorPallete.mediumBlue,
+        fontSize:15,
+
     },
-    btnContainer: {
-        flexDirection: 'row',
-        marginTop: 6,
-        // justifyContent:"center",
-        // alignItems: 'center', 
-        // marginLeft: 100,
+    subsubtitle:{
+        color:ColorPallete.lightTextColor,
+        fontSize:14,
+
     },
-    call: {
-        borderRadius: 5,
-        backgroundColor: ColorPallete.lightBlue,
-        marginRight: 8, 
-        padding: 8, 
-        // marginLeft: 150,
-    },
-    btn: {
-        borderRadius: 8,
-        width: 40,
-    },
-    quantityText: {
-        fontWeight: '100',
-        marginLeft: 10,
-        marginTop: 15,
-        fontSize: 12,
-    },
+    status:{
+        color:ColorPallete.screenBg,
+        fontWeight:'bold',
+        
+    }
 
 })

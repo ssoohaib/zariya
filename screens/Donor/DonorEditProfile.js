@@ -110,8 +110,7 @@ export default function DonorEditProfile() {
         <Ionicons style={styles.icon} name="ios-camera-outline" size={24} color="white" />
       </View>
       <View style={styles.imgContainer}>
-        <Image style={styles.img} source={image ? { uri: image } :
-          require('../../assets/images/user2.png')} />
+        <Image style={styles.img} source={image ? { uri: image } :{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbo-luii4yLWODrM9dmDXGhLjv1lm9NqRDZTDH5WQ0RxIQ_YCuhzNCsolCfb8OadEWRrvxedBSIXSBknwBF1nNdG__RXmzV0w=w1919-h910'}} />
       </View>
       <View style={styles.mailContainer}>
         <Text style={styles.title}>Email</Text>

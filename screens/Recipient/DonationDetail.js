@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, Modal, TextInput, TouchableOpacity, Pressable } from 'react-native'; // Import Pressable
 import { SliderBox } from 'react-native-image-slider-box';
 import { useRef } from 'react';
-import AcceptBtn from '../../components/AcceptBtn';
+// import AcceptBtn from '../../components/AcceptBtn';
 import ColorPallete from '../../constants/ColorPallete';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,69 +9,10 @@ import React, { useState, useEffect } from 'react';
 import Congratulations from '../../components/Congratulations';
 
 
-function DonationDetail(props) {
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [riderName, setRiderName] = useState('');
-  const [riderContact, setRiderContact] = useState('');
-  const [donationId, setDonationId] = useState(null);
-  const [isNameValid, setIsNameValid] = useState(true);
-  const [isContactValid, setIsContactValid] = useState(true);
-  const [nameError, setNameError] = useState('');
-  const [contactError, setContactError] = useState('');
-  const slider = useRef(null);
+function DonationDetail() {
+  
 
-  const navigation = useNavigation();
-  const switchScreenHandler = (screen) => {
-    navigation.navigate(screen)
-  }
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
-  const handleAccept = () => {
-    setDonationId(props.id);
-    toggleModal();
-  };
-
-  const handleClose = () => {
-    setNameError('');
-    setContactError('');
-    setIsNameValid(true);
-    setIsContactValid(true);
-    setModalVisible(false);
-  };
-
-  useEffect(() => {
-    if (contactError === '') {
-      toggleModal();
-    }
-  }, [contactError]);
-
-  const handleSubmit = () => {
-    const nameValid = !!riderName.trim();
-    const contactValid = !!riderContact.trim();
-
-    setIsNameValid(nameValid);
-    setIsContactValid(contactValid);
-
-    if (!nameValid) {
-      setNameError('Name is required');
-    } else {
-      setNameError('');
-    }
-
-    if (!contactValid) {
-      setContactError('Phone No. is required');
-    } else if (!/^\+\d{8,15}$/.test(riderContact.trim())) {
-      setContactError('Phone number is incorrect.');
-    } else {
-      setContactError('');
-    }
-    if (nameValid && contactValid) {
-      navigation.navigate('Congratulations');
-    }
-  };
+  
 
   const image = [require('../../assets/images/biryani.png')];
 
@@ -83,7 +24,7 @@ function DonationDetail(props) {
        </Pressable>
        </View>
       <View style={styles.imageContainer}> 
-        <Image style={styles.image} source={require('../../assets/images/biryani.png')} /> 
+        <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihawGXqPJmNjYFSc_tqV-P5b35WNCXQzKOMOd1wit-WHdW7T8J8s6MrA-U1Q6Cfd5ES-LXu06qsCFiKFY2sKNqB5zaJZ7lG6UMs=w1919-h910'}} /> 
       </View> 
       <View style={styles.dataContainer}>
         <Text style={styles.data}>800g</Text>
@@ -103,58 +44,9 @@ function DonationDetail(props) {
           has survived not only five centuries, but also the leap into electronic typesetting, remaining
           essentially unchanged. </Text>
       </View>
-      <View style={styles.btn}>
-        <AcceptBtn onPress={() => handleAccept(props.id)}>Accept Donation</AcceptBtn>
-      </View>
+      
 
-      {/* Rider Details Modal */}
-      {isModalVisible && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={isModalVisible}
-          onRequestClose={toggleModal}
-        >
-          <View style={styles.modalContainer}>
-            <TouchableOpacity style={styles.closeIcon} onPress={handleClose}>
-              <Ionicons name="close" size={30} color={ColorPallete.darkBlue} />
-            </TouchableOpacity>
-            <Text style={styles.modalHeading}>Fill Rider's Details</Text>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Name</Text>
-              <TextInput
-                style={[styles.input, !isNameValid && styles.inputError]}
-                placeholder="Ligma"
-                placeholderTextColor={'#B2B1B0'}
-                onChangeText={(text) => setRiderName(text)}
-              />
-              {!isNameValid && <Text style={styles.errorText}>{nameError}</Text>}
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Phone No.</Text>
-              <TextInput
-                style={[styles.input, !isContactValid && styles.inputError]}
-                placeholder="+923055178654"
-                placeholderTextColor={'#B2B1B0'}
-                onChangeText={(text) => setRiderContact(text)}
-              />
-              {!isContactValid && (
-                <Text style={[styles.errorText, styles.inputError]}>
-                  {contactError !== '' ? contactError : 'Phone number is incorrect.'}
-                </Text>
-              )}
-            </View>
-
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleSubmit}
-            >
-              <Text style={styles.modalButtonText}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
-      )}
+      
     </View>
   )
 }

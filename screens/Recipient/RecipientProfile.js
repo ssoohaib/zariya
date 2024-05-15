@@ -24,7 +24,7 @@ function RecipientProfile({navigation}) {
         <StatusBar style='light' />
         <View style={styles.top}>
           <View style={styles.topLeft}>
-            <Image style={styles.image} source={require('../../assets/images/user2.png')} />
+            <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/2/drive-viewer/AKGpihb218QFc1_hwRiqiKNz53vCpCkKLr3cDgFYKsq7ikQbjZHgbe4TpJa8eCYIe93Rkb7-xB1AzZ-i9vJASP6Lr08GOYRZGaqcNnE=w1919-h910'}} />
           </View>
           <View style={styles.topRight}>
             <Text style={styles.userName}>{currentUser.title}</Text>
@@ -48,18 +48,18 @@ function RecipientProfile({navigation}) {
             screen={'UpdatePassword'}
           />
           <PressableOption 
-            title={'Feedback & Support'}
-            leftIcon={"feedback"}
-            rightIcon={"keyboard-arrow-right"}
-            onPress={switchScreen}
-            screen={'Feedback'}
-          />
-          <PressableOption 
             title={'Verification'}
             leftIcon={"verified"}
             rightIcon={"keyboard-arrow-right"}
             onPress={switchScreen}
             screen={'Verification'}
+          />
+          <PressableOption 
+            title={'Support'}
+            leftIcon={"support-agent"}
+            rightIcon={"keyboard-arrow-right"}
+            onPress={switchScreen}
+            screen={'RecipientSupport'}
           />
           <PressableOption 
             title={'Privacy & Terms'}

@@ -31,11 +31,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems: 'center',
+
   },
   buttonText: {
     fontSize: 13,
     color: ColorPallete.screenBg,
     fontWeight: 'bold',
+    padding:8
   },
 });
 

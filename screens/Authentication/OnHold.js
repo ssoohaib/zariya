@@ -7,7 +7,7 @@ export default function OnHold() {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={require("../../assets/images/logo-white.png")}
+            source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZkVW9Zs8ryvd58g8AhjaPhzcXv3Q87nXnBgXyp2u8PJq4usCm8hUES2BVkz0K08pi7d62Formr7a_FpFUAxZU97GooJ5WVrjM=w1919-h910'}}
           />
         </View>
         <View style={styles.bottom}>

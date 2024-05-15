@@ -1,8 +1,16 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ColorPallete from '../constants/ColorPallete';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
-function Congratulations() {
+function Congratulations({route}) {
+
+  const {currentUser}=useContext(AuthContext)
+  console.log(route.params, currentUser)
+
+  // Api call
+
   return (
     <View style={styles.container}>
       <MaterialCommunityIcons name="party-popper" size={100} color={ColorPallete.darkBlue} />

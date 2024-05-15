@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { getAllUsers } from '../../utilities/AuthFetches';
 import {getPendingDonationsCity} from '../../utilities/RecipientFetches'
 import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 function RecipientHome() {
     const { currentUser, allDonors, token, pendingDonations, setPendingDonationsHandler } = useContext(AuthContext);
@@ -29,10 +30,10 @@ function RecipientHome() {
 
     useEffect(()=>{
         const fetchPending= async ()=>{
-            console.log('lol')
+            // console.log('lol')
 
             const result = await getPendingDonationsCity(token, currentUser.city)
-            console.log(result)
+            // console.log(result)
             setPendingDonationsHandler(result.donations)
         }
 
@@ -109,6 +110,7 @@ function RecipientHome() {
                 id={itemData.item._id}
                 name={itemData.item.donorName}
                 items={itemData.item.donation.items}
+                phone={itemData.item.donorContactNumber}
                 //onPress={donationDetail}
                 desc={"I am under the water"}
                 from={itemData.item.donation.from.slice(0,10)+" ("+itemData.item.donation.from.slice(12,16)+")"}
@@ -119,102 +121,118 @@ function RecipientHome() {
         )
     }
 
-    return (
-        <View>
-
-            {currentUser && <>
-
-                <View style={styles.headerContainer}>
-                    <View style={styles.headerUpper}>
-                        <View>
-                            <Text style={styles.amount}>PKR. {totalDonations.toFixed(2)}</Text>
-                            <Text style={styles.headerText}>Donations Received</Text>
+    const upperItems = ()=>(
+        <>
+            <View style={styles.headerContainer}>
+                <View style={styles.headerUpper}>
+                    <View>
+                        <Text style={styles.amount}>PKR. {totalDonations.toFixed(0)}</Text>
+                        <Text style={[styles.headerText, {fontSize:12}]}>Donations Received</Text>
+                    </View>
+                    <View style={styles.userContainer}>
+                        <View style={styles.userTextContainer}>
+                            <Text style={styles.userGreet}>Welcome,</Text>
+                            <Text style={styles.userName}>{currentUser.title}</Text>
                         </View>
-                        <View style={styles.userContainer}>
-                            <View style={styles.userTextContainer}>
-                                <Text style={styles.userGreet}>Welcome,</Text>
-                                <Text style={styles.userName}>{currentUser.title}</Text>
-                            </View>
-                            <ImageButton
-                                style={styles.userImage}
-                                onPress={switchScreenHandler}
-                                screen={'Profile'}
-                            />
-                        </View>
+                        <ImageButton
+                            style={styles.userImage}
+                            onPress={switchScreenHandler}
+                            screen={'Profile'}
+                        />
                     </View>
                 </View>
-                <View style={[styles.buttonContainer]}>
-                    <View style={styles.incomingView}>
-                        <Text style={styles.buttonsText}>Incoming Requests</Text>
-                        <Text style={styles.dataText}>{pendingRequestsCount}</Text>
-                    </View>
-                    <View style={styles.addressedView}>
-                        <Text style={styles.addresedText}>Addressed Requests</Text>
-                        <Text style={styles.addressedData}>{completedRequestsCount}</Text>
-                    </View>
-                    <TouchableOpacity onPress={goToSubscribers} style={styles.subscriptionView}>
-                        <Text style={styles.buttonsText}>Subscribers</Text>
-                        <Text style={styles.dataText}>{subscribedNgosCount}</Text>
-                    </TouchableOpacity>
+            </View>
+            <View style={[styles.buttonContainer, {marginHorizontal:16}]}>
+                <View style={styles.incomingView}>
+                    <Text style={styles.buttonsText}>Incoming Requests</Text>
+                    <Text style={styles.dataText}>{pendingRequestsCount}</Text>
                 </View>
-                <View style={styles.headingView}>
-                    <Text style={styles.requestHeading}>Requests</Text>
+                <View style={styles.addressedView}>
+                    <Text style={styles.addresedText}>Addressed Requests</Text>
+                    <Text style={styles.addressedData}>{completedRequestsCount}</Text>
+                </View>
+                <TouchableOpacity onPress={goToSubscribers} style={styles.subscriptionView}>
+                    <Text style={styles.buttonsText}>Subscribers</Text>
+                    <Text style={styles.dataText}>{subscribedNgosCount}</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.headingView}>
+                <View style={{flexDirection:'row'}}>
+                    <Text style={[styles.requestHeading, {marginRight:8}]}>Requests</Text>
                     <TouchableOpacity onPress={toggleModal} style={styles.filter}>
-                        <Ionicons name="options" size={24} color="black" />
+                        <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
                 <Pressable style={{alignItems:"center", marginBottom:8}} onPress={triggerHandler}>
                     <MaterialIcons name="refresh" size={24} color="black" />
                 </Pressable>
+            </View>
+            
 
-                {/* Modal for filtering options */}
-                {isModalVisible && (
-                    <View style={styles.modalContainer}>
-                        <TouchableOpacity onPress={() => handleFilterOption('All')} style={styles.optionContainer}>
-                            <View style={styles.option}>
-                                <Text style={styles.optionText}>All</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleFilterOption('Clothes')} style={styles.optionContainer}>
-                            <View style={styles.option}>
-                                <Text style={styles.optionText}>Clothes</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleFilterOption('Ration')} style={styles.optionContainer}>
-                            <View style={styles.option}>
-                                <Text style={styles.optionText}>Ration</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleFilterOption('Medicine')} style={styles.optionContainer}>
-                            <View style={styles.option}>
-                                <Text style={styles.optionText}>Medicine</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleFilterOption('Food')} style={styles.optionContainer}>
-                            <View style={styles.option}>
-                                <Text style={styles.optionText}>Food</Text>
-                            </View>
-                        </TouchableOpacity>
+            {/* Modal for filtering options */}
+            {isModalVisible && (
+                <View style={[styles.modalContainer, {zIndex:99999}]}>
+                    <TouchableOpacity onPress={() => handleFilterOption('All')} style={styles.optionContainer}>
+                        <View style={styles.option}>
+                            <Text style={styles.optionText}>All</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleFilterOption('Clothes')} style={styles.optionContainer}>
+                        <View style={styles.option}>
+                            <Text style={styles.optionText}>Clothes</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleFilterOption('Ration')} style={styles.optionContainer}>
+                        <View style={styles.option}>
+                            <Text style={styles.optionText}>Ration</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleFilterOption('Medicine')} style={styles.optionContainer}>
+                        <View style={styles.option}>
+                            <Text style={styles.optionText}>Medicine</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleFilterOption('Food')} style={styles.optionContainer}>
+                        <View style={styles.option}>
+                            <Text style={styles.optionText}>Food</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                    </View>
+                </View>
 
-                )}
+            )}
+        </>
+    )
 
-                {/* Render requests or "No current requests" image and text */}
-                {pendingDonations && pendingDonations.length > 0 ? (
-                    <FlatList
-                        data={pendingDonations}
-                        keyExtractor={(item) => item._id}
-                        renderItem={renderFlatList}
-                        contentContainerStyle={styles.flatListContentContainer}
-                    />
-                ) : (
-                    <View style={styles.noRequestsContainer}>
-                        <Image source={require('../../assets/images/no-data.png')} style={styles.noRequestsImage} />
-                        <Text style={styles.noRequestsText}>No current requests</Text>
-                    </View>
-                )}
-            </>}
+    return (
+        <View style={{backgroundColor:ColorPallete.screenBg, flex:1}}>
+
+            {currentUser && 
+                <>
+
+                    
+
+                    {pendingDonations && pendingDonations.length > 0 ? (
+                        <View style={{paddingHorizontal:0, backgroundColor:ColorPallete.screenBg,}}>
+                            <FlatList
+                                data={pendingDonations}
+                                keyExtractor={(item) => item._id}
+                                renderItem={renderFlatList}
+                                // contentContainerStyle={styles.flatListContentContainer}
+                                ListHeaderComponent={upperItems}
+                            />
+                        </View>
+                    ) : (
+                        <>
+                            {upperItems()}
+                            <View style={[styles.noRequestsContainer]}>
+                                <Image source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZpYJsJVERlqmRkvrLIeElPwj6ppeq3RQ0OoXzfD22uUkYU9xUYUmAh1UkUHU7wd28dUXGYjgwcfdux1M3v2JwoeIdW8YuObBU=w1919-h910-rw-v1'}} style={styles.noRequestsImage} />
+                                <Text style={styles.noRequestsText}>No current requests</Text>
+                            </View>
+                        </>
+                    )}
+                </>
+            }
 
 
         </View>
@@ -226,6 +244,7 @@ export default RecipientHome;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#DEE1E0',
+        // backgroundColor: ColorPallete.screenBg,
         flex: 1,
     },
     flatListContentContainer: {
@@ -234,9 +253,10 @@ const styles = StyleSheet.create({
     headerContainer: {
         paddingTop: 48,
         paddingBottom: 50,
-        paddingLeft: 15,
-        paddingRight: 10,
-        //paddingHorizontal:16,
+
+
+
+        paddingHorizontal:16,
         backgroundColor: ColorPallete.mediumBlue,
         borderBottomStartRadius: 16,
         borderBottomEndRadius: 16,
@@ -325,22 +345,25 @@ const styles = StyleSheet.create({
     incomingView: {
         borderRadius: 8,
         height: 90,
-        width: 120,
-        marginLeft: 5,
+        flex:1,
+        // width: 120,
+        // marginLeft: 5,
         backgroundColor: ColorPallete.mediumBlue,
     },
     addressedView: {
         borderRadius: 8,
         height: 90,
-        width: 120,
-        marginLeft: 10,
+        flex:1,
+        // width: 120,
+        marginLeft: 8,
         backgroundColor: ColorPallete.lightBlue,
     },
     subscriptionView: {
         borderRadius: 8,
         height: 90,
-        width: 120,
-        marginLeft: 10,
+        flex:1,
+        // width: 100,
+        marginLeft: 8,
         backgroundColor: ColorPallete.mediumBlue,
     },
     buttonsText: {
@@ -372,7 +395,7 @@ const styles = StyleSheet.create({
         color: ColorPallete.mediumBlue,
     },
     buttonContainer: {
-        height: 100,
+        // height: 100,
         // width: '100%',
         marginTop: 16,
         marginBottom: 16,
@@ -388,16 +411,19 @@ const styles = StyleSheet.create({
     },
     headingView: {
         flexDirection: 'row',
+        justifyContent:'space-between',
+        paddingHorizontal: 16,
         // borderWidth:  1,
 
     },
     filter: {
-        marginLeft: 270,
+        // marginLeft: 270,
     },
     modalContainer: {
         position: 'absolute',
         top: 270, // Adjust as needed
-        right: 50, // Adjust as needed
+        left: 138, // Adjust as needed
+        // width: 150,
         backgroundColor: '#fff',
         borderRadius: 10,
         padding: 10,

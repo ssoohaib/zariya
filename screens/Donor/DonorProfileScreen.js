@@ -23,7 +23,7 @@ export default function DonorProfileScreen({navigation}) {
         <StatusBar style='light' />
         <View style={styles.top}>
           <View style={styles.topLeft}>
-            <Image style={styles.image} source={require('../../assets/images/user2.png')} />
+            <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbo-luii4yLWODrM9dmDXGhLjv1lm9NqRDZTDH5WQ0RxIQ_YCuhzNCsolCfb8OadEWRrvxedBSIXSBknwBF1nNdG__RXmzV0w=w1919-h910'}} />
           </View>
           <View style={styles.topRight}>
             <Text style={styles.userName}>{currentUser.firstName} {currentUser.lastName}</Text>
