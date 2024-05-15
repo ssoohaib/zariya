@@ -1,7 +1,24 @@
 const { truncate } = require('fs');
 const UserModel = require('../Models/UserModel')
+const DonationModel = require('../Models/DonationModel')
 const bcrypt = require('bcrypt');
 
+async function acceptDonation(req,res){
+  console.log('------------------------')
+  console.log('[POST] -> /accept-donation/'+req.params.id)
+  console.log(req.body)
+  const donationId = req.body._id;
+
+  try{
+    await DonationModel.findByIdAndUpdate({_id: donationId.toString()}, req.body, {new: true})
+
+    res.status(200).json({message: 'Donation accepted successfully'})
+  }
+  catch(error){
+    console.error('Error accepting donation:', error)
+    res.status(500).json({message: error})
+  }
+}
 
 async function updateProfile(req, res) {
 
@@ -52,4 +69,5 @@ async function updatePassword(req, res) {
 module.exports = {
   updateProfile,
   updatePassword,
+  acceptDonation
 }

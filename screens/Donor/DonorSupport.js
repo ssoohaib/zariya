@@ -27,7 +27,7 @@ export default function DonorSupport() {
     const composeEmail = () => {
         const encodedSubject = encodeURIComponent(subject);
         const encodedBody = encodeURIComponent(body);
-        const mailtoURL = `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
+        const mailtoURL = `mailto:zariya@support.com?subject=${encodedSubject}&body=${encodedBody}`;
         Linking.openURL(mailtoURL);
     };
   return (

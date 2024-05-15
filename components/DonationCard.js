@@ -13,7 +13,8 @@ function DonationCard(props) {
 
      const handleAccept = () => {
         navigation.navigate('DonationDetail',{
-            data:props
+            data:props.item,
+            category:props.category,
         });
     };
 

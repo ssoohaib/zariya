@@ -9,9 +9,10 @@ import React, { useState, useEffect } from 'react';
 import Congratulations from '../../components/Congratulations';
 
 
-function DonationDetail() {
+function DonationDetail({route}) {
   
-
+  console.log(route.params.data)
+  const donationData=route.params.data
   
 
   const image = [require('../../assets/images/biryani.png')];
@@ -24,25 +25,33 @@ function DonationDetail() {
        </Pressable>
        </View>
       <View style={styles.imageContainer}> 
-        <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihawGXqPJmNjYFSc_tqV-P5b35WNCXQzKOMOd1wit-WHdW7T8J8s6MrA-U1Q6Cfd5ES-LXu06qsCFiKFY2sKNqB5zaJZ7lG6UMs=w1919-h910'}} /> 
+      {
+        route.params.category == 'Food' &&
+        <>
+          <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihawGXqPJmNjYFSc_tqV-P5b35WNCXQzKOMOd1wit-WHdW7T8J8s6MrA-U1Q6Cfd5ES-LXu06qsCFiKFY2sKNqB5zaJZ7lG6UMs=w1919-h910'}} /> 
+          <View style={{flexDirection:'row', justifyContent:'space-evenly', width:'100%', borderWidth:0, marginTop:16}}>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.type}</Text>
+              <Text style={styles.desc}>Type</Text>
+            </View>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.servings}</Text>
+              <Text style={styles.desc}>Servings</Text>
+            </View>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>Expiry</Text>
+              <Text style={styles.desc}>Expiry</Text>
+            </View>
+          </View>          
+        </>
+      }
       </View> 
-      <View style={styles.dataContainer}>
-        <Text style={styles.data}>800g</Text>
-        <Text style={styles.data}>7per</Text>
-        <Text style={styles.data}>24hr</Text>
-      </View>
-      <View style={styles.descContainer}>
-        <Text style={styles.desc}>Weighs</Text>
-        <Text style={styles.desc}>Serving</Text>
-        <Text style={styles.desc}>Expiry</Text>
-      </View>
+      
       <View style={styles.textContainer}>
-        <Text style={styles.itemName}>Chicken Biryani</Text>
-        <Text style={styles.itemDesc}>Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
-          an unknown printer took a galley of type and scrambled it to make a type specimen book. It
-          has survived not only five centuries, but also the leap into electronic typesetting, remaining
-          essentially unchanged. </Text>
+        <Text style={styles.itemName}>{donationData.title}</Text>
+        <Text style={styles.itemDesc}>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        </Text>
       </View>
       
 
@@ -73,6 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: 40,
+    width:'100%'
   },
   data: {
     fontWeight: 'bold',
@@ -84,6 +94,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: 10,
+    width:'100%'
+
   },
   desc: {
     fontWeight: '800',

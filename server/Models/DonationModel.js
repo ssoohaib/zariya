@@ -17,6 +17,14 @@ const DonationSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    riderName:{
+        type:String,
+        required:true
+    },
+    riderContact:{
+        type:String,
+        required:true
+    },
 
     donorEmail:{
         type:String,

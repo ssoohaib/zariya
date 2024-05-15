@@ -110,7 +110,7 @@ function RecipientHome() {
                 id={itemData.item._id}
                 name={itemData.item.donorName}
                 items={itemData.item.donation.items}
-                phone={itemData.item.donorContactNumber}
+                phone={itemData.item.donorContactNumber || itemData.item.contactNumber}
                 //onPress={donationDetail}
                 desc={"I am under the water"}
                 from={itemData.item.donation.from.slice(0,10)+" ("+itemData.item.donation.from.slice(12,16)+")"}
