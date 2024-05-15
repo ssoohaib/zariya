@@ -3,27 +3,27 @@ const mongoose=require('mongoose');
 const DonationSchema=new mongoose.Schema({
     ngoId:{
         type:String,
-        required:true
+        required:false
     },
     ngoName:{
         type:String,
-        required:true
+        required:false
     },
     ngoEmail:{
         type:String,
-        required:true
+        required:false
     },
     ngoContactNumber:{
         type:String,
-        required:true
+        required:false
     },
     riderName:{
         type:String,
-        required:true
+        required:false
     },
     riderContact:{
         type:String,
-        required:true
+        required:false
     },
 
     donorEmail:{

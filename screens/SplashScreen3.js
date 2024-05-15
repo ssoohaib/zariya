@@ -6,7 +6,7 @@ import ColorPallete from '../constants/ColorPallete';
 function SplashScreen3({ onButtonPress, navigation }) {
     return (
       <View style={styles.rootContainer}>
-        <Image style={styles.image} source={require('../assets/images/splash-screen3.jpg')} />
+        <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/2/drive-viewer/AKGpihaoHx8IHl_iigh9mY8nJ8LGrISapv4kLAJ3damPWnc9NA1RxZGzGF1Dopn7QhmGZKN7GgNDIJrXLxTxoSN6jjahAO4XH-3tjBk=w1919-h910-rw-v1'}} />
         <View style={{
           paddingHorizontal:16,
           alignItems: 'center',

@@ -13,7 +13,7 @@ function SplashScreen2({ navigation }) {
   return (
     <View style={styles.rootContainer}>
       <Image style={{ height: imageHeight, width: screenWidth }}
-        source={require('../assets/images/splash-screen2.png')} />
+        source={{uri:'https://lh3.googleusercontent.com/u/2/drive-viewer/AKGpihaXxjTbZxHWATglQrFg5zh_uwxfPsKaXgopLcBIPzkFZpUoHj1JfSqWGf3raSA8uCm5fBV2Pls-8QjSojq-DBgUn0mO5S5IIQ=w1919-h910'}} />
         <View style={{
           paddingHorizontal: 16,
           alignItems: 'center',

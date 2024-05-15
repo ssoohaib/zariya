@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AuthContextProvider, { AuthContext } from './context/AuthContext';
 import colorPallete from './constants/ColorPallete';
 import { ToastProvider } from 'react-native-toast-notifications';
@@ -19,42 +19,41 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function App() {
-
-  // useEffect(()=>{
-  //   const subscription = Notifications.addNotificationReceivedListener(notification=>{
-  //     console.log('recieved')
-  //     console.log(notification)
-
-  //   })
-
-  //   return ()=>subscription.remove()
-  // },[])
-
-  const handleNotification = async ()=>{
-    console.log('first')
-    await Notifications.scheduleNotificationAsync({
-      content:{
-        title:'Test Notification',
-        body:'This is a test notification',
-        data:{data:'goes here'}
-      },
-      trigger:{
-        seconds:2,
-        
-      },
+export default function App() {  
+  useEffect(()=>{
+    const subscription = Notifications.addNotificationReceivedListener(notification=>{
+      // console.log(notification.request.content.data)
     })
-  }
 
-  
+    return ()=>subscription.remove()
+  },[])
+
+  useEffect(()=>{
+    async function configurePushNotification(){
+      const {status} = await Notifications.getPermissionsAsync()
+      let finalStatus = status
+
+      if(finalStatus !== 'granted'){
+        const {status} = await Notifications.requestPermissionsAsync()
+        finalStatus = status
+      }
+
+      if (finalStatus !== 'granted'){
+        alert('Failed to get push token for push notification!')
+        return;
+      }
+
+      const pushTokenData = await Notifications.getExpoPushTokenAsync({'projectId': '73ae639a-6f46-4a9d-bda5-5d19a8d926e2'})
+      console.log(pushTokenData)
+    }
+
+    configurePushNotification()
+
+  },[])
 
   const AppNav=()=>{
     return(
-      <>
-        {/* <Pressable onPress={handleNotification} style={{marginTop:100, padding:16, borderWidth:1}} >
-          <Text>Notification</Text>
-        </Pressable> */}
-        
+      <>        
         <AuthenticationMain />
         <AdminMain />
         <DonorMain />

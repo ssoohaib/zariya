@@ -133,7 +133,7 @@ export default function DonationEnterScreen({navigation, route}) {
             }
         }
         if (category=='Medicine'){
-            if (title=='' || medicineType=='' || medicineQuantity==0 || images.length==0){
+            if (title=='' || medicineType=='' || medicineQuantity==0){
                 return false
             }
         }

@@ -6,6 +6,7 @@ import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { useContext, useState } from "react";
 import PaymentModal from "../components/PaymentModal";
 import { AuthContext } from "../context/AuthContext";
+import SendNotifications from "../utilities/SendNotifications";
 const {toggleFav} = require('../utilities/DonorApis')
 
 export default function NgoDetailsScreen({navigation, route}) {
@@ -69,7 +70,9 @@ export default function NgoDetailsScreen({navigation, route}) {
   }
 
   const paymentSuccessHandler = (data)=>{
-    navigation.navigate('PaymentSuccess',data)
+    navigation.goBack()
+    SendNotifications('Payment Success', 'Your payment was successful', {lol:'lol'})
+    // navigation.navigate('PaymentSuccess',data)
   }
 
   return (

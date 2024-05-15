@@ -8,6 +8,7 @@ import ColorPallete from "../../constants/ColorPallete";
 import { SelectList } from 'react-native-dropdown-select-list'
 import { AuthContext } from "../../context/AuthContext"
 import MyIp from "../../ip";
+import SendNotifications from "../../utilities/SendNotifications";
 
 
 
@@ -71,13 +72,14 @@ export default function DonationTimeLocationPicker({route, navigation}) {
         const formData = new FormData();
         formData.append('payload', JSON.stringify(donation));
         
-        route.params.items.forEach((item, index) => {
-            formData.append('images', {
-              uri: item.images[index],
-              // type: image.type,
-              name: 'items-' + currentUser.email + index +(Math.floor(Math.random() * 10000) + 1) + '.jpg',
+        if (category !== 'Medicine')
+            route.params.items.forEach((item, index) => {
+                formData.append('images', {
+                uri: item.images[index],
+                // type: image.type,
+                name: 'items-' + currentUser.email + index +(Math.floor(Math.random() * 10000) + 1) + '.jpg',
+                });
             });
-        });
         
         // console.log(JSON.stringify(donation, null,1))
 
@@ -101,6 +103,8 @@ export default function DonationTimeLocationPicker({route, navigation}) {
 
         navigation.goBack()
         navigation.goBack()
+
+        SendNotifications('Donation Posted', 'Your donation has been posted', {lol:'lol'})
     }
 
   return (

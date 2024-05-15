@@ -7,6 +7,7 @@ import ColorPallete from '../../constants/ColorPallete';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'; 
 import AcceptBtn from '../../components/AcceptBtn';
+import SendNotifications from '../../utilities/SendNotifications';
 
 function DonationsList({ route }) {
     const navigation = useNavigation(); 
@@ -79,6 +80,8 @@ function DonationsList({ route }) {
                 riderName: riderName,
                 riderContact: riderContact,
             });
+
+            SendNotifications('Donation Accepted', 'You successfully accepted the donation.', {lol:'lol'})
         }
     };
 

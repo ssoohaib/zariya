@@ -71,7 +71,7 @@ function DonationCard(props) {
                                     <>
                                         <Text style={{marginTop:8, marginBottom:4}}>Type: <Text style={{fontWeight:'bold'}}>{props.item.type}</Text></Text>
                                         <Text style={{marginBottom:4}}>Quantity: <Text style={{fontWeight:'bold'}}>{props.item.quantity}</Text></Text>
-                                        <Text style={{marginBottom:4}}>ExpiryDate: <Text style={{fontWeight:'bold'}}>{props.item.expiryDate.slice(0,10)}</Text></Text>
+                                        <Text style={{marginBottom:4}}>ExpiryDate: <Text style={{fontWeight:'bold'}}>{props.item.exp.slice(0,10)}</Text></Text>
                                     </>
                                 }
                                 {

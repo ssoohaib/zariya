@@ -43,7 +43,7 @@ function SplashStack({ handleSplashScreenPress }) {
 export default function AuthenticationMain() {
   const { token } = useContext(AuthContext);
 
-  const [showSplash, setShowSplash] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (!showSplash) {

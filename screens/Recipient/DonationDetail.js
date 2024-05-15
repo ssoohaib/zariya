@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import Congratulations from '../../components/Congratulations';
 
 
-function DonationDetail({route}) {
+function DonationDetail({route, navigation}) {
   
   console.log(route.params.data)
   const donationData=route.params.data
@@ -39,8 +39,64 @@ function DonationDetail({route}) {
               <Text style={styles.desc}>Servings</Text>
             </View>
             <View style={{alignItems:'center'}}>
-              <Text style={styles.data}>Expiry</Text>
+              <Text style={styles.data}>33h</Text>
               <Text style={styles.desc}>Expiry</Text>
+            </View>
+          </View>          
+        </>
+      }
+      {
+        route.params.category == 'Ration' &&
+        <>
+          <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihYH3tSBePsD0FhF-EiCbZSbgYXqAo6AN3CEZdmJ8ftzxQ86fTPtJY9_-wAqSo0rxjTsS8xG54lK2sbVKhLpgwvYp1BJLBEKlw=w1919-h910-rw-v1'}} /> 
+          <View style={{flexDirection:'row', justifyContent:'space-evenly', width:'100%', borderWidth:0, marginTop:16}}>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.quantity}</Text>
+              <Text style={styles.desc}>Quantity</Text>
+            </View>
+          </View>          
+        </>
+      }
+      {
+        route.params.category == 'Clothes' &&
+        <>
+          <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZuzyclXeKN4ec61I7lo03tJ41nqwz2hI-tDI97lAss9AG85FFw6s0Brk5WzVgjgNHTlCi17v3bLR3m_mpWGtxhBUgfeDDAv9U=w1919-h910-rw-v1'}} /> 
+          <View style={{flexDirection:'row', justifyContent:'space-evenly', width:'100%', borderWidth:0, marginTop:16}}>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.season}</Text>
+              <Text style={styles.desc}>Season</Text>
+            </View>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.size}</Text>
+              <Text style={styles.desc}>Size</Text>
+            </View>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.quality}</Text>
+              <Text style={styles.desc}>Quality</Text>
+            </View>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.gender}</Text>
+              <Text style={styles.desc}>Gender</Text>
+            </View>
+          </View>          
+        </>
+      }
+      {
+        route.params.category == 'Medicine' &&
+        <>
+          {/* <Image style={styles.image} source={{uri:'https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihZuzyclXeKN4ec61I7lo03tJ41nqwz2hI-tDI97lAss9AG85FFw6s0Brk5WzVgjgNHTlCi17v3bLR3m_mpWGtxhBUgfeDDAv9U=w1919-h910-rw-v1'}} />  */}
+          <View style={{flexDirection:'row', justifyContent:'space-evenly', width:'100%', borderWidth:0, marginTop:72}}>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.type}</Text>
+              <Text style={styles.desc}>Type</Text>
+            </View>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.quantity}</Text>
+              <Text style={styles.desc}>Quantity</Text>
+            </View>
+            <View style={{alignItems:'center'}}>
+              <Text style={styles.data}>{donationData.exp.slice(0,10)}</Text>
+              <Text style={styles.desc}>Expiration</Text>
             </View>
           </View>          
         </>
