@@ -17,6 +17,8 @@ import SearchRecipientScreen from './SearchRecipientScreen';
 import AdminReportScreen from './AdminReportScreen';
 import RecipientRequestScreen from './RecipientRequestScreen';
 import SupportTextScreen from './SupportTextScreen';
+import AdminRecipientProfileScreen from './AdminRecipientProfileScreen';
+import AdminRecipientRequestDetails from './AdminRecipientRequestDetails';
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 import { getAllUsers } from '../../utilities/AuthFetches';
@@ -42,6 +44,9 @@ function HomeScreenStack() {
       <Stack.Screen name="AdminReportScreen" component={AdminReportScreen} options={{title:'Reports', headerBackTitle: "Back"}}  />
       <Stack.Screen name="RecipientRequestScreen" component={RecipientRequestScreen} options={{title:'Requests', headerBackTitle: "Back"}}  />
       <Stack.Screen name="SupportTextScreen" component={SupportTextScreen} options={{title:'Support', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="AdminDonorScreen" component={AdminDonorScreen} options={{title:'', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="AdminRecipientProfileScreen" component={AdminRecipientProfileScreen} options={{title:'', headerBackTitle: "Back"}}  />
+      <Stack.Screen name="AdminRecipientRequestDetails" component={AdminRecipientRequestDetails} options={{title:'', headerBackTitle: "Back"}}  />
     </Stack.Navigator>
   );
 }
@@ -79,12 +84,12 @@ export default function App() {
                   <Tab.Screen name="Home" component={HomeScreenStack} options={{
                     tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />
                   }} />
-                  <Tab.Screen name="Notifications" component={AdminNotificationScreen} options={{
+                  {/* <Tab.Screen name="Notifications" component={AdminNotificationScreen} options={{
                     tabBarIcon: ({ color, size }) => <MaterialIcons name="watch-later" color={color} size={size} />
-                  }} />
-                  <Tab.Screen name="Support" component={AdminSupportScreen} options={{
+                  }} /> */}
+                  {/* <Tab.Screen name="Support" component={AdminSupportScreen} options={{
                     tabBarIcon: ({ color, size }) => <MaterialIcons name="history" color={color} size={size} />
-                  }} />
+                  }} /> */}
                   <Tab.Screen name="Profile" component={AdminProfileScreen} options={{
                     tabBarIcon: ({ color, size }) => <MaterialIcons name="person" color={color} size={size} />
                   }} />

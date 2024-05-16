@@ -21,6 +21,13 @@ export default function SearchRecipientScreen({ navigation }) {
 
   const [selectedRecipient, setselectedRecipient] = useState();
 
+
+  const cardNavigationHandler =(id)=>{
+    console.log('-----',id)
+    navigation.navigate("AdminRecipientRequestDetails",{
+      id:id
+    })
+  }
   const renderFlatList = (itemData) => {
 
     setselectedRecipient(itemData.item)
@@ -29,11 +36,14 @@ export default function SearchRecipientScreen({ navigation }) {
       <RecipientRequestCard
         id={itemData.item.id}
         title={itemData.item.title}
-        logo={'https://t4.ftcdn.net/jpg/05/26/35/07/360_F_526350772_taMM7EVaoDzWAashADdBrYkjH24hqS3c.jpg'}
+        // logo={'https://t4.ftcdn.net/jpg/05/26/35/07/360_F_526350772_taMM7EVaoDzWAashADdBrYkjH24hqS3c.jpg'}
+        causesImages={itemData.item.causesImages[0]}
+        email={itemData.item.email}
         description={itemData.item.description}
-        recipientApproval={itemData.item.recipientApproval ? 'Verified':'Not Verified'}
+        contactNumber={itemData.item.contactNumber}
         city={itemData.item.city}
         causes={itemData.item.causes}
+        onPress={cardNavigationHandler}
       />
     );
 
@@ -59,15 +69,9 @@ export default function SearchRecipientScreen({ navigation }) {
       <View style={styles.donorContainer}>
         <View style={styles.donorListContainer}>
           <FlatList
-            // data={NGOS.filter((ngo) =>
-            //     ngo.title.toLowerCase().includes(searchTerm.toLowerCase())
-            // )}
-            // data={allUsers.filter((user) =>
-            //   user.userType == 'recipient' &&
-            //   user.title.toLowerCase().includes(searchTerm.toLowerCase())
-            // )}
+
             data={allUsers.filter((user) =>
-              user.userType == 'recipient' && user.recipientApproval == false
+              user.userType == 'recipient' && user.activationStatus == false
             )}
             keyExtractor={(item) => item.id}
             renderItem={renderFlatList}

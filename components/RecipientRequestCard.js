@@ -29,8 +29,8 @@ function RecipientRequestCard(props) {
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
-                            <Image style={styles.image}
-                                source={{ uri: props.logo }} />
+                            {/* <Image style={styles.image}
+                                source={{ uri: props.logo }} /> */}
                             <View style={styles.nameTimeDescContainer}>
                                 <View style={styles.nameContainer}>
                                     <Text style={styles.name}>{props.title}</Text>

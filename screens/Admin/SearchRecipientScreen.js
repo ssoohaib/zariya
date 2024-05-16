@@ -1,54 +1,48 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import colorPallete from '../../constants/ColorPallete';
-import { NGOS } from '../../dummy_data/dummy_data';
 import InputBar from '../../components/InputBar';
 import AdminRecipientCard from '../../components/AdminRecipientCard';
 import React, { useContext, useState } from 'react';
-import RecipientInfoModal from '../../components/RecipientInfoModal';
 import ColorPallete from '../../constants/ColorPallete';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function SearchRecipientScreen({ navigation }) {
   const { allUsers } = useContext(AuthContext);
-  const switchScreenHandler = (screen) => {
-    navigation.navigate(screen);
-  }
-
-  // Search User State
   const [searchTerm, setSearchTerm] = useState('');
+
   const textChangeHandler = (text) => {
     setSearchTerm(text);
   }
 
-  const [selectedRecipient, setselectedRecipient] = useState();
+  const cardNavigationHandler =(id)=>{
+    console.log('-----',id)
+    navigation.navigate("AdminRecipientProfileScreen",{
+      id:id
+    })
+  }
 
   const renderFlatList = (itemData) => {
-
-    setselectedRecipient(itemData.item)
-    
     return (
       <>
-        {
-          itemData.item.userType == 'recipient' &&
+        {itemData.item.userType === 'recipient' && (
           <AdminRecipientCard
-            id={itemData.item.id}
+            id={itemData.item._id}
             title={itemData.item.title}
-            logo={'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'}
-            description={itemData.item.description}
-            recipientApproval={itemData.item.recipientApproval ? 'Verified':'Not Verified'}
+            email={itemData.item.email}
+            contactNumber={itemData.item.contactNumber}
+            causesImages={itemData.item.causesImages[0]}
+            recipientApproval={itemData.item.recipientApproval}
+            donationsReceived={itemData.item.donationsReceived}
+            onPress={cardNavigationHandler}
           />
-        }
+        )}
       </>
     );
-
-
-  
   }
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.heading}>
-        <View style={styles.buttonsContainer}></View>
         <View style={styles.inputBarcolour}>
           <InputBar
             placeHolder={'Search Username'}
@@ -56,41 +50,37 @@ export default function SearchRecipientScreen({ navigation }) {
             icon={'magnify'}
             iconColor={'white'}
             onChangeText={textChangeHandler}
-            inputStyle={{ backgroundColor:ColorPallete.screenBg, borderColor:ColorPallete.darkBlue, color:ColorPallete.mediumBlue }}
+            inputStyle={{ backgroundColor: ColorPallete.screenBg, borderColor: ColorPallete.darkBlue, color: ColorPallete.mediumBlue }}
             placeholderTextColor={ColorPallete.darkBlue}
           />
         </View>
       </View>
 
-      <View style={styles.donorContainer}>
-        <View style={styles.donorListContainer}>
+      <View style={styles.recipientContainer}>
+        <View style={styles.recipientListContainer}>
           <FlatList
-            // data={NGOS.filter((ngo) =>
-            //     ngo.title.toLowerCase().includes(searchTerm.toLowerCase())
-            // )}
             data={
-              allUsers.filter((ngo)=>
-                ngo.userType == 'recipient' && ngo.title.toLowerCase().includes(searchTerm.toLowerCase()))
+              allUsers.filter((recipient) =>
+                recipient.userType == 'recipient' &&
+                recipient.title.toLowerCase().includes(searchTerm.toLowerCase())
+              )
             }
             keyExtractor={(item) => item.id}
             renderItem={renderFlatList}
           />
         </View>
       </View>
-
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:ColorPallete.screenBg,
+    backgroundColor: ColorPallete.screenBg,
     paddingHorizontal: 16,
-    // container styles here
   },
   heading: {
-    // paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingVertical: 16,
   },
   subtitle: {
     fontSize: 18,
@@ -99,9 +89,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
   },
   inputBarcolour: {
-    marginBottom:16
-    // backgroundColor: '#afafaf',
-    // borderRadius: 20,
+    backgroundColor: '#afafaf',
+    borderRadius: 20,
   },
-  // Add any additional styles you need
 });

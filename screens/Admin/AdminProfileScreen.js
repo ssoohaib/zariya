@@ -47,13 +47,13 @@ export default function DonorProfileScreen({navigation}) {
             onPress={switchScreen}
             screen={'UpdatePassword'}
           />
-          <PressableOption 
+          {/* <PressableOption 
             title={'Privacy & Terms'}
             leftIcon={"privacy-tip"}
             rightIcon={"keyboard-arrow-right"}
             onPress={switchScreen}
             screen={'PrivacyAndTerms'}
-          />
+          /> */}
           <PressableOption 
             title={'Logout'}
             titleColor={'red'}

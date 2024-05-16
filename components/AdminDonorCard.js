@@ -1,6 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 
-function AdminRecipientCard({id, onPress, title, email, recipientApproval}) {    
+function DonorCard({id, onPress, firstName, lastName, email, imageUrl, recipientApproval}) {    
 
     return (
         <View style={styles.container}>
@@ -8,10 +8,10 @@ function AdminRecipientCard({id, onPress, title, email, recipientApproval}) {
                 <View style={styles.innerContainer}>
                     <View>
                         <View style={styles.titleContainer}>
-                            {/* <Image style={styles.image} source={{ uri: imageUrl }} /> */}
+                            <Image style={styles.image} source={{ uri: imageUrl }} />
                             <View style={styles.nameTimeDescContainer}>
                                 <View style={styles.nameContainer}>
-                                    <Text style={styles.name}>{title}</Text>
+                                    <Text style={styles.name}>{firstName} {lastName}</Text>
                                     {recipientApproval && <Text style={styles.onHold}>(On hold)</Text>}
                                 </View>
                                 <View style={styles.emailContainer}>
@@ -27,7 +27,7 @@ function AdminRecipientCard({id, onPress, title, email, recipientApproval}) {
     )
 }
 
-export default AdminRecipientCard;
+export default DonorCard;
 
 const styles = StyleSheet.create({
     container: {

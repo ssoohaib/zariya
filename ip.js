@@ -1,1 +1,1 @@
-export default MyIP="10.100.23.152";
+export default MyIP="10.54.16.226";

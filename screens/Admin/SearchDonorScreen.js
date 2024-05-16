@@ -1,58 +1,47 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import colorPallete from '../../constants/ColorPallete';
-import { Donors } from '../../dummy_data/donor_data';
 import InputBar from '../../components/InputBar';
-import DonorCard from '../../components/DonorCard';
+import DonorCard from '../../components/AdminDonorCard';
 import React, { useContext, useState } from 'react';
-import DonorInfoModal from '../../components/DonorInfoModal';
 import ColorPallete from '../../constants/ColorPallete';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function SearchDonorScreen({ navigation }) {
-  const {allUsers}=useContext(AuthContext);
-
-
-  const switchScreenHandler = (screen) => {
-    navigation.navigate(screen);
-  }
-
-  // Search User State
+  const { allUsers } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState('');
+
   const textChangeHandler = (text) => {
     setSearchTerm(text);
   }
 
-  const [selectedDonor, setSelectedDonor] = useState();
-
+  const cardNavigationHandler =(id)=>{
+    // console.log('-----',id)
+    navigation.navigate("AdminDonorScreen",{
+      id:id
+    })
+  }
 
   const renderFlatList = (itemData) => {
-
-    setSelectedDonor(itemData.item)
     return (
       <>
-        {
-          itemData.item.userType == 'donor' &&
+        {itemData.item.userType === 'donor' && (
           <DonorCard
-            id={itemData.item.id}
+            id={itemData.item._id}
             firstName={itemData.item.firstName}
             lastName={itemData.item.lastName}
             email={itemData.item.email}
-            contactNumber={itemData.item.contactNumber}
-            imageUrl={'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'}
-            status={'Verified'}
+            imageUrl={itemData.item.photo}
+            recipientApproval={itemData.item.recipientApproval}
+            onPress={cardNavigationHandler}
           />
-        }
+        )}
       </>
     );
-
-
-  
   }
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.heading}>
-        {/* <View style={styles.buttonsContainer}></View> */}
         <View style={styles.inputBarcolour}>
           <InputBar
             placeHolder={'Search Username'}
@@ -60,8 +49,7 @@ export default function SearchDonorScreen({ navigation }) {
             icon={'magnify'}
             iconColor={'white'}
             onChangeText={textChangeHandler}
-            // style={{ borwidth: 1, }}
-            inputStyle={{ backgroundColor:ColorPallete.screenBg, borderColor:ColorPallete.darkBlue, color:ColorPallete.mediumBlue }}
+            inputStyle={{ backgroundColor: ColorPallete.screenBg, borderColor: ColorPallete.darkBlue, color: ColorPallete.mediumBlue }}
             placeholderTextColor={ColorPallete.darkBlue}
           />
         </View>
@@ -70,9 +58,6 @@ export default function SearchDonorScreen({ navigation }) {
       <View style={styles.donorContainer}>
         <View style={styles.donorListContainer}>
           <FlatList
-            // data={allUsers.filter((donor) =>
-            //   donor.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-            // )}
             data={
               allUsers.filter((donor) =>
                 donor.userType == 'donor' &&
@@ -90,13 +75,10 @@ export default function SearchDonorScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    // Add your container styles here
     backgroundColor: ColorPallete.screenBg,
-    paddingHorizontal:16,
-
+    paddingHorizontal: 16,
   },
   heading: {
-    // paddingHorizontal: 16,
     paddingVertical: 16,
   },
   subtitle: {
@@ -109,5 +91,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#afafaf',
     borderRadius: 20,
   },
-  // Add any additional styles you need
 });
