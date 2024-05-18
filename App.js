@@ -8,8 +8,10 @@ import RecipientMain from './screens/Recipient/RecipientMain';
 import DonorMain from './screens/Donor/DonorMain';
 import AuthenticationMain from './screens/Authentication/AuthenticationMain'
 import * as Notifications from 'expo-notifications';
-import { Linking, Pressable, Text } from 'react-native';
+import { Linking, LogBox, Pressable, Text } from 'react-native';
 import DonorSupport from './screens/Donor/DonorSupport';
+
+LogBox.ignoreAllLogs()
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

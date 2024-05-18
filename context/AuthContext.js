@@ -8,7 +8,7 @@ export default function AuthContextProvider({ children }) {
   const [allRecipients, setAllRecipients] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [AUTHCHECKENABLED, setAUTHCHECKENABLED] = useState(false);
+  const [AUTHCHECKENABLED, setAUTHCHECKENABLED] = useState(true);
   const [pendingDonations, setPendingDonations]=useState([])
 
   const modifyCurrentUser = (user) => {
